@@ -1,11 +1,515 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
+import Arrows from '../components/arrows.astro';
+import Arrowbot from '../components/arrowbot.astro';
+import Arrowtop from '../components/arrowtop.astro';
+import { Icon } from 'astro-icon/components';
+import Scroller from '../components/scroller.astro';
+
+const creations = Object.values(
+	import.meta.glob('./creations/*.md', { eager: true })
+);
+
+const veille = Object.values(
+	import.meta.glob('./veille/*.md', { eager: true })
+);
+
+const blogs = Object.values(
+	import.meta.glob('./blogs/*.md', { eager: true })
+);
+
+const posts = [
+...creations,
+...veille,
+...blogs,
+];
+
+const featuredPosts = posts.filter(post => post.frontmatter.featured).sort((a, b) => new Date(b.frontmatter.pubDate) - new Date(a.frontmatter.pubDate)).slice(0, 3);
 
 // Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
 // Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
 ---
 
+<Scroller/>
+
 <Layout>
-	<Welcome />
+	<section id="hero">
+		<div class="bottom-left">
+			<h2 class="une"> A la une </h2>
+			<div class="astro-posts">
+				{featuredPosts.map((post: any, index) => (
+					<a
+						href={post.url}
+						class={`astro-card ${index % 2 === 1 ? 'reverse' : ''}`}
+					>
+					<img
+						class="cover-article"
+						src={post.frontmatter.image.url}
+						alt={post.frontmatter.image.alt}
+					/>
+					<div class={`article-content ${index % 2 === 1 ? 'reverse' : ''}`}>
+					<h3>{post.frontmatter.title}</h3>
+					<ul class="taglist">
+						{post.frontmatter.tags.map((tag : any) => (
+							<li class="tag">{tag}</li>
+						))}
+					</ul>
+					<p>{post.frontmatter.description}</p>
+					</div>
+				</a>
+				))}
+			</div>
+		</div>
+		<Arrowtop/>
+	</section>
+	<section id="cv">
+		<div class="column">
+			<h2 class="title">Mon CV</h2>
+			<div class="join">
+				<div class="section">
+					<h3>Expériences</h3>
+					<div class="cv-section">
+						<h4>2025</h4>
+						<p>Création de mon auto-entreprise et refonte du site guiguiprod.com une vitrine / boutique en ligne de kayak freestyles</p>
+					</div>
+					<div class="cv-section">
+						<h4>2023</h4>
+						<p>Ouvrier agricole pour agri-emploi 63</p>
+					</div>
+				</div>
+				<div class="section">
+					<h3>Scolarité</h3>
+					<div class="cv-section">
+						<h4>BUT Métiers du Multimédia et de l'informatique</h4>
+						<p>Spécialité Mathématiques, Numérique et sciences informatiques, Physique-chimie</p>
+					</div>
+						<div class="cv-section">
+						<h4>Baccalauréat Général mention bien</h4>
+						<p>Spécialités Mathématiques, Numérique et sciences informatiques, Physique-chimie</p>
+						<p>Option Mathématiques expertes</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="column col-2">		
+			<div class="section">
+				<h3>Mes missions</h3>
+				<div class="cv-section">
+					<h4>Développement web</h4>
+					<p>Je fais du développement web fullstack</p>
+				</div>
+				<div class="cv-section">
+					<h4>Conception ux/ui</h4>
+					<p>Je peux concevoir des interfaces et anticiper des parcours utilisateurs</p>
+				</div>
+				<div class="cv-section">
+					<h4>Création Numérique</h4>
+					<p>Je suis capable de créer du contenu (3d, affiches, posts réseaux sociaux)</p>
+				</div>
+			</div>	
+			<div class="section">
+				<h3>Technologies</h3>
+				<div class="cv-section">
+					<h4>Développement Web</h4>
+					<p>HTML | CSS | JS | PHP | SQL </p>
+					<p>VueJs | ReactJS | Symfony</p>
+					<p>Tauri | Prisma </p>
+				</div>
+				<div class="cv-section">
+					<h4>Conception UX/UI</h4>
+					<p>Figma | Lunacy | TweakCN</p>
+				</div>
+				<div class="cv-section">
+					<h4>Création Numérique</h4>
+					<p>Blender | Gimp | Inkscape</p>
+					<p>Illustrator | Photoshop | InDesign | Premiere Pro | After Effects</p>
+				</div>
+			</div>
+		</div>
+		<div class="column col-2">
+			<div class="section">
+				<h3>Contacts</h3>
+				<a class="contact" href="tel:+33123456789"> <Icon name="mingcute:phone-fill" /> +337 80 36 57 72</a>
+				<a class="contact" href="mailto:maxiimekolodz@gmail.com"> <Icon name="mingcute:mail-line" /> maxiimekolodz@gmail.com</a>
+				<a class="contact" href="https://github.com/makolodz"> <Icon name="mingcute:github-line" /> github.com/makolodz</a>
+			</div>		
+			<Arrows/>
+			<div class="section">
+				<h3>Langues</h3>
+				<div class="cv-section">
+					<h4>FR</h4>
+					<div class="rect-container">
+						<div class="rect fill"></div> <div class="rect fill"> </div><div class="rect fill"> </div><div class="rect fill"></div> <div class="rect fill"></div> <div class="rect fill"></div>
+					</div>
+					Le français est ma langue maternelle
+				</div>
+				<div class="cv-section">
+					<h4>EN</h4>
+					<div class="rect-container">
+						<div class="rect fill"></div> <div class="rect fill"> </div><div class="rect fill"> </div><div class="rect fill"></div> <div class="rect fill"></div> <div class="rect"></div>
+					</div>
+					Je suis à l'aise en anglais
+				</div>
+				<div class="cv-section">
+					<h4>DE</h4>
+					<div class="rect-container">
+						<div class="rect fill"></div> <div class="rect fill"> </div><div class="rect fill"> </div><div class="rect"></div> <div class="rect"></div> <div class="rect"></div>
+					</div>
+					J'ai le niveau B1 en allemand
+				</div>
+				<div class="cv-section">
+					<h4>PL</h4>
+					<div class="rect-container">
+						<div class="rect fill"></div> <div class="rect"> </div><div class="rect"> </div><div class="rect"></div> <div class="rect"></div> <div class="rect"></div>
+					</div>
+					J'ai quelque notions de polonais
+				</div>
+			</div>
+		</div>
+	</section>
+	<section id="actu">
+		<div class="column">
+			<h2 class="title">Mes actus</h2>
+			<Arrowbot/>
+		</div>
+		<div class="rows">
+			<div class="row">
+				<div class="astro-posts full">
+					<h3>Créations</h3>
+					<div class="scrollable-posts">
+						{creations.map((post: any, index) => (
+							<a
+								href={post.url}
+								class={`astro-card ${index % 2 === 1 ? 'reverse' : ''} `}
+							>
+							<img
+								class="cover-article"
+								src={post.frontmatter.image.url}
+								alt={post.frontmatter.image.alt}
+							/>
+							<div class={`article-content ${index % 2 === 1 ? 'reverse' : ''}`}>
+								<h3>{post.frontmatter.title}</h3>
+								<ul class="taglist">
+									{post.frontmatter.tags.map((tag : any) => (
+										<li class="tag">{tag}</li>
+									))}
+								</ul>
+								<p>{post.frontmatter.description}</p>
+							</div>
+						</a>
+					))}
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="astro-posts full">
+					<h3>Blogs</h3>
+					<div class="scrollable-posts">
+						{blogs.map((post: any, index) => (
+							<a
+								href={post.url}
+								class={`astro-card ${index % 2 === 1 ? 'reverse' : ''}`}
+							>
+							<img
+								class="cover-article"
+								src={post.frontmatter.image.url}
+								alt={post.frontmatter.image.alt}
+							/>
+							<div class={`article-content ${index % 2 === 1 ? 'reverse' : ''}`}>
+								<h3>{post.frontmatter.title}</h3>
+								<ul class="taglist">
+									{post.frontmatter.tags.map((tag : any) => (
+										<li class="tag">{tag}</li>
+									))}
+								</ul>
+								<p>{post.frontmatter.description}</p>
+							</div>
+						</a>
+					))}
+					</div>
+				</div>
+				<div class="astro-posts full">
+					<h3>Veille</h3>
+					<div class="scrollable-posts">
+					{veille.map((post: any, index) => (
+						<a
+							href={post.url}
+							class={`astro-card ${index % 2 === 1 ? 'reverse' : ''}`}
+						>
+						<img
+							class="cover-article"
+							src={post.frontmatter.image.url}
+							alt={post.frontmatter.image.alt}
+						/>
+						<div class={`article-content ${index % 2 === 1 ? 'reverse' : ''}`}>
+							<h3>{post.frontmatter.title}</h3>
+							<ul class="taglist">
+								{post.frontmatter.tags.map((tag : any) => (
+									<li class="tag">{tag}</li>
+								))}
+							</ul>
+							<p>{post.frontmatter.description}</p>
+						</div>
+					</a>
+					))}
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
 </Layout>
+
+<style>
+
+#hero {
+	height: calc(100vh - 32 - 64px - 64px);
+	background-image: 
+		linear-gradient(
+			rgba(0, 0, 0, 0),
+			rgba(0, 0, 0, 0),
+			rgba(0, 0, 0, 0),
+			rgba(0, 0, 0, 0),
+			var(--base-foreground)
+		),
+		url("/src/assets/images/Tolstoï_labourant.jpg");
+	background-size: cover;
+	background-position: center;
+	justify-content: space-between;
+	align-items: flex-end;
+}
+
+#cv {
+	height: calc(100vh - 64px);
+	padding: 32px;
+	background-image: 
+		linear-gradient(
+			var(--base-foreground),
+			rgba(0, 0, 0, 0),
+			rgba(0, 0, 0, 0),
+			rgba(0, 0, 0, 0),
+			var(--base-foreground)
+		),
+		url("/src/assets/images/Sur-la-piste.jpg");
+	background-size: cover;
+	display: flex;
+	gap: 16px;
+}
+
+#actu {
+	height: calc(100vh - 64px);
+	padding: 32px;
+	background-image: 
+		linear-gradient(
+			var(--base-foreground),
+			rgba(0, 0, 0, 0),
+			rgba(0, 0, 0, 0),
+			rgba(0, 0, 0, 0),
+			var(--base-foreground)
+		),
+		url("/src/assets/images/Heureux.jpg");
+	background-size: cover;
+	display: flex;
+	gap: 16px;
+}
+
+.bottom-left {
+	height: fit-content;
+	width: fit-content;
+}
+
+.une {
+	background-color: var(--translucid-background);
+	backdrop-filter: var(--blur);
+	color: var(--base-foreground);
+	border-radius: 8px 8px 0 0 ;
+	width: fit-content;
+	padding: 16px;
+	margin: 0;
+}
+
+.astro-posts {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	background-color: var(--translucid-background);
+	backdrop-filter: var(--blur);
+	padding: 16px;
+	border-radius: 0 8px 8px 8px;
+}
+
+.astro-posts.full {
+	border-radius: 8px;
+}
+
+.scrollable-posts {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	overflow-y: scroll;
+}
+
+.astro-card {
+	display: flex;
+	min-width: 478px;
+	width: 100%;
+	max-width: 100%;
+	gap: 8px;
+	height: 94px;
+}
+
+.astro-card.reverse {
+	flex-direction: row-reverse; /* inverse image et contenu */
+}
+
+.cover-article {
+	object-fit: cover; /* <-- équivalent "background-fit: cover" */
+	object-position: center;
+	width: 94px;
+	height: 94px;
+	border-radius: 8px;
+}
+
+.article-content {
+	font-family: normal;
+	padding: 8px;
+	flex-grow: 1;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	gap: 4px;
+	background-color: var(--base-background);
+	color: var(--base-foreground);
+	border-radius: 8px;
+}
+
+.article-content > * {
+	margin: 0px;
+}
+
+.article-content.reverse {
+	align-items: flex-end;
+}
+
+p {
+	margin: 0;
+}
+
+h3 {
+	font-family: proud;
+}
+
+h4 {
+	margin: 0;
+}
+
+ul {
+	margin: 0;
+	display: flex;
+	gap: 4px;
+}
+
+.column {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	width: fit-content;
+	height: 100%;
+	max-width: 33%;
+}
+
+.column > * {
+	font-family: proud;
+	margin: 0px;
+}
+
+.row > * {
+	width: 100%;
+}
+
+.row {
+	display: flex;
+	flex-direction: row;
+	width: 100%;
+	gap: 16px;
+	min-height: 50%;
+}
+
+.rows {
+	min-height: calc(100% - 64px);
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	justify-content: space-between;
+}
+
+.section {
+	background-color: var(--translucid-background);
+	color: var(--base-foreground);
+	backdrop-filter: var(--blur);
+	border-radius: 8px;
+	padding: 8px;
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	h3 {
+		margin: 4px 0 4px 0;
+	}
+}
+
+.contact {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding: 4px 8px;
+	border-radius: 4px;
+	color: var(--base-foreground);
+	background-color: var(--base-background);
+	* {
+		height: 20px;
+		width: 20px;
+	}
+}
+
+.title {
+	background-color: var(--translucid-background);
+	color: var(--base-foreground);
+	backdrop-filter: var(--blur);
+	border-radius: 8px;
+	padding: 16px;
+	display: flex;
+	justify-content: center;
+}
+
+.cv-section {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	background-color: var(--base-background);
+	border-radius: 8px;
+	padding: 4px 8px;
+}
+
+.rect-container {
+	display: flex;
+	gap: 4px;
+}
+
+.rect {
+	border-radius: 4px;
+	height: 20px;
+	width: 60px;
+	background-color: var(--muted-background);
+}
+
+.rect.fill{
+	background-color: var(--base-foreground);
+}
+
+.join {
+	display: flex;
+	gap: 16px;
+	flex-direction: column;
+}
+
+</style>

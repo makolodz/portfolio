@@ -1,0 +1,70 @@
+<script>
+
+    import { gsap } from "gsap";
+    import { ScrollTrigger } from "gsap/ScrollTrigger";
+    import { ScrollSmoother } from "gsap/ScrollSmoother";
+    import { ScrollToPlugin } from "gsap/ScrollToPlugin";
+    
+    
+    function init() {
+    
+        gsap.registerPlugin(ScrollTrigger, ScrollSmoother, ScrollToPlugin);
+    
+        const body = document.querySelectorAll(".snap");
+        const header = document.getElementById("header-gsap");
+        const spacer = document.getElementById("spacer");
+        const arrows = document.querySelectorAll(".arrow");
+        const arrowarray = document.querySelectorAll(".arrow-mid");
+        const arrowbot = document.querySelectorAll(".arrow-bot");
+        const arrowtop = document.querySelectorAll(".arrow-top");
+    
+        arrows.forEach(arrow => {
+            arrow.addEventListener("mouseup", () => {
+                let target = arrow.dataset.target;
+                smootherclick.scrollTo(target, true, "top"); // true = smooth
+            });
+        })
+    
+        let smootherclick = ScrollSmoother.create({
+            wrapper: "#smooth-wrapper",
+            content: "#smooth-content",
+            smooth: 2, // how long (in seconds) it takes to "catch up" to the native scroll position
+            smoothTouch: 0.2 // much shorter smoothing time on touch devices (default is NO smoothing on touch devices)
+        });
+    
+        body.forEach((section, i) => {
+            ScrollTrigger.create({
+                trigger: section,
+                start: "top top",
+                end: "bottom top",
+                snap: {
+                    snapTo: 1 / 3,   // ← proportion de scroll (0 à 1)
+                    duration: 0.3,   // snap très rapide
+                    delay: 0, // wait 0.2 seconds from the last scroll event before doing the snapping
+                    ease: 'power1.out' 
+                }
+            });
+            // Timeline GSAP pour la section
+            let timeline = gsap.timeline({
+                paused: true,
+                scrollTrigger: {
+                    trigger: section,
+                    start: "top top",
+                    end: "bottom bottom",
+                    scrub: true,
+                }
+            });
+            timeline.to(spacer, {flex: "0"}, "33%")
+            .to(header, {x: "100vw"}, "<")
+            .to(arrowtop, {y: "-300vh" , rotate: -180}, "<")
+            .from(arrowarray, {x: "1500px"}, "<")
+            .from(arrowarray, {rotate: 3600/2}, "<")
+            .to(arrowarray, {x: "1500px"}, "66%")
+            .to(arrowarray, {rotate: 3600/2}, "<")
+            .from(arrowbot, {y: "-300vh", rotate: 180}, "66%")
+        });
+    }
+    
+    document.addEventListener("DOMContentLoaded", init)
+    
+    </script>

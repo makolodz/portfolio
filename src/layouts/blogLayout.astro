@@ -1,0 +1,77 @@
+---
+
+import '../styles/global.css';
+import Header from '../components/header.astro'
+
+const { frontmatter } = Astro.props;
+
+const blogs = Object.values(
+    import.meta.glob('../pages/blogs/*.md', { eager: true })
+);
+
+const posts = blogs;
+
+---
+
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>Portfolio makodev</title>
+	</head>
+	<body>
+		<Header/>
+        <section id="hero">
+            <div class="bottom-left">
+                <h2 class="une"> Autres veille </h2>
+                <div class="astro-posts">
+                    {posts.map((post : any, index) => (
+                        <a
+                            href={post.url}
+                            class={`astro-card ${index % 2 === 1 ? 'reverse' : ''}`}
+                        >
+                        <img
+                            class="cover-article"
+                            src={post.frontmatter.image.url}
+                            alt={post.frontmatter.image.alt}
+                        />
+                        <div class={`article-content ${index % 2 === 1 ? 'reverse' : ''}`}>
+                            <h3>{post.frontmatter.title}</h3>
+                            <ul class="taglist">
+                                {post.frontmatter.tags.map((tag: any) => (
+                                    <li class="tag">{tag}</li>
+                                ))}
+                            </ul>
+                            <p>{post.frontmatter.description}</p>
+                        </div>
+                    </a>
+                    ))}
+                </div>
+            </div>
+			<div class="content-container">
+                <h1> {frontmatter.title} </h1>
+				<ul class="taglist">
+                    {frontmatter.tags.map((tag : any) => (<li class="tag">{tag}</li>))}
+                </ul>
+				<p> {frontmatter.description}</p>
+				<div class="content">
+					<slot/>
+				</div>
+            </div>
+        </section>
+	</body>
+</html>
+
+<style>
+
+    #hero {
+        background-image: url("/src/assets/images/Blog.jpg");
+        background-size: cover;
+        background-position: center;
+    }
+    
+</style>

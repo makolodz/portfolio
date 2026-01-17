@@ -1,0 +1,101 @@
+---
+
+import '../styles/global.css';
+import { Icon } from 'astro-icon/components';
+
+---
+
+<script>
+
+
+import { gsap } from "gsap";
+
+let iconas;
+
+function iconaHover(event) {
+    gsap.set(event.currentTarget, { rotate: 0 });
+    gsap.to(event.currentTarget, { rotate: 360, duration: 0.5});
+}
+
+function setupListeners() {
+    iconas = document.getElementsByClassName("icona"); // Remplace "icona" par ta classe
+    Array.from(iconas).forEach(icona => {
+        icona.addEventListener('mouseover', iconaHover);
+    });
+}
+
+function init() {
+    setupListeners();
+}
+
+document.addEventListener('DOMContentLoaded', init);
+
+</script>
+
+<header id="header-gsap">
+    <nav>
+        <ul>
+            <li> <a id="accueil" href="/">Accueil</a> </li>
+            <div id="spacer" class="spacer"></div>
+            <li> <a class="icona" href=""> <Icon name="mingcute:random-line" /> </a></li>
+            <li> <a href="/creations/portfolio"> Créations </a></li>
+            <li> <a href="/veille/tauri"> Veille </a></li>
+            <li> <a href="/blogs/lecture"> Blog </a></li>
+        </ul>
+    </nav>
+</header>
+
+
+<style>
+
+header{
+	font-family: proud;
+	position: fixed;
+	top: 0;
+	width: calc(100% - 64px);
+	padding: 32px;
+	z-index: 1000;
+}
+
+nav {
+	height: 44px;
+	display: flex;
+	justify-content: space-between;
+}
+
+ul {
+	width: 100%;
+	margin: 0px;
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	gap: 16px;
+}
+
+li {
+	margin: 0px;
+	padding: 0px;
+    
+    a {
+        font-size: 1.5rem;
+        background-color: var(--translucid-background);
+        backdrop-filter: var(--blur);
+    }
+}
+
+.icona {
+    height: 24px;
+    padding: 8px;
+}
+
+#accueil {
+	background-color: var(--accent-background);
+	color: var(--accent-foreground);
+	border-color: var(--accent-foreground);
+}
+    
+.spacer {
+	flex: 1;
+}
+
+</style>

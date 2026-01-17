@@ -1,0 +1,287 @@
+html {
+    background-color: #f1f5f9;
+    @font-face {
+      font-family: "MyFont";
+      src: url("/fonts/MyFont-Regular.woff2") format("woff2");
+      font-weight: 500;
+      font-style: normal;
+      font-display: swap;
+    }
+    font-family: sans-serif;
+  }
+
+/* variables ! */
+
+:root {
+  --primary-background: rgb(46, 125, 50);
+  --primary-foreground: rgb(255, 255, 255);
+  
+  --secondary-background: rgb(232, 245, 233);
+  --secondary-foreground: rgb(27, 94, 32);
+
+  --accent-background: rgb(200, 230, 201);
+  --accent-foreground: rgb(27, 94, 32);
+
+  --base-background: rgb(248, 245, 240);
+  --base-foreground: rgb(62, 39, 35);
+
+  --muted-background: rgb(240, 233, 224);
+  --muted-foreground: rgb(109, 76, 65);
+
+  --destructive-background: rgb(198, 40, 40);
+  --destructive-foreground: rgb(255, 255, 255);
+
+  --translucid-background: rgba(248, 245, 240, 0.4);
+  --accent-translucid-background: rgba(200, 230, 201, 0.4);
+
+  --blur: blur(2px);
+  
+  font-family: normal, Arial, Helvetica, sans-serif;
+}
+
+
+
+/* fonts */
+
+@font-face {
+  font-family: "proud";
+  src: 
+    url("../assets/fonts/CoolveticaRg.woff2") format("woff2");
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "shy";
+  src: 
+    url("../assets/fonts/CoolveticaRgCram.woff2") format("woff2");
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "normal";
+  src: 
+    url("../assets/fonts/CoolveticaRgCond.woff2") format("woff2");
+  font-style: normal;
+  font-display: swap;
+}
+
+* {
+	margin: 0px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: proud;
+	color: var(--base-foreground);
+}
+
+ul {
+  list-style-type: none;
+  padding: 0px;
+}
+
+a {
+  text-decoration: none;
+}
+
+h1 {
+  font-size: 4rem;
+}
+
+h2 {
+  font-size: 3rem;
+}
+
+h3 {
+  font-size: 1.5rem;
+}
+
+h4 {
+  font-size: 1.2rem;
+}
+
+p {
+  font-size: 1rem;
+}
+
+/* 
+  Cache les barres de scroll sur tous les éléments
+  tout en conservant la possibilité de défiler.
+  ⚠️ Attention : impact possible sur l’accessibilité.
+*/
+
+/* Chrome, Edge, Safari */
+*::-webkit-scrollbar {
+	display: none;
+}
+
+/* Firefox */
+* {
+	scrollbar-width: none;
+	-ms-overflow-style: none; /* IE / Edge legacy */
+}
+
+.taglist {
+	margin: 0;
+	display: flex;
+	gap: 4px;
+}
+.tag {
+	padding-inline: 4px;
+	background-color: var(--primary-background);
+	color: var(--primary-foreground);
+	border-radius: 4px;
+}
+
+
+html,body {
+	margin: 0;
+	overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5 {
+    margin: 0;
+}
+
+a {
+	display: inline-block;
+	width: fit-content;
+	height: fit-content;
+	padding: 8px 32px;
+	border-radius: 60px;
+	background-color: var(--muted-background);
+	border: 2px solid var(--base-foreground);
+	text-decoration: none;
+	color: var(--base-foreground);
+}
+
+.spacer {
+	flex: 1;
+}
+
+#accueil {
+	background-color: var(--accent-background);
+	color: var(--accent-foreground);
+	border-color: var(--accent-foreground);
+}
+
+section {
+    height: calc(100vh - 128px - 32px);
+    background-color: var(--base-foreground);
+    padding: 128px 32px 32px 32px;
+	display: flex;
+	gap: 16px;
+}
+
+.arrow {
+	cursor: pointer;
+	color: var(--accent-foreground);
+	border-color: var(--accent-foreground);
+	border: solid 2px;
+	background-color: var(--accent-background);
+	padding: 8px;
+	border-radius: 50%;
+}
+
+.arrow-bot {
+	position: fixed;
+	bottom: 32px;
+}
+
+.bottom-left {
+	height: fit-content;
+	width: fit-content;
+	bottom: 32px;
+	left: 32px;
+}
+
+.une {
+	background-color: var(--translucid-background);
+	backdrop-filter: var(--blur);
+	color: var(--base-foreground);
+	border-radius: 8px 8px 0 0 ;
+	width: fit-content;
+	padding: 16px;
+	margin: 0;
+}
+
+.astro-posts {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	background-color: var(--translucid-background);
+	backdrop-filter: var(--blur);
+	padding: 16px;
+	border-radius: 0 8px 8px 8px;
+}
+
+.astro-card {
+	display: flex;
+	width: 478px;
+	gap: 8px;
+	height: 94px;
+    border: 0px;
+    background-color: rgba(0,0,0,0);
+    padding: 0;
+}
+
+.astro-card.reverse {
+	flex-direction: row-reverse; /* inverse image et contenu */
+}
+
+.cover-article {
+	object-fit: cover; /* <-- équivalent "background-fit: cover" */
+	object-position: center;
+	width: 94px;
+	height: 94px;
+	border-radius: 8px;
+}
+
+.article-content {
+	padding: 8px;
+	flex-grow: 1;
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	background-color: var(--base-background);
+	color: var(--base-foreground);
+	border-radius: 8px;
+	h3, p, a {
+		margin: 0px;
+	}
+}
+
+.article-content.reverse {
+	align-items: flex-end;
+}
+
+.content {
+	padding: 8px;
+	border-radius: 8px ;
+	background-color: var(--base-background);
+	overflow-y: scroll;
+}
+
+.content p {
+	font-size: 1.5rem ;
+}
+
+.content-container {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	width: 100%;
+	height: calc(100%-16px);
+	padding: 16px;
+	border-radius: 8px ;
+	background-color: var(--translucid-background);
+	color: var(--base-foreground);
+	backdrop-filter: var(--blur);
+}
+
+.content {
+	h3, h4 {
+		margin-top: 1rem
+	}
+}

@@ -31,7 +31,7 @@ html {
   --destructive-background: rgb(198, 40, 40);
   --destructive-foreground: rgb(255, 255, 255);
 
-  --translucid-background: rgba(248, 245, 240, 0.4);
+  --translucid-background: rgba(248, 245, 240, 0.6);
   --accent-translucid-background: rgba(200, 230, 201, 0.4);
 
   --blur: blur(2px);

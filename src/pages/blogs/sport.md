@@ -1,13 +1,14 @@
 ---
 layout: "../../layouts/blogLayout.astro"
-title: 'Tauri'
+title: 'Sport'
 pubDate: 2026-01-12
 description: "J'ai testé les fonctionnalités de tauri !"
 image:
-    url: "/images/covers/tauri.png"
-    alt: 'The Astro logo on a dark background with a pink glow.'
+    url: "/images/covers/sport.png"
+    alt: 'Icone de sport.'
 tags: ["Dev", "2025", "Front"]
-featured: true
+featured: false
+slug: "sport"
 ---
 
 ## Tauri c'est quoi ?

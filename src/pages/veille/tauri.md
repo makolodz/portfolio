@@ -5,7 +5,7 @@ pubDate: 2026-01-12
 description: "J'ai testé les fonctionnalités de tauri !"
 image:
     url: "/images/covers/tauri.png"
-    alt: 'The Astro logo on a dark background with a pink glow.'
+    alt: 'Logo de tauri.'
 tags: ["Dev", "2025", "Front"]
 featured: true
 ---

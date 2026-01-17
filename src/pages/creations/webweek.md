@@ -1,13 +1,13 @@
 ---
 layout: "../../layouts/creaLayout.astro"
-title: 'Tauri'
+title: 'Webweek'
 pubDate: 2026-01-12
 description: "J'ai testé les fonctionnalités de tauri !"
 image:
     url: "/images/covers/tauri.png"
     alt: 'The Astro logo on a dark background with a pink glow.'
 tags: ["Dev", "2025", "Front"]
-featured: true
+featured: false
 ---
 
 ## Tauri c'est quoi ?

@@ -1,6 +1,6 @@
 ---
 layout: "../../layouts/creaLayout.astro"
-title: 'Tauri'
+title: 'Realite Augmentee'
 pubDate: 2026-01-12
 description: "J'ai testé les fonctionnalités de tauri !"
 image:

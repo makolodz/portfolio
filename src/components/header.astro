@@ -9,8 +9,45 @@ import { Icon } from 'astro-icon/components';
 
 
 import { gsap } from "gsap";
+import { SplitText } from "gsap/SplitText";
+
+gsap.registerPlugin(SplitText);
+
+
+let split = SplitText.create(".randlink", { type: "chars" });
+
+gsap.to(split.chars, {
+    duration: 0.5, 
+    rotate: 360,
+    stagger: {
+        amount: 40,
+        from: "random"
+    },
+    repeat: -1,
+    ease: "back.out(1)"
+})
+
+const creations = Object.values(
+	import.meta.glob('../pages/creations/*.md', { eager: true })
+);
+
+const veilles = Object.values(
+	import.meta.glob('../pages/veille/*.md', { eager: true })
+);
+
+const blogs = Object.values(
+	import.meta.glob('../pages/blogs/*.md', { eager: true })
+);
+
+const posts = [
+...creations,
+...veilles,
+...blogs,
+];
+
 
 let iconas;
+let randlinks;
 
 function iconaHover(event) {
     gsap.set(event.currentTarget, { rotate: 0 });
@@ -18,10 +55,35 @@ function iconaHover(event) {
 }
 
 function setupListeners() {
-    iconas = document.getElementsByClassName("icona"); // Remplace "icona" par ta classe
+    let randomPost = posts[Math.floor(Math.random() * posts.length)];
+
+    iconas = document.getElementsByClassName("icona");
+    randlinks = document.getElementsByClassName("randlink");
+
     Array.from(iconas).forEach(icona => {
+        icona.href = randomPost.url; // redirige vers le post aléatoire
         icona.addEventListener('mouseover', iconaHover);
     });
+
+    Array.from(randlinks).forEach(randlink => {
+        const category = randlink.dataset.category; // ajouter data-category="creations" dans le HTML
+        // Choisir le tableau correspondant
+        
+        let array;
+
+        if(category === "creations") array = creations;
+        else if(category === "veille") array = veilles;
+        else if(category === "blogs") array = blogs;
+        
+        // Sélectionner un post aléatoire dans ce tableau
+        const randomPost = array[Math.floor(Math.random() * array.length)];
+        
+        // Mettre l'URL sur le lien
+        randlink.href = randomPost.url;
+    })
+
+    //const randomPath = randomPost.url || `/posts/${randomPost.slug}`;
+
 }
 
 function init() {
@@ -38,9 +100,9 @@ document.addEventListener('DOMContentLoaded', init);
             <li> <a id="accueil" href="/">Accueil</a> </li>
             <div id="spacer" class="spacer"></div>
             <li> <a class="icona" href=""> <Icon name="mingcute:random-line" /> </a></li>
-            <li> <a href="/creations/portfolio"> Créations </a></li>
-            <li> <a href="/veille/tauri"> Veille </a></li>
-            <li> <a href="/blogs/lecture"> Blog </a></li>
+            <li> <a class="randlink" data-category="creations" href="/creations/portfolio"> Créations </a></li>
+            <li> <a class="randlink" data-category="veille" href="/veille/tauri"> Veille </a></li>
+            <li> <a class="randlink" data-category="blogs" href="/blogs/lecture"> Blog </a></li>
         </ul>
     </nav>
 </header>

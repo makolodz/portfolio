@@ -1,19 +1,18 @@
 ---
 layout: "../../layouts/blogLayout.astro"
-title: 'Tauri'
+title: 'Lecture'
 pubDate: 2026-01-12
 description: "J'ai testé les fonctionnalités de tauri !"
 image:
-    url: "/images/covers/tauri.png"
-    alt: 'The Astro logo on a dark background with a pink glow.'
+    url: "/images/covers/livre.jpg"
+    alt: 'Image de livre cartoon'
 tags: ["Dev", "2025", "Front"]
 featured: true
 ---
 
-## Tauri c'est quoi ?
+## Vous lisez vous ?
 
-Tauri est un framework conçu pour le développement logiciel multiplateforme. Il peut être vu comme un « frère » d’Electron : plus léger, mais généralement légérement plus long à configurer.
-La principale différence est que Tauri utilise la WebView native du système, tandis qu’Electron embarque Chromium.
+Parce que moi, depuis peu oui !
 
 ### Alors comment ça fonctionne ?
 

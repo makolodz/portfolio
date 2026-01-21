@@ -1,46 +1,39 @@
 ---
 layout: "../../layouts/creaLayout.astro"
 title: 'Webweek'
-pubDate: 2026-01-12
-description: "J'ai testé les fonctionnalités de tauri !"
+pubDate: 2026-01-21
+description: "Je vais vous raconter ma semaine de web..."
 image:
-    url: "/images/covers/tauri.png"
-    alt: 'The Astro logo on a dark background with a pink glow.'
-tags: ["Dev", "2025", "Front"]
+    url: "/images/covers/webweek.png"
+    alt: "Capture d'écran d'un site web."
+tags: ["Dev", "2026", "FullStack"]
 featured: false
 ---
 
-## Tauri c'est quoi ?
+## Webweek ?
 
-Tauri est un framework conçu pour le développement logiciel multiplateforme. Il peut être vu comme un « frère » d’Electron : plus léger, mais généralement légérement plus long à configurer.
-La principale différence est que Tauri utilise la WebView native du système, tandis qu’Electron embarque Chromium.
+La webweek dans notre BUT MMI c'est la Situation D'apprentissage en évalutation S301, Concevoir et Développer, c'est la dernière Saé avec beaucoup de développement web avant le semestre 4 et donc les parcours.
 
-### Alors comment ça fonctionne ?
+Les élèves qui ont choisi le parcours développement web | ou ceux qui sont jugés aptes peuvent choisir leurs groupes, et chaque groupe produit une refonte de site web.
 
-Le démarrage du projet se fait via une commande fournie par la documentation de Tauri (npm, pnpm, yarn ou cargo).
-On configure ensuite notre stack web : Tauri est agnostique, il n’impose aucun framework frontend. Cependant, Vite est fortement recommandé pour le build et le développement.
+Ainsi j'ai choisi 4 collègues et on a décidé de produire une refonte du site du club de foot de Colomiers.
 
-Une fois la configuration réalisée, on peut lancer le mode développement avec :
+### Et alors on a fait quoi ?
 
-"npm run tauri dev"
+Déjà c'est la première fois qu'on voit le versionning par équipe ! On établit un workflow simple avec un dépôt <a href="https://github.com/makolodz/colomiers"> github </a> principal et des forks pour les autres (je développais sur la branche main du dépôt principal, mais faut pas le dire...)
 
-Cela ouvre une fenêtre native qui se met à jour en temps réel avec les modifications apportées au frontend.
+C'est l'occasion de faire un point sur les compétences en développement web de la classe, parce que les chefs de groupes ont des contraintes complexes en développement back-end, les créas-nums sont censés montrer ce qu'ils savent produire en front.
 
-Il est également possible de visualiser l’application directement dans un navigateur classique via localhost, ce qui facilite le débogage.
+### Résultat final ?
 
-### Pourquoi faire ?!
+Vous pouvez accéder au résultat final <a href="https://www.colomiersfoot.maxiko.fr">ici</a>
 
-Déjà c'est incroyablement pratique pour coder du multiplateforme ! Il suffit de build pour les différents supports et de publier.
+C'est un peu décevant pour les dévs parce qu'on ne peut pas montrer tout ce qu'on a appris sur internet (framework par ex...) par grafikart ou en lisant des documentations comme des fous.
 
-En plus ça permet de coder des applications natives dans des languages web.
+Du coup on a tous fait des sites from scratch !
 
-Et grâce au backend rust et à la webview native c'est plus léger et performant qu'ElectronJS !
+### Le mot de la fin.
 
-### Et y'a quoi de codé en tauri ?
+Ca reste plutôt positif parce que ça montre qu'on est capable de collaborer, et de produire un site avec un résultat meilleur que celui d'origine en 1 semaine.
 
-Même si Tauri est encore relativement jeune, il commence déjà à être adopté dans des projets sérieux.
-
-On peut notamment citer Zed, un éditeur de code moderne axé sur les performances et la collaboration en temps réel, développé en grande partie avec Tauri.
-Il y a aussi Astro Editor, un éditeur Markdown léger, qui illustre bien l’objectif du framework : des applications rapides, natives, et peu gourmandes en ressources.
-
-De manière plus générale, Tauri est de plus en plus utilisé pour des outils internes, des launchers, des dashboards, ou des applications desktop légères là où Electron serait jugé trop lourd.
+En plus après ça, on part dans les parcours donc on va vite apprendre beaucoup plus de choses !

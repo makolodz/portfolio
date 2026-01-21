@@ -2,7 +2,7 @@
 layout: "../../layouts/veilleLayout.astro"
 title: 'Jamstack'
 pubDate: 2026-01-12
-description: "J'ai testé les fonctionnalités de tauri !"
+description: "La jamstack, ça à l'air pas mal..."
 image:
     url: "/images/covers/jamstack.png"
     alt: 'Logo de la jamstack.'

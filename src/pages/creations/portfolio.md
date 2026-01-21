@@ -1,8 +1,8 @@
 ---
 layout: "../../layouts/creaLayout.astro"
-title: 'Portfolio'
+title: 'Mon portfolio ?!'
 pubDate: 2026-01-12
-description: "J'ai testé les fonctionnalités de tauri !"
+description: "Comment j'ai codé mon portfolio (ma page préférée)"
 image:
     url: "/images/covers/tauri.png"
     alt: 'The Astro logo on a dark background with a pink glow.'

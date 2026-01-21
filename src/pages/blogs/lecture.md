@@ -1,8 +1,8 @@
 ---
 layout: "../../layouts/blogLayout.astro"
-title: 'Lecture'
+title: 'Lectures'
 pubDate: 2026-01-12
-description: "J'ai testé les fonctionnalités de tauri !"
+description: "Au lycée, j'ai réappris à lire."
 image:
     url: "/images/covers/tauri.png"
     alt: 'Image de livre cartoon'
@@ -12,7 +12,7 @@ featured: true
 
 ## Vous lisez vous ?
 
-Parce que moi, depuis peu oui !
+Parce que moi, depuis pas si longtemps que ça : oui !
 
 ### Alors comment ça fonctionne ?
 

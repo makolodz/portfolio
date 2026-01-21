@@ -4,7 +4,7 @@ title: 'Sport'
 pubDate: 2026-01-12
 description: "J'ai testé les fonctionnalités de tauri !"
 image:
-    url: "/images/covers/sport.png"
+    url: "/images/covers/tauri.png"
     alt: 'Icone de sport.'
 tags: ["Dev", "2025", "Front"]
 featured: false

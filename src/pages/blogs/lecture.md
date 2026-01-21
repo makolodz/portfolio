@@ -4,7 +4,7 @@ title: 'Lecture'
 pubDate: 2026-01-12
 description: "J'ai testé les fonctionnalités de tauri !"
 image:
-    url: "/images/covers/livre.jpg"
+    url: "/images/covers/tauri.png"
     alt: 'Image de livre cartoon'
 tags: ["Dev", "2025", "Front"]
 featured: true

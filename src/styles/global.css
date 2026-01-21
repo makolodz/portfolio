@@ -285,3 +285,7 @@ section {
 		margin-top: 1rem
 	}
 }
+
+.arrow-mid, .arrow-top, .arrow-bot {
+    will-change: transform;
+}

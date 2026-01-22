@@ -2,45 +2,44 @@
 layout: "../../layouts/creaLayout.astro"
 title: 'Mon portfolio ?!'
 pubDate: 2026-01-12
-description: "Comment j'ai codé mon portfolio (ma page préférée)"
+description: "Comment j'ai réalisé mon portfolio"
 image:
-    url: "/images/covers/tauri.png"
-    alt: 'The Astro logo on a dark background with a pink glow.'
-tags: ["Dev", "2025", "Front"]
+    url: "/images/covers/portfolio.png"
+    alt: "Capture d'écran de ce site"
+tags: ["Dev", "2026", "Front"]
 featured: true
 ---
 
-## Tauri c'est quoi ?
+## J'ai réalisé mon portfolio
 
-Tauri est un framework conçu pour le développement logiciel multiplateforme. Il peut être vu comme un « frère » d’Electron : plus léger, mais généralement légérement plus long à configurer.
-La principale différence est que Tauri utilise la WebView native du système, tandis qu’Electron embarque Chromium.
+Je vais vous raconter les différentes étapes par lesquelles je suis passé dans la création de ce portfolio
 
-### Alors comment ça fonctionne ?
+### Maquettage / Conception
 
-Le démarrage du projet se fait via une commande fournie par la documentation de Tauri (npm, pnpm, yarn ou cargo).
-On configure ensuite notre stack web : Tauri est agnostique, il n’impose aucun framework frontend. Cependant, Vite est fortement recommandé pour le build et le développement.
+Je voulais avoir 3 types d'articles : mes créations, de la veille pour le développement et la conception et des blogs plus personnels.
 
-Une fois la configuration réalisée, on peut lancer le mode développement avec :
+J'ai fais un wireframe puis j'ai posé sur figma la page d'accueil. Je l'ai divisé en 3 sections, une avec la navigation, quelques publications à la une. La section d'après reprend le contenu de mon curriculum vitae. et la dernière liste entièrement les publications par type.
 
-"npm run tauri dev"
+Pour le design je me suis "légerement" inspiré du ui glass d'apple en mettant quelques containers translucide et backdrop-filter blur. J'ai surtout voulu montrer un profil de développeur attiré par l'art avec le tableau d'Ilia Répine montrant Tolstoï labourer un champ.
 
-Cela ouvre une fenêtre native qui se met à jour en temps réel avec les modifications apportées au frontend.
+### Développement
 
-Il est également possible de visualiser l’application directement dans un navigateur classique via localhost, ce qui facilite le débogage.
+J'ai choisi de faire un site statique pour avoir un bon référencement ainsi, j'ai pris le constructeur de pages web **astro**, et quand je le souhaiterais je pourrais même passer le site en JamStack avec un headless cms (pour l'instant je préfère éditer le markdown dans vscode...)
 
-### Pourquoi faire ?!
+J'ai fais 1 layout pour la page index, et 1 layout par publications (j'aurais pus m'en sortir avec 1 seul et quelques props c'est une piste d'amélioration dans le code).
 
-Déjà c'est incroyablement pratique pour coder du multiplateforme ! Il suffit de build pour les différents supports et de publier.
+Ensuite j'ai voulu montrer que je pouvais faire un peu de **gsap** donc j'ai mis du scrollSmoother (scroll lissé) / scrollTrigger (timeline flêches et header qui bougent) / scrollTo (clics flêches).
 
-En plus ça permet de coder des applications natives dans des languages web.
+### Rédaction
 
-Et grâce au backend rust et à la webview native c'est plus léger et performant qu'ElectronJS !
+Quand je souhaite insérer une publication actuellement je la modifie dans le projet sur mon bureau (ou sur le dépôt github) et je déploie sur le serveur ovh via ftp. (là je pourrais remplacer par des githubs actions aussi mais je pense que je vais changer d'hébergeur donc j'ai pas mis plus d'énergie que ça à apprendre comment ça marche...)
 
-### Et y'a quoi de codé en tauri ?
+### Pistes d'améliorations
 
-Même si Tauri est encore relativement jeune, il commence déjà à être adopté dans des projets sérieux.
+Il y a quelques éléments d'UI que je souhaiterais ajouter (des filtres par taxonomie, des liens, des intégrations d'images / projets).
 
-On peut notamment citer Zed, un éditeur de code moderne axé sur les performances et la collaboration en temps réel, développé en grande partie avec Tauri.
-Il y a aussi Astro Editor, un éditeur Markdown léger, qui illustre bien l’objectif du framework : des applications rapides, natives, et peu gourmandes en ressources.
+Je voudrais aussi améliorer le workflow et changer d'hébergeur pour un cdn parce qu'actuellement c'est en bare metal sur ovh.
 
-De manière plus générale, Tauri est de plus en plus utilisé pour des outils internes, des launchers, des dashboards, ou des applications desktop légères là où Electron serait jugé trop lourd.
+A long terme j'aimerais passer le back sur une api afin de pouvoir changer de thème tous les ans plus rapidement mais c'est pas une prioritée.
+
+Evidemment je suis ouverts aux critiques / conseils vous pouvez me les adressez par email à : <a href="mailto:maxiimekolodz@gmail.com">maxiimekolodz@gmail.com</a>

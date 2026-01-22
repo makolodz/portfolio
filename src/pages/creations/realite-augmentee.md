@@ -1,6 +1,6 @@
 ---
 layout: "../../layouts/creaLayout.astro"
-title: 'Realite Augmentee'
+title: 'Realité Augmentée'
 pubDate: 2026-01-12
 description: "J'ai fais une superbe réalité augmentée !"
 image:

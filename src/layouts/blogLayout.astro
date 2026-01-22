@@ -21,7 +21,7 @@ const posts = blogs;
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Portfolio makodev</title>
+		<title>Maxime Kolodziejczyk</title>
 	</head>
 	<body>
 		<Header/>
@@ -69,7 +69,17 @@ const posts = blogs;
 <style>
 
     #hero {
-        /* background-image: url("/src/assets/images/Blog.jpg"); */
+        background-image: 
+        linear-gradient(
+			var(--base-foreground),
+			rgba(0, 0, 0, 0),
+			rgba(0, 0, 0, 0),
+			rgba(0, 0, 0, 0),
+            rgba(0, 0, 0, 0),
+			rgba(0, 0, 0, 0),
+			var(--base-foreground)
+		),
+        url("/src/assets/images/Blog.jpg");
         background-size: cover;
         background-position: center;
     }

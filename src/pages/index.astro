@@ -25,9 +25,6 @@ const posts = [
 ];
 
 const featuredPosts = posts.filter(post => post.frontmatter.featured).sort((a, b) => new Date(b.frontmatter.pubDate) - new Date(a.frontmatter.pubDate)).slice(0, 3);
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
 ---
 
 <Scroller/>
@@ -60,7 +57,10 @@ const featuredPosts = posts.filter(post => post.frontmatter.featured).sort((a, b
 				))}
 			</div>
 		</div>
-		<Arrowtop/>
+		<div id="arrow-titre">
+			<Arrowtop/>
+			<h1 id="titre">Maxime <br/> Kolodziejczyk</h1>
+		</div>
 	</section>
 	<section id="cv">
 		<div class="column">
@@ -261,19 +261,20 @@ const featuredPosts = posts.filter(post => post.frontmatter.featured).sort((a, b
 
 <style>
 
+#arrow-titre {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
+	align-items: flex-end;
+}
+
+#titre {
+	color: var(--muted-background);
+	text-align: end;
+}
+
 #hero {
 	height: calc(100vh - 32 - 64px - 64px);
-	/* background-image: 
-		linear-gradient(
-			rgba(0, 0, 0, 0),
-			rgba(0, 0, 0, 0),
-			rgba(0, 0, 0, 0),
-			rgba(0, 0, 0, 0),
-			var(--base-foreground)
-		),
-		url("/src/assets/images/Tolstoï_labourant.jpg"); */
-	background-size: cover;
-	background-position: center;
 	justify-content: space-between;
 	align-items: flex-end;
 }
@@ -281,16 +282,6 @@ const featuredPosts = posts.filter(post => post.frontmatter.featured).sort((a, b
 #cv {
 	height: calc(100vh - 64px);
 	padding: 32px;
-	/* background-image: 
-		linear-gradient(
-			var(--base-foreground),
-			rgba(0, 0, 0, 0),
-			rgba(0, 0, 0, 0),
-			rgba(0, 0, 0, 0),
-			var(--base-foreground)
-		),
-		url("/src/assets/images/Sur-la-piste.jpg"); */
-	background-size: cover;
 	display: flex;
 	gap: 16px;
 }
@@ -298,16 +289,6 @@ const featuredPosts = posts.filter(post => post.frontmatter.featured).sort((a, b
 #actu {
 	height: calc(100vh - 64px);
 	padding: 32px;
-	/* background-image: 
-		linear-gradient(
-			var(--base-foreground),
-			rgba(0, 0, 0, 0),
-			rgba(0, 0, 0, 0),
-			rgba(0, 0, 0, 0),
-			var(--base-foreground)
-		),
-		url("/src/assets/images/Heureux.jpg"); */
-	background-size: cover;
 	display: flex;
 	gap: 16px;
 }
@@ -458,6 +439,7 @@ ul {
 }
 
 .contact {
+	border: solid 2px var(--base-foreground);
 	display: flex;
 	align-items: center;
 	gap: 8px;

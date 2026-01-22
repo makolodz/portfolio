@@ -28,7 +28,7 @@
         let smootherclick = ScrollSmoother.create({
             wrapper: "#smooth-wrapper",
             content: "#smooth-content",
-            smooth: 1.5,
+            smooth: 1,
             smoothTouch: 0.2 //touch device donc plus court
         });
     
@@ -46,9 +46,9 @@
             let closest = points.reduce((prev, curr) => 
                 Math.abs(curr - progress) < Math.abs(prev - progress) ? curr : prev
             );
-            return closest;
-        },
-                    duration: 0.3,   // snap très rapide
+                return closest;
+            },
+                    duration: 0.2,   // snap très rapide
                     delay: 0, // wait 0.2 seconds from the last scroll event before doing the snapping
                     ease: 'power1.out' 
                 }
@@ -76,4 +76,4 @@
     
     document.addEventListener("DOMContentLoaded", init)
     
-    </script>
+</script>

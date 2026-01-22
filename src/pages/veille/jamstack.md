@@ -1,46 +1,48 @@
 ---
 layout: "../../layouts/veilleLayout.astro"
 title: 'Jamstack'
-pubDate: 2026-01-12
-description: "La jamstack, ça à l'air pas mal..."
+pubDate: 2026-01-22
+description: "J'explore la Jamstack et pourquoi elle change le développement web."
 image:
     url: "/images/covers/jamstack.png"
-    alt: 'Logo de la jamstack.'
-tags: ["Dev", "2025", "Front"]
-featured: false
+    alt: 'Illustration de la Jamstack.'
+tags: ["Dev", "Web", "Front"]
+featured: true
 ---
 
-## Tauri c'est quoi ?
+## Jamstack c'est quoi ?
 
-Tauri est un framework conçu pour le développement logiciel multiplateforme. Il peut être vu comme un « frère » d’Electron : plus léger, mais généralement légérement plus long à configurer.
-La principale différence est que Tauri utilise la WebView native du système, tandis qu’Electron embarque Chromium.
+La Jamstack est une approche moderne du développement web qui se concentre sur **JavaScript, API et Markup** (d'où le nom JAM).  
+Contrairement aux architectures traditionnelles basées sur des serveurs dynamiques, la Jamstack privilégie les sites **pré-générés** et les contenus servis via des APIs.
+
+Le résultat ? Des sites souvent **plus rapides, plus sûrs et plus faciles à scaler**.
 
 ### Alors comment ça fonctionne ?
 
-Le démarrage du projet se fait via une commande fournie par la documentation de Tauri (npm, pnpm, yarn ou cargo).
-On configure ensuite notre stack web : Tauri est agnostique, il n’impose aucun framework frontend. Cependant, Vite est fortement recommandé pour le build et le développement.
+Avec la Jamstack, le site ou l'application est construit à l’avance : le HTML est généré statiquement à partir du contenu, le JavaScript gère l’interactivité, et les APIs fournissent les données dynamiques.
 
-Une fois la configuration réalisée, on peut lancer le mode développement avec :
+On peut utiliser une multitude de générateurs de sites statiques : **Astro** (que j'utilise pour mon porfolio hors du cadre JAM) **, Next.js, Nuxt, Hugo, Eleventy**, etc.  
 
-"npm run tauri dev"
+Le workflow typique :  
 
-Cela ouvre une fenêtre native qui se met à jour en temps réel avec les modifications apportées au frontend.
-
-Il est également possible de visualiser l’application directement dans un navigateur classique via localhost, ce qui facilite le débogage.
+- On écrit le contenu (Markdown, CMS headless, etc.).  
+- On génère le site avec un framework ou un générateur statique.
+- On déploie le tout sur un CDN pour avoir 100% sur pagespeed insights.
 
 ### Pourquoi faire ?!
 
-Déjà c'est incroyablement pratique pour coder du multiplateforme ! Il suffit de build pour les différents supports et de publier.
+- **Performance** : tout est servi statiquement, donc les pages chargent presque instantanément.  
+- **Sécurité** : moins de serveur, moins de failles.  
+- **Flexibilité** : on peut combiner n’importe quel frontend avec n’importe quelle API.
+- **Economie** : l'hébergement statique, c'est devenu **presque** gratuit.  
 
-En plus ça permet de coder des applications natives dans des languages web.
+En gros, la Jamstack permet de créer des sites et applications modernes tout en simplifiant l’infrastructure.
 
-Et grâce au backend rust et à la webview native c'est plus léger et performant qu'ElectronJS !
+### Et y'a quoi qui utilise la Jamstack ?
 
-### Et y'a quoi de codé en tauri ?
+Même si c’est une approche récente, elle est déjà adoptée dans différents domaines:
 
-Même si Tauri est encore relativement jeune, il commence déjà à être adopté dans des projets sérieux.
+Smashing Magazines et dev.to ont certaines parties de leurs sites produites par jamstack, il existe aussi beaucoup de documentations produites comme ceci (la documentation de vue est par exemple produite via vitepress). 
 
-On peut notamment citer Zed, un éditeur de code moderne axé sur les performances et la collaboration en temps réel, développé en grande partie avec Tauri.
-Il y a aussi Astro Editor, un éditeur Markdown léger, qui illustre bien l’objectif du framework : des applications rapides, natives, et peu gourmandes en ressources.
-
-De manière plus générale, Tauri est de plus en plus utilisé pour des outils internes, des launchers, des dashboards, ou des applications desktop légères là où Electron serait jugé trop lourd.
+Bref, la Jamstack n’est pas juste un mot à la mode : c’est une philosophie qui change la manière de construire le web.  
+Et moi, je trouve ça fascinant de voir comment un site peut être rapide, sécurisé et moderne sans serveur complexe.

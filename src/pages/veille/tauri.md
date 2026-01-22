@@ -1,40 +1,37 @@
 ---
 layout: "../../layouts/veilleLayout.astro"
 title: 'Tauri'
-pubDate: 2026-01-12
-description: "J'ai testé les fonctionnalités de tauri !"
+pubDate: 2026-01-22
+description: "Je vous parle de tauri pour le développement multi-plateforme"
 image:
     url: "/images/covers/tauri.png"
-    alt: 'Logo de tauri.'
-tags: ["Dev", "2025", "Front"]
-featured: true
+    alt: 'Illustration de tauri.'
+tags: ["Dev", "Fullstack", "Natif"]
+featured: false
 ---
-
 ## Tauri c'est quoi ?
 
-Tauri est un framework conçu pour le développement logiciel multiplateforme. Il peut être vu comme un « frère » d’Electron : plus léger, mais généralement légérement plus long à configurer.
-La principale différence est que Tauri utilise la WebView native du système, tandis qu’Electron embarque Chromium.
+Tauri est un framework conçu pour le développement logiciel multiplateforme. Il peut être vu comme un « frère » d’Electron : plus léger, mais généralement légérement **plus long** à configurer.
+La principale différence est que Tauri utilise la WebView **native** du système, tandis qu’Electron embarque Chromium.
 
 ### Alors comment ça fonctionne ?
 
 Le démarrage du projet se fait via une commande fournie par la documentation de Tauri (npm, pnpm, yarn ou cargo).
 On configure ensuite notre stack web : Tauri est agnostique, il n’impose aucun framework frontend. Cependant, Vite est fortement recommandé pour le build et le développement.
 
-Une fois la configuration réalisée, on peut lancer le mode développement avec :
-
-"npm run tauri dev"
+Une fois la configuration réalisée, on peut lancer le mode développement avec : "npm run tauri dev"
 
 Cela ouvre une fenêtre native qui se met à jour en temps réel avec les modifications apportées au frontend.
 
 Il est également possible de visualiser l’application directement dans un navigateur classique via localhost, ce qui facilite le débogage.
 
+**Attention !** Le backend est à l'origine à développer en Rust...
+
 ### Pourquoi faire ?!
 
-Déjà c'est incroyablement pratique pour coder du multiplateforme ! Il suffit de build pour les différents supports et de publier.
+Déjà c'est incroyablement **pratique** pour coder du multiplateforme ! Il suffit de build pour les différents supports et de publier.
 
-En plus ça permet de coder des applications natives dans des languages web.
-
-Et grâce au backend rust et à la webview native c'est plus léger et performant qu'ElectronJS !
+Et grâce au backend rust et à la webview native c'est plus **léger et performant** qu'ElectronJS !
 
 ### Et y'a quoi de codé en tauri ?
 

@@ -13,9 +13,9 @@ import Header from '../components/header.astro'
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Portfolio makodev</title>
+		<title>Maxime Kolodziejczyk</title>
 	</head>
-	<body >
+	<body>
 		<div id="smooth-wrapper">
 			<div id="smooth-content" class="snap">
 				<Header/>
@@ -29,6 +29,19 @@ import Header from '../components/header.astro'
 
 html,body {
 	margin: 0;
+	background-attachment: fixed;
+	background-size: cover;
+	background-image: 
+		linear-gradient(
+			var(--base-foreground),
+			rgba(0, 0, 0, 0),
+			rgba(0, 0, 0, 0),
+			rgba(0, 0, 0, 0),
+			rgba(0, 0, 0, 0),
+			rgba(0, 0, 0, 0),
+			var(--base-foreground)
+		),
+		url("/src/assets/images/Tolstoï_labourant.jpg");
 }
 
 a {

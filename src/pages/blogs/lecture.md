@@ -1,45 +1,39 @@
 ---
 layout: "../../layouts/blogLayout.astro"
 title: 'Lectures'
-pubDate: 2026-01-12
+pubDate: 2026-01-15
 description: "Au lycée, j'ai réappris à lire."
 image:
-    url: "/images/covers/tauri.png"
-    alt: 'Image de livre cartoon'
-tags: ["Dev", "2025", "Front"]
-featured: true
+    url: "/images/covers/lecture.jpg"
+    alt: 'Illustration de bibliothèque'
+tags: ["Blog", "Perso", "Art"]
+featured: false
 ---
 
-## Vous lisez vous ?
+## Depuis quelque temps je lis
 
-Parce que moi, depuis pas si longtemps que ça : oui !
+J'ai (re)commencé à lire en terminale, c'est parti de cette maxime : « Un auteur met une vie à écrire ce que le lecteur comprend en une soirée. »
 
-### Alors comment ça fonctionne ?
+J'ai lu des romans d'aventures, des romans historiques, philosophiques. J'ai vécu l'antiquité d'Hadrien par Yourcenar, le Japon féodal par Clavell, la campagne de Russie par Tolstoï et la Sibérie de Tesson.
 
-Le démarrage du projet se fait via une commande fournie par la documentation de Tauri (npm, pnpm, yarn ou cargo).
-On configure ensuite notre stack web : Tauri est agnostique, il n’impose aucun framework frontend. Cependant, Vite est fortement recommandé pour le build et le développement.
+J'ai aussi compris que le style ça avait une importance gargantuesque : sans ça, le Parfum ne sert à rien, Gary ne raconte que des histoires tristes et Céline est simplement un vilain.
 
-Une fois la configuration réalisée, on peut lancer le mode développement avec :
+### Une renaissance
 
-"npm run tauri dev"
+Dans ma famille j'ai toujours été le geek, le matheux et même le sportif. J'ai jamais fait de musique, de peinture et avant la terminale je ne lisais que des bandes dessinées.
 
-Cela ouvre une fenêtre native qui se met à jour en temps réel avec les modifications apportées au frontend.
+Grâce à la lecture j'ai comblé un vide, peut-être que je me trompe mais j'ai l'impression de réfléchir plus sereinement et avec plus de discernement qu'autrefois, et je ne peux attribuer cette évolution seulement à la maturité.
 
-Il est également possible de visualiser l’application directement dans un navigateur classique via localhost, ce qui facilite le débogage.
+J'ai aussi pu découvir d'autres formes d'arts, j'ai délaissé Instagram pour Pinterest, j'ai observé des tableaux, visionné des clips musicaux. C'était vraiment fou.
 
-### Pourquoi faire ?!
+### Un peu de matérialisme
 
-Déjà c'est incroyablement pratique pour coder du multiplateforme ! Il suffit de build pour les différents supports et de publier.
+Pour découvrir totalement certains auteurs, j'ai eu recours à l'achat sur le marché de l'occasion, et c'est là que j'ai découvert les collections de bibliophiles.
 
-En plus ça permet de coder des applications natives dans des languages web.
+Ce mot regroupe en fait toutes sortes de formats, et même de livres unitaires. On a des collectionneurs de feuilletons (magazines contenant une histoire courte d'une fresque, avec par ex: les aventures de Rocambole), on a les collections de "faux" prestige, parmi lesquelles on retrouve France Loisir et les éditions Rencontres qui se sont très bien vendus dans les années 70 car à l'époque les livres étaient un symbole d'ascension sociale et disposés en bloc dans des bibliothèques exposés aux visiteurs (parfois sans jamais être lues) d'ailleurs ce sont des éditions souvent bon marché sur l'occasion aujourd'hui (parfois moins chers que les poches et plus complet), on peut et doit regretter très amèrement leurs disparitions au profit des pléïades. On a les éditions originales qui bien reliées et préservées peuvent se vendre pour des sommes gigantesques. En bref, il y en a pour tous les goûts.
 
-Et grâce au backend rust et à la webview native c'est plus léger et performant qu'ElectronJS !
+Maitenant certaines personnes expliquent qu'avec les livres numériques, continuer à acheter des livres physiques plus chers représentent un non-sens, et montre un désir d'exposer sa "culture". Même si c'est un argument valable, il y a quand même quelques inconvénients aux eBooks, pour moi le plus grand étant que dans le salon d'un lecteur on peut avoir le souvenir qui revient instantanément ou pas du tout, c'est qu'alors il est temps de faire une seconde lecture... Quand les livres se trouvent dans une application il faut d'abord ouvrir son téléphone, lancer l'application et la section bibliothèque sans être dérangé par les notifications. 
 
-### Et y'a quoi de codé en tauri ?
+Le matérialisme n'a besoin qu'un coup d'oeil pour frapper.
 
-Même si Tauri est encore relativement jeune, il commence déjà à être adopté dans des projets sérieux.
-
-On peut notamment citer Zed, un éditeur de code moderne axé sur les performances et la collaboration en temps réel, développé en grande partie avec Tauri.
-Il y a aussi Astro Editor, un éditeur Markdown léger, qui illustre bien l’objectif du framework : des applications rapides, natives, et peu gourmandes en ressources.
-
-De manière plus générale, Tauri est de plus en plus utilisé pour des outils internes, des launchers, des dashboards, ou des applications desktop légères là où Electron serait jugé trop lourd.
+PS : Peut-être que je rédigerai des articles sur mes lectures dans le portfolio. `¯\_(ツ)_/¯`

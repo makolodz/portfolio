@@ -10,6 +10,9 @@ export default defineConfig({
   output: 'static',
   integrations: [
     icon(),
-    vue()
+    vue(),
+    (await import("astro-compress")).default({
+      Image: true, // active la compression des images
+    }),
   ]
 });

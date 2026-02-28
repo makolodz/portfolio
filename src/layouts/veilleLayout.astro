@@ -54,10 +54,12 @@ const posts = blogs;
             </div>
 			<div class="content-container">
                 <h1> {frontmatter.title} </h1>
-				<ul class="taglist">
-                    {frontmatter.tags.map((tag : any) => (<li class="tag">{tag}</li>))}
-                </ul>
-				<p> {frontmatter.description}</p>
+				<div style="display: flex; gap: 4px">
+                    <p> {frontmatter.description}</p>
+                    <ul class="taglist">
+                        {frontmatter.tags.map((tag : any) => (<li class="tag">{tag}</li>))}
+                    </ul>
+                </div>
 				<div class="content">
 					<slot/>
 				</div>

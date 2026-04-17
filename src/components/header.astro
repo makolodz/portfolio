@@ -94,15 +94,15 @@ document.addEventListener('DOMContentLoaded', init);
 
 </script>
 
-<header id="header-gsap">
-    <nav>
-        <ul>
-            <li> <a id="accueil" href="/">Accueil</a> </li>
+<header class="header">
+    <nav class="header--nav">
+        <ul class="header--nav--ul">
+            <li class="header--li"> <a class="header--li--a" id="accueil" href="/">Accueil</a> </li>
             <div id="spacer" class="spacer"></div>
-            <li> <a class="icona" href=""> <Icon name="mingcute:random-line" /> </a></li>
-            <li> <a class="randlink" data-category="creations" href="/creations/portfolio"> Créations </a></li>
-            <li> <a class="randlink" data-category="veille" href="/veille/tauri"> Veille </a></li>
-            <li> <a class="randlink" data-category="blogs" href="/blogs/lecture"> Blog </a></li>
+            <li class="header--li"> <a class="icona header--li--a" href=""> <Icon name="mingcute:random-line" /> </a></li>
+            <li class="header--li"> <a class="randlink header--li--a" data-category="creations" href="/creations/portfolio"> Créations </a></li>
+            <li class="header--li"> <a class="randlink header--li--a" data-category="veille" href="/veille/tauri"> Veille </a></li>
+            <li class="header--li"> <a class="randlink header--li--a" data-category="blogs" href="/blogs/lecture"> Blog </a></li>
         </ul>
     </nav>
 </header>
@@ -110,7 +110,7 @@ document.addEventListener('DOMContentLoaded', init);
 
 <style>
 
-header{
+.header{
 	font-family: proud;
 	position: fixed;
 	top: 0;
@@ -119,13 +119,13 @@ header{
 	z-index: 1000;
 }
 
-nav {
+.header--nav {
 	height: 44px;
 	display: flex;
 	justify-content: space-between;
 }
 
-ul {
+.header--nav--ul {
 	width: 100%;
 	margin: 0px;
 	display: flex;
@@ -134,15 +134,15 @@ ul {
 	gap: 16px;
 }
 
-li {
+.header--li {
 	margin: 0px;
 	padding: 0px;
-    
-    a {
-        font-size: 1.5rem;
-        background-color: var(--translucid-background);
-        backdrop-filter: var(--blur);
-    }
+}
+
+.header--li--a {
+    font-size: 1.5rem;
+    background-color: var(--translucid-background);
+    backdrop-filter: var(--blur);
 }
 
 .icona {

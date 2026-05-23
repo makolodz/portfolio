@@ -1,108 +1,18 @@
 ---
 
 import '../styles/global.css';
-import { Icon } from 'astro-icon/components';
 
 ---
-
-<script>
-
-
-import { gsap } from "gsap";
-import { SplitText } from "gsap/SplitText";
-
-gsap.registerPlugin(SplitText);
-
-
-let split = SplitText.create(".randlink", { type: "chars" });
-
-gsap.to(split.chars, {
-    duration: 0.5, 
-    rotate: 360,
-    stagger: {
-        amount: 40,
-        from: "random"
-    },
-    repeat: -1,
-    ease: "back.out(1)"
-})
-
-const creations = Object.values(
-	import.meta.glob('../pages/creations/*.md', { eager: true })
-);
-
-const veilles = Object.values(
-	import.meta.glob('../pages/veille/*.md', { eager: true })
-);
-
-const blogs = Object.values(
-	import.meta.glob('../pages/blogs/*.md', { eager: true })
-);
-
-const posts = [
-...creations,
-...veilles,
-...blogs,
-];
-
-
-let iconas;
-let randlinks;
-
-function iconaHover(event) {
-    gsap.set(event.currentTarget, { rotate: 0 });
-    gsap.to(event.currentTarget, { rotate: 360, duration: 0.5});
-}
-
-function setupListeners() {
-    let randomPost = posts[Math.floor(Math.random() * posts.length)];
-
-    iconas = document.getElementsByClassName("icona");
-    randlinks = document.getElementsByClassName("randlink");
-
-    Array.from(iconas).forEach(icona => {
-        icona.href = randomPost.url; // redirige vers le post aléatoire
-        icona.addEventListener('mouseover', iconaHover);
-    });
-
-    Array.from(randlinks).forEach(randlink => {
-        const category = randlink.dataset.category; // ajouter data-category="creations" dans le HTML
-        // Choisir le tableau correspondant
-        
-        let array;
-
-        if(category === "creations") array = creations;
-        else if(category === "veille") array = veilles;
-        else if(category === "blogs") array = blogs;
-        
-        // Sélectionner un post aléatoire dans ce tableau
-        const randomPost = array[Math.floor(Math.random() * array.length)];
-        
-        // Mettre l'URL sur le lien
-        randlink.href = randomPost.url;
-    })
-
-    //const randomPath = randomPost.url || `/posts/${randomPost.slug}`;
-
-}
-
-function init() {
-    setupListeners();
-}
-
-document.addEventListener('DOMContentLoaded', init);
-
-</script>
 
 <header class="header">
     <nav class="header--nav">
         <ul class="header--nav--ul">
-            <li class="header--li"> <a class="header--li--a" id="accueil" href="/">Accueil</a> </li>
+            <li class="header--li"> <a id="accueil" href="/">Maxiko</a> </li>
             <div id="spacer" class="spacer"></div>
-            <li class="header--li"> <a class="icona header--li--a" href=""> <Icon name="mingcute:random-line" /> </a></li>
-            <li class="header--li"> <a class="randlink header--li--a" data-category="creations" href="/creations/portfolio"> Créations </a></li>
-            <li class="header--li"> <a class="randlink header--li--a" data-category="veille" href="/veille/tauri"> Veille </a></li>
-            <li class="header--li"> <a class="randlink header--li--a" data-category="blogs" href="/blogs/lecture"> Blog </a></li>
+            <li class="header--li"> <a class="header--li--a" data-category="creations" href="">Réalisations</a></li>
+            <li class="header--li"> <a class="header--li--a" data-category="veille" href="">Compétences</a></li>
+            <li class="header--li"> <a class="header--li--a" data-category="blogs" href="">Qui suis-je ?</a></li>
+            <li class="header--li"> <a class="header--li--a" data-category="blogs" href="">CV</a></li>            <li class="header--li"> <a class="randlink header--li--a" data-category="blogs" href="">Contact</a></li>
         </ul>
     </nav>
 </header>
@@ -111,12 +21,15 @@ document.addEventListener('DOMContentLoaded', init);
 <style>
 
 .header{
-	font-family: proud;
+	font-family: jb-mono-regular;
+    font-size: 16px;
 	position: fixed;
 	top: 0;
 	width: calc(100% - 64px);
 	padding: 32px;
-	z-index: 1000;
+
+    border-bottom: solid 2px var(--primary-foreground);
+    background-color: var(--primary-background);
 }
 
 .header--nav {
@@ -134,26 +47,23 @@ document.addEventListener('DOMContentLoaded', init);
 	gap: 16px;
 }
 
-.header--li {
-	margin: 0px;
-	padding: 0px;
-}
-
 .header--li--a {
-    font-size: 1.5rem;
-    background-color: var(--translucid-background);
-    backdrop-filter: var(--blur);
+    border-radius: 4px;
+    padding-inline: 2px;
+    border: solid 1px rgba(0,0,0,0);
+    transition: 0.15s;
+
 }
 
-.icona {
-    height: 24px;
-    padding: 8px;
+.header--li--a:hover {
+    transition: 0.15s;
+    border: solid 1px var(--primary-foreground);
+    background-color: rgba(0,0,0,0.1);
 }
 
 #accueil {
-	background-color: var(--accent-background);
-	color: var(--accent-foreground);
-	border-color: var(--accent-foreground);
+    font-family: jersey;
+    font-size: xxx-large;
 }
     
 .spacer {

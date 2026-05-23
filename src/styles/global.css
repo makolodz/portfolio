@@ -6,17 +6,17 @@ html {
       font-style: normal;
       font-display: swap;
     }
-    font-family: sans-serif;
+    font-family: jb-mono-regular;
   }
 
 /* variables ! */
 
 :root {
-  --primary-background: rgb(46, 125, 50);
-  --primary-foreground: rgb(255, 255, 255);
+  --primary-background: #F8F3E1;
+  --primary-foreground: #141501;
   
-  --secondary-background: rgb(232, 245, 233);
-  --secondary-foreground: rgb(27, 94, 32);
+  --secondary-background: #141501;
+  --secondary-foreground: #AEB784;
 
   --accent-background: rgb(200, 230, 201);
   --accent-foreground: rgb(27, 94, 32);
@@ -35,7 +35,7 @@ html {
 
   --blur: blur(2px);
   
-  font-family: normal, Arial, Helvetica, sans-serif;
+  font-family: jb-mono-regular, Arial, Helvetica, sans-serif;
 }
 
 
@@ -43,45 +43,55 @@ html {
 /* fonts */
 
 @font-face {
-  font-family: "proud";
-  src: 
-    url("../assets/fonts/CoolveticaRg.woff2") format("woff2");
-  font-style: normal;
-  font-display: swap;
+	font-family: "jb-mono-regular";
+	src:
+	  url("../assets/fonts/JetBrainsMono-Regular.ttf") format("truetype");
+	font-style: normal;
+	font-display: swap;
+}
+@font-face {
+	font-family: "jb-mono-light";
+	src:
+	  url("../assets/fonts/JetBrainsMono-Light.ttf") format("truetype");
+	font-style: normal;
+	font-display: swap;
+}
+@font-face {
+	font-family: "jb-mono-bold";
+	src:
+	  url("../assets/fonts/JetBrainsMono-Bold.ttf") format("truetype");
+	font-style: normal;
+	font-display: swap;
 }
 
 @font-face {
-  font-family: "shy";
-  src: 
-    url("../assets/fonts/CoolveticaRgCram.woff2") format("woff2");
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "normal";
-  src: 
-    url("../assets/fonts/CoolveticaRgCond.woff2") format("woff2");
-  font-style: normal;
-  font-display: swap;
+	font-family: "jersey";
+	src:
+	  url("../assets/fonts/Jersey10-Regular.ttf") format("truetype");
+	font-style: normal;
+	font-display: swap;
 }
 
 * {
+	color: var(--primary-foreground);
 	margin: 0px;
+	text-decoration: none;
+	scrollbar-width: none;
+	-ms-overflow-style: none; /* IE / Edge legacy */
+}
+
+/* Chrome, Edge, Safari */
+*::-webkit-scrollbar {
+	display: none;
 }
 
 h1, h2, h3, h4, h5, h6 {
-	font-family: proud;
-	color: var(--base-foreground);
+	font-family: jb-mono-regular;
 }
 
 ul {
   list-style-type: none;
   padding: 0px;
-}
-
-a {
-  text-decoration: none;
 }
 
 h1 {
@@ -110,30 +120,6 @@ p {
   ⚠️ Attention : impact possible sur l’accessibilité.
 */
 
-/* Chrome, Edge, Safari */
-*::-webkit-scrollbar {
-	display: none;
-}
-
-/* Firefox */
-* {
-	scrollbar-width: none;
-	-ms-overflow-style: none; /* IE / Edge legacy */
-}
-
-.taglist {
-	margin: 0;
-	display: flex;
-	gap: 4px;
-}
-.tag {
-	padding-inline: 4px;
-	background-color: var(--primary-background);
-	color: var(--primary-foreground);
-	border-radius: 4px;
-}
-
-
 html,body {
 	margin: 0;
 	overflow-x: hidden;
@@ -143,52 +129,11 @@ h1, h2, h3, h4, h5 {
     margin: 0;
 }
 
-nav a {
-	display: inline-block;
-	width: fit-content;
-	height: fit-content;
-	padding: 8px 32px;
-	border-radius: 60px;
-	background-color: var(--muted-background);
-	border: 2px solid var(--base-foreground);
-	text-decoration: none;
-	color: var(--base-foreground);
-}
-
-a {
-	color: var(--accent-foreground);
-}
-
-.spacer {
-	flex: 1;
-}
-
-#accueil {
-	background-color: var(--accent-background);
-	color: var(--accent-foreground);
-	border-color: var(--accent-foreground);
-}
-
 section {
     height: calc(100vh - 128px - 32px);
     padding: 128px 32px 32px 32px;
 	display: flex;
 	gap: 16px;
-}
-
-.arrow {
-	cursor: pointer;
-	color: var(--accent-foreground);
-	border-color: var(--accent-foreground);
-	border: solid 2px;
-	background-color: var(--accent-background);
-	padding: 8px;
-	border-radius: 50%;
-}
-
-.arrow-bot {
-	position: fixed;
-	bottom: 32px;
 }
 
 .bottom-left {
@@ -267,19 +212,6 @@ section {
 
 .content p {
 	font-size: 1.5rem ;
-}
-
-.content-container {
-	display: flex;
-	flex-direction: column;
-	gap: 8px;
-	width: 100%;
-	height: calc(100%-16px);
-	padding: 16px;
-	border-radius: 8px ;
-	background-color: var(--translucid-background);
-	color: var(--base-foreground);
-	backdrop-filter: var(--blur);
 }
 
 .content {

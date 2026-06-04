@@ -12,7 +12,15 @@ import '../styles/global.css';
             <li class="header--li"> <a class="header--li--a" data-category="creations" href="">Réalisations</a></li>
             <li class="header--li"> <a class="header--li--a" data-category="veille" href="">Compétences</a></li>
             <li class="header--li"> <a class="header--li--a" data-category="blogs" href="">Qui suis-je ?</a></li>
-            <li class="header--li"> <a class="header--li--a" data-category="blogs" href="">CV</a></li>            <li class="header--li"> <a class="randlink header--li--a" data-category="blogs" href="">Contact</a></li>
+            <li class="header--li"> <a class="header--li--a" data-category="blogs" href="">CV</a></li>            
+            <li class="header--li"> <a class="header--li--a header--li--a--special" data-category="blogs" href="">Contact</a></li>
+            <li class="header--burger-li">
+                <button class="header--burger" aria-label="Toggle menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </li>
         </ul>
     </nav>
 </header>
@@ -25,11 +33,18 @@ import '../styles/global.css';
     font-size: 16px;
 	position: fixed;
 	top: 0;
+    left: 0;
 	width: calc(100% - 64px);
 	padding: 32px;
 
     border-bottom: solid 2px var(--primary-foreground);
     background-color: var(--primary-background);
+
+    transition: transform 0.25s ease;
+}
+
+.header.hidden {
+  transform: translateY(-100%);
 }
 
 .header--nav {
@@ -52,12 +67,27 @@ import '../styles/global.css';
     padding-inline: 2px;
     border: solid 1px rgba(0,0,0,0);
     transition: 0.15s;
+}
 
+.header--li--a--special {
+    padding-inline: 12px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    border: solid 2px rgba(0,0,0,0.5);
+    border-radius: 10px;
 }
 
 .header--li--a:hover {
     transition: 0.15s;
     border: solid 1px var(--primary-foreground);
+    background-color: rgba(0,0,0,0.1);
+}
+
+.header--li--a--special:hover {
+    padding-inline: 12px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    border: solid 2px rgba(0,0,0,0.5);
     background-color: rgba(0,0,0,0.1);
 }
 
@@ -70,4 +100,109 @@ import '../styles/global.css';
 	flex: 1;
 }
 
+.header--burger-li {
+    display: none;
+}
+
+.header--burger {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 6px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    z-index: 1000;
+}
+
+.header--burger span {
+    display: block;
+    width: 28px;
+    height: 3px;
+    background: var(--primary-foreground);
+    border-radius: 2px;
+    transition: 0.3s;
+}
+
+.header--burger.open span:nth-child(1) {
+    transform: rotate(45deg) translate(6px, 6px);
+}
+
+.header--burger.open span:nth-child(2) {
+    opacity: 0;
+}
+
+.header--burger.open span:nth-child(3) {
+    transform: rotate(-45deg) translate(6px, -6px);
+}
+
+@media (max-width: 768px) {
+
+    .header.open {
+        border-bottom: 0px;
+    }
+
+    .header--burger-li {
+        display: block;
+    }
+
+
+    .header--li--a {
+        display: none;
+        transition: transform 0.3s;
+    }
+
+    .header--li--a.open {
+        display: block;
+    }
+
+    .header--nav--ul.open {
+        transform: translateX(0);
+        display: flex;
+        flex-direction: column-reverse;
+        align-items: flex-end;
+    }
+
+    .header--nav--ul .spacer.open {
+        display: none;
+    }
+}
+
 </style>
+
+<script>
+const burger = document.querySelector('.header--burger');
+const navUl = document.querySelector('.header--nav--ul');
+const li = document.querySelectorAll('.header--li--a');
+const header = document.querySelector('.header');
+const spacer = document.querySelector('.spacer');
+
+if (burger && navUl && li && header && spacer) {
+    burger.addEventListener('click', () => {
+        navUl.classList.toggle('open');
+        burger.classList.toggle('open');
+        li.forEach(link => {
+            link.classList.toggle('open');
+        });
+        header.classList.toggle('open');
+        spacer.classList.toggle('open');
+    });
+}
+
+let lastScrollY = window.scrollY;
+
+window.addEventListener('scroll', () => {
+    const currentScrollY = window.scrollY;
+
+if (Math.abs(currentScrollY - lastScrollY) < 10) return;
+
+if (currentScrollY > lastScrollY && currentScrollY > 80) {
+    header?.classList.add('hidden');
+} else {
+    header?.classList.remove('hidden');
+}
+
+lastScrollY = currentScrollY;
+});
+</script>

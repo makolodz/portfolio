@@ -59,7 +59,7 @@ html {
 @font-face {
 	font-family: "jb-mono-bold";
 	src:
-	  url("../assets/fonts/JetBrainsMono-Bold.ttf") format("truetype");
+		url("../assets/fonts/JetBrainsMono-Bold.ttf") format("truetype");
 	font-style: normal;
 	font-display: swap;
 }
@@ -67,7 +67,7 @@ html {
 @font-face {
 	font-family: "jersey";
 	src:
-	  url("../assets/fonts/Jersey10-Regular.ttf") format("truetype");
+		url("../assets/fonts/Jersey10-Regular.ttf") format("truetype");
 	font-style: normal;
 	font-display: swap;
 }

@@ -25,10 +25,19 @@ const featuredPosts = posts.filter(post => post.frontmatter.featured).sort((a, b
 
 <Layout>
 	<section id="hero">
-		<h1 id="titre">
-			Maxime <br/>
-			Ko<span class="glitch-letter">l</span>odziejczyk
-		</h1>
+		<div id="hero-container">
+			<h4 class="status green"><div class="status-dot green"></div>A la recherche d'une alternance !</h4>
+			<h1 id="titre">
+				Maxime <br/>
+				Ko<span class="glitch-letter">l</span>odziejczyk
+			</h1>
+			<h3>Votre prochain développeur <span style="  -webkit-text-stroke: 1.5px currentColor;
+">fullstack</span> </h3>
+			<div style="padding-top: 32px">
+				<a href="" class="cta green">Entrons en contact</a>
+				<a href="" class="cta">Mes projets</a>
+			</div>
+		</div>
 	</section>
 	<section id="cv">
 		<div class="column">
@@ -236,11 +245,38 @@ const featuredPosts = posts.filter(post => post.frontmatter.featured).sort((a, b
 
 #hero {
 	height: calc(100vh - 32 - 64px - 64px);
-	justify-content: flex-end;
-	align-items: flex-end;
+	justify-content: flex-start;
+	align-items: flex-start;
+
+	padding-inline: 64px;
+	padding-top: 180px;
+	padding-bottom: 90px;
 
 	display: flex;
-	text-align: end;
+}
+
+#hero-container {
+	display: flex;
+	justify-content: flex-start;
+	flex-direction: column;
+	
+	gap: -4px;
+}
+
+#titre {
+	font-family: jersey;
+	font-size: 70pt;
+	letter-spacing: 7px;
+}
+
+.glitch-letter {
+	display: inline-block;
+	width: 0.42em;
+	text-align: center;
+
+	transition: transform 0.25s ease, opacity 0.25s ease;
+	transform-origin: center;
+	backface-visibility: hidden;
 }
 
 #cv {
@@ -269,6 +305,64 @@ const featuredPosts = posts.filter(post => post.frontmatter.featured).sort((a, b
 	opacity: 0.2;
 }
 
+.status {
+	background-color: var(--secondary-background);
+
+	border-width: 2px;
+	border-radius: 32px;
+	border-style: solid;
+
+	width: fit-content;
+
+	padding: 8px;
+	padding-inline: 16px;
+	font-size: 12pt;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	gap: 8px;
+}
+
+.status-dot {
+	width: 14px;
+	height: 14px;
+	border-radius: 100%;
+}
+
+.status.green {
+	border-color: var(--secondary-foreground);
+	color: var(--secondary-foreground);
+}
+
+.status-dot.green {
+	background-color: var(--secondary-foreground);
+}
+
+.cta {
+
+	border-width: 2px;
+	border-radius: 32px;
+	border-style: solid;
+
+	padding: 12px;
+	padding-inline: 24px;
+	font-size: 16pt;
+
+
+	background-color: var(--primary-background);
+	color: var(--primary-foreground);
+	border-color: var(--primary-foreground);
+}
+
+.cta.green {
+
+	background-color: var(--secondary-background);
+	color: var(--secondary-foreground);
+	border-color: var(--secopdary-foreground);
+
+}
 </style>
 
 <script>

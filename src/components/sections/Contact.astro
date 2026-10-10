@@ -1,0 +1,99 @@
+---
+import { site } from '../../data/site';
+
+interface Props {
+	/** Titre découpé en lignes */
+	title?: string[];
+	lead?: string;
+	/** Liens LinkedIn / GitHub / CV (utiles aux recruteurs, moins aux clients) */
+	showLinks?: boolean;
+}
+
+const {
+	title = ['Un poste,', 'un projet ?', 'On en parle.'],
+	lead = "Recruteur, agence ou entreprise avec un besoin d'outil sur mesure : écrivez-moi.",
+	showLinks = true,
+} = Astro.props;
+---
+
+<section id="contact" class="contact" aria-labelledby="contact-title">
+	<div class="container contact__inner">
+		<p class="mono contact__status"><span class="contact__dot"></span>{site.availability}</p>
+		<h2 id="contact-title" class="contact__title" data-reveal>
+			{title.map((line, i) => <>{i > 0 && <br />}{line}</>)}
+		</h2>
+		<div class="contact__row" data-reveal style="--reveal-delay: 0.08s">
+			<div>
+				<p class="contact__lead">{lead}</p>
+				<a class="contact__mail" href={`mailto:${site.email}`}>{site.email}</a>
+			</div>
+			{showLinks && (
+				<ul class="contact__links mono">
+					<li><a href={site.linkedin} rel="noopener">LinkedIn ↗</a></li>
+					<li><a href={site.github} rel="noopener">GitHub ↗</a></li>
+					<li><a href={site.cv}>CV ↓</a></li>
+				</ul>
+			)}
+		</div>
+	</div>
+</section>
+
+<style>
+	/* Bloc jaune */
+	.contact {
+		background: var(--volt);
+		color: var(--deep);
+		padding-block: var(--section);
+	}
+	.contact :focus-visible { outline-color: var(--deep); }
+	.contact ::selection { background: var(--deep); color: var(--volt); }
+
+	.contact__inner { display: grid; gap: clamp(1.5rem, 3vw, 2.5rem); }
+	.contact__status { display: inline-flex; align-items: center; gap: 0.7rem; }
+	.contact__dot {
+		width: 0.55rem;
+		height: 0.55rem;
+		border-radius: 50%;
+		background: var(--deep);
+	}
+	.contact__title {
+		font-size: var(--step-4);
+		font-weight: 900;
+		line-height: 0.84;
+	}
+
+	.contact__row {
+		display: grid;
+		gap: 2rem;
+		padding-top: 1.5rem;
+		border-top: 2px solid var(--deep);
+	}
+	.contact__lead { max-width: 42ch; font-size: var(--step-1); margin-bottom: 1rem; }
+	.contact__mail {
+		display: inline-block;
+		font-family: var(--font-display);
+		font-weight: 800;
+		font-size: var(--step-2);
+		text-transform: uppercase;
+		text-decoration: underline;
+		text-decoration-thickness: 3px;
+		text-underline-offset: 0.15em;
+		overflow-wrap: anywhere;
+	}
+	.contact__mail:hover { text-decoration-thickness: 6px; }
+
+	.contact__links { display: flex; flex-wrap: wrap; gap: 0.5rem; align-self: end; }
+	.contact__links a {
+		display: inline-block;
+		padding: 0.8rem 1.25rem;
+		border: 1.5px solid var(--deep);
+		border-radius: 999px;
+		text-decoration: none;
+		transition: background-color 0.2s, color 0.2s;
+	}
+	.contact__links a:hover { background: var(--deep); color: var(--volt); }
+
+	@media (min-width: 64rem) {
+		.contact__row { grid-template-columns: 1fr auto; }
+	}
+</style>

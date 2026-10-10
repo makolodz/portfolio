@@ -3,17 +3,24 @@ import { getCollection } from 'astro:content';
 import { Image } from 'astro:assets';
 import Layout from '../layouts/Layout.astro';
 import WaterfallHero from '../components/WaterfallHero.astro';
-import { site } from '../data/site';
+import Stack from '../components/sections/Stack.astro';
+import Parcours from '../components/sections/Parcours.astro';
+import ServicesTeaser from '../components/sections/ServicesTeaser.astro';
+import Contact from '../components/sections/Contact.astro';
+import Faq from '../components/sections/Faq.astro';
+import Field from '../components/Field.astro';
+import { todo, type Field as FieldValue } from '../data/profil';
 import kayak from '../assets/images/kayak.png';
 
 const projets = (await getCollection('projets', ({ data }) => data.featured && !data.draft))
 	.sort((a, b) => a.data.order - b.data.order);
 
-const specs = [
-	{ value: '1 an', label: "d'expérience en alternance au sein d'une PME industrielle pour la conception et améliorations d'applications métiers." },
+const specs: { value: FieldValue; label: FieldValue }[] = [
+	{ value: '1', label: "an d'expérience en alternance au sein d'une PME industrielle pour la conception et améliorations d'applications métiers." },
 	{ value: '3', label: "casquettes : Conception, Développement, Deploiement (j'en ai aussi une des yankees mais apparemment ça compte pas)" },
-	{ value: 'MMI', label: "BUT Métiers du multimédia et de l'internet, une formation polyvalente qui m'a formé en conception ainsi qu'en développement pour livrer des applications utiles." },
-	{ value: '1', label: "seul développeur de la boîte : du besoin jusqu’à la mise en prod, c’est moi (et le café)." },
+	// MMI retiré (déjà dans le Parcours) : un indicateur d'impact serait plus parlant
+	{ value: todo('*'), label: todo('indicateur d\'impact : ex. personnes qui utilisent tes outils, temps gagné, ressaisies évitées…') },
+	{ value: '1', label: "seul développeur dans la boîte : du besoin jusqu’à la mise en prod, c’est moi (et le café)." },
 ];
 ---
 
@@ -23,7 +30,7 @@ const specs = [
 	<!-- ===================== Projets ===================== -->
 	<section id="projets" class="section" aria-labelledby="projets-title">
 		<div class="container">
-			<header class="sec-head" data-reveal>
+			<header class="sec-head sec-head--split" data-reveal>
 				<h2 id="projets-title" class="sec-title">
 					Projets<sup class="sec-count mono">({String(projets.length).padStart(2, '0')})</sup>
 				</h2>
@@ -88,62 +95,29 @@ const specs = [
 		<dl class="container specs">
 			{specs.map((s, i) => (
 				<div class="spec" data-reveal style={`--reveal-delay: ${i * 0.06}s`}>
-					<dt class="spec__value">{s.value}</dt>
-					<dd class="spec__label">{s.label}</dd>
+					<dt class="spec__value"><Field value={s.value} /></dt>
+					<dd class="spec__label"><Field value={s.label} /></dd>
 				</div>
 			))}
 		</dl>
 	</section>
 
-	<!-- ===================== Contact ===================== -->
-	<section id="contact" class="contact" aria-labelledby="contact-title">
-		<div class="container contact__inner">
-			<p class="mono contact__status"><span class="contact__dot"></span>{site.availability}</p>
-			<h2 id="contact-title" class="contact__title" data-reveal>
-				Un poste,<br />un projet ?<br />On en parle.
-			</h2>
-			<div class="contact__row" data-reveal style="--reveal-delay: 0.08s">
-				<div>
-					<p class="contact__lead">
-						Recruteur, agence ou entreprise avec un besoin d'outil sur mesure : écrivez-moi.
-					</p>
-					<a class="contact__mail" href={`mailto:${site.email}`}>{site.email}</a>
-				</div>
-				<ul class="contact__links mono">
-					<li><a href={site.linkedin} rel="noopener">LinkedIn ↗</a></li>
-					<li><a href={site.github} rel="noopener">GitHub ↗</a></li>
-					<li><a href={site.cv}>CV ↓</a></li>
-				</ul>
-			</div>
-		</div>
-	</section>
+	<Stack />
+	<Parcours />
+	<ServicesTeaser />
+	<Faq />
+
+	<Contact />
 </Layout>
 
 <style>
-	.section { padding-block: var(--section); }
-	.volt { color: var(--volt); }
-
-	/* ---------- En-tête de section ---------- */
-	.sec-head {
-		display: grid;
-		gap: 1.25rem;
-		margin-bottom: clamp(2rem, 5vw, 4rem);
-	}
-	.sec-title {
-		font-size: clamp(4rem, 2rem + 10vw, 12rem);
-		font-weight: 900;
-		line-height: 0.8;
-	}
+	/* En-têtes de section (.section, .sec-head, .sec-title…) : voir global.css */
 	.sec-count {
 		margin-left: 0.4rem;
 		font-size: var(--step--1);
 		font-weight: 400;
 		vertical-align: top;
 		color: var(--volt);
-	}
-	.sec-note { max-width: 32ch; color: var(--mist); }
-	@media (min-width: 64rem) {
-		.sec-head { grid-template-columns: 1fr auto; align-items: end; }
 	}
 
 	/* ---------- Lignes projets ---------- */
@@ -275,63 +249,5 @@ const specs = [
 		max-width: 26ch;
 		color: var(--mist);
 		font-size: var(--step--1);
-	}
-
-	/* ---------- Contact (bloc jaune) ---------- */
-	.contact {
-		background: var(--volt);
-		color: var(--deep);
-		padding-block: var(--section);
-	}
-	.contact :focus-visible { outline-color: var(--deep); }
-	.contact ::selection { background: var(--deep); color: var(--volt); }
-
-	.contact__inner { display: grid; gap: clamp(1.5rem, 3vw, 2.5rem); }
-	.contact__status { display: inline-flex; align-items: center; gap: 0.7rem; }
-	.contact__dot {
-		width: 0.55rem;
-		height: 0.55rem;
-		border-radius: 50%;
-		background: var(--deep);
-	}
-	.contact__title {
-		font-size: var(--step-4);
-		font-weight: 900;
-		line-height: 0.84;
-	}
-
-	.contact__row {
-		display: grid;
-		gap: 2rem;
-		padding-top: 1.5rem;
-		border-top: 2px solid var(--deep);
-	}
-	.contact__lead { max-width: 42ch; font-size: var(--step-1); margin-bottom: 1rem; }
-	.contact__mail {
-		display: inline-block;
-		font-family: var(--font-display);
-		font-weight: 800;
-		font-size: var(--step-2);
-		text-transform: uppercase;
-		text-decoration: underline;
-		text-decoration-thickness: 3px;
-		text-underline-offset: 0.15em;
-		overflow-wrap: anywhere;
-	}
-	.contact__mail:hover { text-decoration-thickness: 6px; }
-
-	.contact__links { display: flex; flex-wrap: wrap; gap: 0.5rem; align-self: end; }
-	.contact__links a {
-		display: inline-block;
-		padding: 0.8rem 1.25rem;
-		border: 1.5px solid var(--deep);
-		border-radius: 999px;
-		text-decoration: none;
-		transition: background-color 0.2s, color 0.2s;
-	}
-	.contact__links a:hover { background: var(--deep); color: var(--volt); }
-
-	@media (min-width: 64rem) {
-		.contact__row { grid-template-columns: 1fr auto; }
 	}
 </style>

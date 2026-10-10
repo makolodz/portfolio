@@ -1,0 +1,97 @@
+---
+import Field from '../Field.astro';
+import { parcours } from '../../data/profil';
+import { site } from '../../data/site';
+---
+
+<section id="parcours" class="section parcours" aria-labelledby="parcours-title">
+	<div class="container">
+		<header class="sec-head" data-reveal>
+			<p class="mono label">Itinéraire</p>
+			<h2 id="parcours-title" class="sec-title">Parcours</h2>
+		</header>
+
+		<ol class="timeline">
+			{parcours.map((step) => (
+				<li class="tl" data-reveal>
+					<p class="tl__year"><Field value={step.year} /></p>
+					<div class="tl__body">
+						<h3 class="tl__title">{step.title}</h3>
+						<p class="tl__meta mono">
+							{step.meta.map((m, k) => <>{k > 0 && ' · '}<Field value={m} /></>)}
+						</p>
+						<p>{step.text}</p>
+					</div>
+				</li>
+			))}
+			<li class="tl tl--now" data-reveal>
+				<p class="tl__year">Aujourd'hui</p>
+				<div class="tl__body">
+					<h3 class="tl__title">Prochaine descente</h3>
+					<p class="tl__meta mono">{site.availability}</p>
+					<p>Je cherche une équipe ou un projet où concevoir, livrer et faire vivre des outils utiles.</p>
+					<a class="btn btn--volt" href="#contact">Me contacter <span class="arrow" aria-hidden="true">→</span></a>
+				</div>
+			</li>
+		</ol>
+	</div>
+</section>
+
+<style>
+	.parcours { border-top: 1px solid var(--line); }
+
+	.timeline { position: relative; display: grid; }
+	/* Tracé vertical qui relie les étapes */
+	.timeline::before {
+		content: '';
+		position: absolute;
+		left: 0.45rem;
+		top: 0.6rem;
+		bottom: 0.6rem;
+		width: 2px;
+		background: var(--line-strong);
+	}
+
+	.tl {
+		position: relative;
+		display: grid;
+		gap: 0.5rem 3rem;
+		padding: 0 0 clamp(2.5rem, 5vw, 4rem) 2.25rem;
+	}
+	.tl:last-child { padding-bottom: 0; }
+	.tl::before {
+		content: '';
+		position: absolute;
+		left: 0;
+		top: 0.55rem;
+		width: 1rem;
+		height: 1rem;
+		border-radius: 50%;
+		background: var(--deep);
+		border: 2px solid var(--foam);
+	}
+	.tl--now::before {
+		background: var(--volt);
+		border-color: var(--volt);
+		box-shadow: 0 0 0 6px rgb(212 255 58 / 0.18);
+	}
+
+	.tl__year {
+		font-family: var(--font-display);
+		font-weight: 800;
+		font-size: clamp(2rem, 1.4rem + 2.5vw, 3.5rem);
+		line-height: 1;
+		text-transform: uppercase;
+	}
+	.tl--now .tl__year { color: var(--volt); }
+
+	.tl__body { display: grid; gap: 0.6rem; justify-items: start; max-width: 60ch; }
+	.tl__title { font-size: var(--step-2); }
+	.tl__meta { color: var(--volt); }
+	.tl__body > p:not(.tl__meta) { color: var(--mist); }
+	.tl__body .btn { margin-top: 0.75rem; }
+
+	@media (min-width: 64rem) {
+		.tl { grid-template-columns: 16rem 1fr; padding-left: 3rem; }
+	}
+</style>

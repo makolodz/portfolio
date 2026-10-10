@@ -1,0 +1,85 @@
+---
+// Encart de l'accueil qui renvoie vers la page /services (missions freelance comme contrats).
+import { offres } from '../../data/profil';
+---
+
+<section id="services" class="teaser" aria-labelledby="teaser-title">
+	<div class="container">
+		<a class="teaser__card" href="/services" data-reveal>
+			<div class="teaser__text">
+				<p class="mono label">Services</p>
+				<h2 id="teaser-title" class="teaser__title">Un besoin particulier ?</h2>
+				<p class="teaser__lead">En mission freelance ou dans le cadre d'un contrat : je conçois, développe et mets en ligne l'outil qu'il vous faut.</p>
+			</div>
+			<ul class="teaser__list">
+				{offres.map((o) => <li>{o.title}</li>)}
+			</ul>
+			<span class="teaser__cta mono">Voir mes services <span class="arrow" aria-hidden="true">→</span></span>
+		</a>
+	</div>
+</section>
+
+<style>
+	.teaser { padding-block: clamp(3rem, 2rem + 4vw, 6rem); border-top: 1px solid var(--line); }
+
+	.teaser__card {
+		position: relative;
+		isolation: isolate;
+		display: grid;
+		gap: 1.75rem;
+		padding: clamp(1.75rem, 4vw, 3.5rem);
+		border: 1px solid var(--line-strong);
+		border-radius: 4px;
+		background: var(--deep-2);
+		text-decoration: none;
+		overflow: hidden;
+		transition: color 0.25s, border-color 0.25s;
+	}
+	/* Même remplissage jaune que les projets au survol */
+	.teaser__card::before {
+		content: '';
+		position: absolute;
+		inset: 0;
+		z-index: -1;
+		background: var(--volt);
+		transform: scaleY(0);
+		transform-origin: bottom;
+		transition: transform 0.4s var(--ease);
+	}
+	.teaser__card:hover::before,
+	.teaser__card:focus-visible::before { transform: scaleY(1); }
+	.teaser__card:hover,
+	.teaser__card:focus-visible { color: var(--deep); border-color: var(--volt); }
+	.teaser__card:hover :is(.label, .teaser__lead),
+	.teaser__card:focus-visible :is(.label, .teaser__lead) { color: var(--deep); }
+	.teaser__card:focus-visible { outline-color: var(--foam); }
+	@media (prefers-reduced-motion: reduce) {
+		.teaser__card::before { transition: none; }
+	}
+
+	.teaser__text { display: grid; gap: 1rem; }
+	.teaser__title { font-size: var(--step-3); font-weight: 900; padding-top: 0.1em; }
+	.teaser__lead { max-width: 44ch; color: var(--mist); font-size: var(--step-1); }
+
+	.teaser__list { display: grid; gap: 0.6rem; align-content: center; }
+	.teaser__list li {
+		display: flex;
+		gap: 0.75rem;
+		font-family: var(--font-display);
+		font-weight: 800;
+		font-size: var(--step-1);
+		text-transform: uppercase;
+	}
+	.teaser__list li::before { content: '→'; color: var(--volt); }
+	.teaser__card:hover .teaser__list li::before,
+	.teaser__card:focus-visible .teaser__list li::before { color: var(--deep); }
+
+	.teaser__cta { display: inline-flex; gap: 0.6rem; border-bottom: 1px solid currentColor; justify-self: start; }
+	.teaser__cta .arrow { transition: transform 0.25s var(--ease); }
+	.teaser__card:hover .teaser__cta .arrow { transform: translateX(4px); }
+
+	@media (min-width: 64rem) {
+		.teaser__card { grid-template-columns: 1.3fr 1fr; align-items: center; column-gap: 4rem; }
+		.teaser__cta { grid-column: 1 / -1; }
+	}
+</style>

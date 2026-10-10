@@ -1,0 +1,76 @@
+---
+import Field from '../Field.astro';
+import { stack } from '../../data/profil';
+---
+
+<section id="stack" class="section stack" aria-labelledby="stack-title">
+	<div class="container">
+		<header class="sec-head sec-head--split" data-reveal>
+			<div>
+				<p class="mono label">Caisse à outils</p>
+				<h2 id="stack-title" class="sec-title">Stack</h2>
+			</div>
+			<ul class="legend mono" aria-label="Légende">
+				<li><span class="chip chip--prod">En prod</span> utilisé au quotidien</li>
+				<li><span class="chip chip--explo">Exploration</span> testé, en veille</li>
+			</ul>
+		</header>
+
+		<div class="toolbox">
+			{stack.map((group, i) => (
+				<div class="tools" data-reveal style={`--reveal-delay: ${i * 0.06}s`}>
+					<h3 class="tools__title">{group.casquette}</h3>
+					<ul class="chips">
+						{group.tools.map((tool) => (
+							<li class={`chip chip--${tool.status}`}>
+								<Field value={tool.name} />
+								<span class="sr-only">{tool.status === 'prod' ? '(en production)' : '(exploration)'}</span>
+							</li>
+						))}
+					</ul>
+				</div>
+			))}
+		</div>
+	</div>
+</section>
+
+<style>
+	.stack { border-top: 1px solid var(--line); }
+
+	.legend { display: grid; gap: 0.5rem; color: var(--mist); font-size: 0.7rem; }
+	.legend li { display: flex; align-items: center; gap: 0.6rem; }
+
+	.toolbox {
+		display: grid;
+		gap: 2.5rem;
+		grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+	}
+	.tools {
+		display: grid;
+		align-content: start;
+		gap: 1.25rem;
+		padding-top: 1.25rem;
+		border-top: 1px solid var(--line-strong);
+	}
+	.tools__title { font-size: var(--step-2); }
+
+	.chips { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+	.chip {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.45rem;
+		padding: 0.45rem 0.85rem;
+		border-radius: 999px;
+		font-family: var(--font-mono);
+		font-size: 0.75rem;
+	}
+	.chip--prod { border: 1px solid var(--foam); }
+	.chip--prod::before {
+		content: '';
+		width: 0.45rem;
+		height: 0.45rem;
+		border-radius: 50%;
+		background: var(--volt);
+	}
+	.chip--explo { border: 1px dashed var(--line-strong); color: var(--mist); }
+</style>

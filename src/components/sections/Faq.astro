@@ -1,0 +1,66 @@
+---
+import Field from '../Field.astro';
+import { faq, type Field as FieldValue } from '../../data/profil';
+
+interface Props {
+	label?: string;
+	items?: { q: string; a: FieldValue[] }[];
+}
+
+// Par défaut : la FAQ recruteur de l'accueil
+const { label = "Avant de m'appeler", items = faq } = Astro.props;
+---
+
+<section id="faq" class="section faq" aria-labelledby="faq-title">
+	<div class="container faq__grid">
+		<header class="sec-head" data-reveal>
+			<p class="mono label">{label}</p>
+			<h2 id="faq-title" class="sec-title">FAQ</h2>
+		</header>
+
+		<div class="qa" data-reveal>
+			{items.map((item, i) => (
+				<details open={i === 0}>
+					<summary>{item.q}</summary>
+					<p>{item.a.map((part) => <Field value={part} />)}</p>
+				</details>
+			))}
+		</div>
+	</div>
+</section>
+
+<style>
+	.faq { border-top: 1px solid var(--line); }
+
+	@media (min-width: 64rem) {
+		.faq__grid { display: grid; grid-template-columns: 1fr 1.6fr; gap: 4rem; align-items: start; }
+	}
+
+	.qa { border-top: 1px solid var(--line-strong); }
+	.qa details { border-bottom: 1px solid var(--line-strong); }
+	.qa summary {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		gap: 1rem;
+		padding: 1.25rem 0;
+		font-family: var(--font-display);
+		font-weight: 800;
+		font-size: var(--step-2);
+		line-height: 1;
+		text-transform: uppercase;
+		cursor: pointer;
+		list-style: none;
+	}
+	.qa summary::-webkit-details-marker { display: none; }
+	.qa summary::after {
+		content: '+';
+		flex: none;
+		color: var(--volt);
+		font-size: 1.5em;
+		line-height: 0.6;
+	}
+	.qa details[open] summary::after { content: '−'; }
+	.qa summary:hover { color: var(--volt); }
+	.qa details p { max-width: 56ch; padding-bottom: 1.5rem; color: var(--mist); }
+</style>

@@ -1,0 +1,172 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Offres from '../components/sections/Offres.astro';
+import Faq from '../components/sections/Faq.astro';
+import Contact from '../components/sections/Contact.astro';
+import { deroule, faqClient } from '../data/profil';
+import { site } from '../data/site';
+
+const atouts = [
+	{ value: '1', label: "seul interlocuteur, du besoin jusqu'à la mise en ligne. Pas d'intermédiaire, pas de message qui se perd." },
+	{ value: 'PME', label: "un an à concevoir les outils d'une PME industrielle : je connais les contraintes du terrain et des équipes." },
+	{ value: '100', label: 'en accessibilité sur Lighthouse pour ce site : vos visiteurs, comme les moteurs de recherche, en profitent.' },
+];
+---
+
+<Layout
+	title="Services freelance"
+	description="Développeur web freelance : applications métier sur mesure, sites vitrines rapides, mise en ligne et automatisation."
+>
+	<!-- ===================== Hero ===================== -->
+	<section class="s-hero" aria-labelledby="s-hero-title">
+		<div class="container s-hero__inner">
+			<p class="mono s-hero__status"><span class="dot"></span>{site.availability}</p>
+			<h1 id="s-hero-title" class="s-hero__title">
+				Des outils sur mesure <span class="volt">pour votre entreprise.</span>
+			</h1>
+			<div class="s-hero__bottom">
+				<p class="s-hero__lead">
+					Vous avez un besoin précis et pas de développeur sous la main ? Je conçois, développe et mets
+					en ligne des outils web pensés avec ceux qui les utilisent.
+				</p>
+				<div class="s-hero__actions">
+					<a class="btn btn--volt" href="#contact">Parlons de votre projet <span class="arrow" aria-hidden="true">→</span></a>
+					<a class="btn" href="/#projets">Voir mes projets</a>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<Offres />
+
+	<!-- ===================== Pourquoi moi ===================== -->
+	<section class="section atouts" aria-labelledby="atouts-title">
+		<div class="container">
+			<header class="sec-head" data-reveal>
+				<p class="mono label">Pourquoi moi</p>
+				<h2 id="atouts-title" class="sec-title">Atouts</h2>
+			</header>
+			<dl class="atouts__grid">
+				{atouts.map((a, i) => (
+					<div class="atout" data-reveal style={`--reveal-delay: ${i * 0.06}s`}>
+						<dt class="atout__value">{a.value}</dt>
+						<dd class="atout__label">{a.label}</dd>
+					</div>
+				))}
+			</dl>
+		</div>
+	</section>
+
+	<!-- ===================== Déroulé ===================== -->
+	<section class="section deroule" aria-labelledby="deroule-title">
+		<div class="container">
+			<header class="sec-head sec-head--split" data-reveal>
+				<div>
+					<p class="mono label">Comment ça se passe</p>
+					<h2 id="deroule-title" class="sec-title">Déroulé</h2>
+				</div>
+				<p class="sec-note">Pas d'effet tunnel : vous voyez l'outil avancer à chaque étape.</p>
+			</header>
+			<ol class="steps">
+				{deroule.map((step, i) => (
+					<li class="step" data-reveal style={`--reveal-delay: ${i * 0.06}s`}>
+						<span class="step__num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+						<h3 class="step__title">{step.title}</h3>
+						<p>{step.text}</p>
+					</li>
+				))}
+			</ol>
+		</div>
+	</section>
+
+	<Faq label="Questions fréquentes" items={faqClient} />
+
+	<Contact
+		title={['Un projet ?', 'Parlons-en.']}
+		lead="Décrivez votre besoin en quelques lignes : on regarde ensemble ce qui est faisable."
+		showLinks={false}
+	/>
+</Layout>
+
+<style>
+	/* ---------- Hero ---------- */
+	.s-hero {
+		display: flex;
+		flex-direction: column;
+		min-height: min(90svh, 52rem);
+		padding-block: calc(var(--header-h) + 1.5rem) clamp(2.5rem, 6vh, 4rem);
+		border-bottom: 1px solid var(--line);
+	}
+	.s-hero__inner {
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+		gap: clamp(1.5rem, 3vw, 2.5rem);
+	}
+	/* Pastille en haut, contenu en bas : le vide entre les deux est voulu */
+	.s-hero__status { display: inline-flex; align-items: center; gap: 0.7rem; margin-bottom: auto; padding-bottom: 2rem; }
+	.s-hero__title {
+		max-width: 22ch;
+		padding-top: 0.1em;
+		/* Plus petit que le hero de l'accueil : texte + boutons visibles sans scroller */
+		font-size: clamp(2.75rem, min(11vw, 15svh), 9rem);
+		font-weight: 900;
+		line-height: 0.84;
+	}
+	.s-hero__bottom {
+		display: grid;
+		gap: 1.5rem;
+		align-items: end;
+		padding-top: 1.5rem;
+		border-top: 1px solid var(--line-strong);
+	}
+	.s-hero__lead { max-width: 46ch; font-size: var(--step-1); line-height: 1.45; }
+	.s-hero__actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+	@media (min-width: 64rem) {
+		.s-hero__bottom { grid-template-columns: 1fr auto; }
+	}
+
+	/* ---------- Atouts ---------- */
+	.atouts, .deroule { border-top: 1px solid var(--line); }
+	.atouts__grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+		margin: 0;
+	}
+	.atout { padding: 1.5rem 1.5rem 1.5rem 0; border-top: 1px solid var(--line-strong); }
+	.atout__value {
+		font-family: var(--font-display);
+		font-weight: 900;
+		font-size: clamp(3.5rem, 2rem + 5vw, 7rem);
+		line-height: 0.9;
+		text-transform: uppercase;
+		color: var(--volt);
+	}
+	.atout__label { margin: 0.75rem 0 0; max-width: 32ch; color: var(--mist); }
+
+	/* ---------- Déroulé ---------- */
+	.steps {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr));
+	}
+	.step {
+		display: grid;
+		align-content: start;
+		gap: 0.9rem;
+		padding: 1.75rem 1.25rem 2rem 0;
+		border-top: 1px solid var(--line-strong);
+		transition: border-color 0.2s;
+	}
+	.step:hover { border-top-color: var(--volt); }
+	.step__num {
+		font-family: var(--font-display);
+		font-weight: 900;
+		font-size: clamp(3.5rem, 2.5rem + 3vw, 5.5rem);
+		line-height: 0.85;
+		color: transparent;
+		-webkit-text-stroke: 1.5px var(--foam);
+	}
+	.step:hover .step__num { -webkit-text-stroke-color: var(--volt); }
+	.step__title { font-size: var(--step-2); }
+	.step p { max-width: 30ch; color: var(--mist); }
+</style>

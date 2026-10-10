@@ -220,3 +220,37 @@ a { color: inherit; }
     transform: none;
   }
 }
+
+/* ---------- Sections (communes à l'accueil) ---------- */
+
+.section { padding-block: var(--section); }
+.volt { color: var(--volt); }
+
+.sec-head {
+  display: grid;
+  gap: 1.25rem;
+  margin-bottom: clamp(2rem, 5vw, 4rem);
+}
+.sec-head--split > div { display: grid; gap: 1.25rem; }
+@media (min-width: 64rem) {
+  .sec-head--split { grid-template-columns: 1fr auto; align-items: end; }
+}
+/* padding-top : place pour les accents (É) au-dessus d'un interligne très serré */
+.sec-title {
+  padding-top: 0.14em;
+  font-size: clamp(4rem, 2rem + 10vw, 12rem);
+  font-weight: 900;
+  line-height: 0.8;
+}
+.sec-note { max-width: 34ch; color: var(--mist); }
+
+/* Contenu pas encore fourni (voir src/data/profil.ts) */
+.todo {
+  padding: 0 0.25em;
+  border-bottom: 1px dashed var(--volt);
+  background: rgb(212 255 58 / 0.14);
+  color: var(--volt);
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  text-transform: none;
+}

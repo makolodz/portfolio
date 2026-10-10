@@ -1,0 +1,71 @@
+---
+import Field from '../Field.astro';
+import { offres, tarifs } from '../../data/profil';
+---
+
+<section id="offres" class="section offres" aria-labelledby="offres-title">
+	<div class="container">
+		<header class="sec-head sec-head--split" data-reveal>
+			<div>
+				<p class="mono label">Ce que je fais</p>
+				<h2 id="offres-title" class="sec-title">Offres</h2>
+			</div>
+			<p class="sec-note">Trois façons de travailler ensemble, à combiner selon votre besoin.</p>
+		</header>
+
+		<ul class="offers">
+			{offres.map((o, i) => (
+				<li class="offer" data-reveal style={`--reveal-delay: ${i * 0.06}s`}>
+					<p class="offer__num mono">{String(i + 1).padStart(2, '0')}</p>
+					<h3 class="offer__title">{o.title}</h3>
+					<p>{o.text}</p>
+					<ul class="offer__list mono">
+						{o.items.map((item) => <li>{item}</li>)}
+					</ul>
+				</li>
+			))}
+		</ul>
+
+		<div class="offers__cta" data-reveal>
+			<p>Tarifs : <Field value={tarifs} /></p>
+			<a class="btn btn--volt" href="#contact">Parlons de votre projet <span class="arrow" aria-hidden="true">→</span></a>
+		</div>
+	</div>
+</section>
+
+<style>
+	.offers {
+		display: grid;
+		gap: 1rem;
+		grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr));
+	}
+	.offer {
+		display: grid;
+		align-content: start;
+		gap: 1rem;
+		padding: clamp(1.5rem, 3vw, 2.25rem);
+		border: 1px solid var(--line-strong);
+		border-radius: 4px;
+		transition: background-color 0.2s, border-color 0.2s;
+	}
+	.offer:hover { background: var(--deep-2); border-color: var(--foam); }
+	.offer__num { color: var(--volt); }
+	.offer__title { font-size: var(--step-2); }
+	.offer > p:not(.offer__num) { color: var(--mist); }
+
+	.offer__list { display: grid; gap: 0.5rem; margin-top: 0.5rem; font-size: 0.75rem; }
+	.offer__list li { position: relative; padding-left: 1.25rem; }
+	.offer__list li::before { content: '→'; position: absolute; left: 0; color: var(--volt); }
+
+	.offers__cta {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		align-items: center;
+		gap: 1rem;
+		margin-top: 1rem;
+		padding: 1.25rem clamp(1.25rem, 3vw, 2.25rem);
+		background: var(--deep-2);
+		border-radius: 4px;
+	}
+</style>

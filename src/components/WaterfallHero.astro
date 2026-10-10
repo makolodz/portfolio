@@ -1,0 +1,240 @@
+---
+import { getImage } from 'astro:assets';
+import { site } from '../data/site';
+import desktopPoster from '../assets/hero/waterfall-desktop.png';
+import mobilePoster from '../assets/hero/waterfall-mobile.png';
+
+// Image fixe de la scène, affichée immédiatement (et seule si pas de WebGL / reduced-motion).
+// Générée à partir de la vraie scène three.js : la version animée la remplace sans saut visuel.
+const [dAvif, dWebp, mAvif, mWebp] = await Promise.all([
+	getImage({ src: desktopPoster, widths: [1280, 1920], format: 'avif' }),
+	getImage({ src: desktopPoster, widths: [1280, 1920], format: 'webp' }),
+	getImage({ src: mobilePoster, widths: [390, 780], format: 'avif' }),
+	getImage({ src: mobilePoster, widths: [390, 780], format: 'webp' }),
+]);
+---
+
+<section class="hero" aria-labelledby="hero-title">
+	<div class="hero__scene" aria-hidden="true">
+		<picture>
+			<source media="(min-width: 64rem)" type="image/avif" srcset={dAvif.srcSet.attribute} sizes="100vw" />
+			<source media="(min-width: 64rem)" type="image/webp" srcset={dWebp.srcSet.attribute} sizes="100vw" />
+			<source type="image/avif" srcset={mAvif.srcSet.attribute} sizes="100vw" />
+			<img
+				class="hero__poster"
+				src={mWebp.src}
+				srcset={mWebp.srcSet.attribute}
+				sizes="100vw"
+				alt=""
+				width={mobilePoster.width}
+				height={mobilePoster.height}
+				fetchpriority="high"
+			/>
+		</picture>
+		<canvas class="hero__canvas"></canvas>
+	</div>
+
+	<div class="hero__top container mono">
+		<p class="hero__status"><span class="dot"></span>{site.availability}</p>
+		<p class="hero__hint" aria-hidden="true">Bougez la souris pour changer de point de vue</p>
+	</div>
+
+	<div class="hero__content container">
+		<p class="hero__name mono">
+			<span>{site.name}</span>
+			<span class="hero__sep" aria-hidden="true">—</span>
+			<span>{site.role}</span>
+		</p>
+
+		<h1 id="hero-title" class="hero__title">
+			<span class="hero__line">Des apps métier qui</span>
+			<span class="hero__line">tiennent <span class="hero__volt">le courant.</span></span>
+		</h1>
+
+		<p class="hero__lead">
+			Un an d'alternance en PME industrielle à concevoir, déployer et faire évoluer
+			des outils utilisés tous les jours. Disponible en freelance et en CDI.
+		</p>
+
+		<div class="hero__actions">
+			<a class="btn btn--volt" href="#contact">Me contacter <span class="arrow" aria-hidden="true">→</span></a>
+			<a class="btn" href="#projets">Voir les projets</a>
+		</div>
+	</div>
+</section>
+
+<style>
+	.hero {
+		position: relative;
+		isolation: isolate;
+		display: flex;
+		flex-direction: column;
+		min-height: 100svh;
+		padding-block: calc(var(--header-h) + 1rem) clamp(2rem, 5vh, 3.5rem);
+		overflow: hidden;
+	}
+
+	/* ---------- Scène ---------- */
+	/* Mobile / tablette : la scène est un bloc au-dessus du texte */
+	.hero__scene {
+		position: relative;
+		order: 1;
+		height: clamp(12rem, 31svh, 26rem);
+		margin-bottom: 1.25rem;
+		-webkit-mask-image: linear-gradient(to bottom, #000 80%, transparent);
+		mask-image: linear-gradient(to bottom, #000 80%, transparent);
+	}
+	.hero__poster,
+	.hero__canvas {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+	}
+	.hero__poster { object-fit: cover; }
+	.hero__canvas { opacity: 0; transition: opacity 0.8s var(--ease); }
+	.hero.is-live .hero__canvas { opacity: 1; }
+
+	/* Desktop : scène plein cadre, texte à gauche sur un voile */
+	@media (min-width: 64rem) {
+		.hero__scene {
+			position: absolute;
+			inset: 0;
+			z-index: -2;
+			height: auto;
+			margin: 0;
+			-webkit-mask-image: none;
+			mask-image: none;
+		}
+		.hero::before {
+			content: '';
+			position: absolute;
+			inset: 0;
+			z-index: -1;
+			pointer-events: none;
+			background:
+				linear-gradient(to right, rgb(11 20 22 / 0.92) 18%, rgb(11 20 22 / 0) 55%),
+				linear-gradient(to top, rgb(11 20 22 / 0.6), rgb(11 20 22 / 0) 30%);
+		}
+		.hero__top { margin-bottom: auto; }
+	}
+
+	/* ---------- Bandeau du haut ---------- */
+	.hero__top {
+		order: 0;
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		align-items: center;
+		gap: 0.5rem 2rem;
+		padding-bottom: 1rem;
+	}
+	.hero__top p { margin: 0; }
+	.hero__status { display: inline-flex; align-items: center; gap: 0.7rem; }
+	/* Mobile : la pastille passe en surimpression sur la scène pour garder le CTA au-dessus de la ligne de flottaison */
+	@media (max-width: 63.99rem) {
+		.hero__top {
+			position: absolute;
+			top: calc(var(--header-h) + 0.75rem);
+			left: 0;
+			right: 0;
+			z-index: 1;
+		}
+		.hero__status {
+			padding: 0.4rem 0.85rem 0.4rem 0.65rem;
+			border-radius: 999px;
+			background: rgb(11 20 22 / 0.75);
+		}
+	}
+	.hero__hint { color: var(--mist); font-size: 0.7rem; }
+	@media (pointer: coarse), (prefers-reduced-motion: reduce), (max-width: 63.99rem) {
+		.hero__hint { display: none; }
+	}
+
+	/* ---------- Contenu ---------- */
+	.hero__content {
+		order: 2;
+		display: grid;
+		justify-items: start;
+		gap: 1.25rem;
+	}
+	.hero__name {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.25rem 0.75rem;
+		color: var(--mist);
+	}
+	.hero__sep { color: var(--volt); }
+
+	.hero__title {
+		max-width: 11ch;
+		font-size: clamp(2.9rem, min(13vw, 14svh), 8.5rem);
+		font-weight: 900;
+		line-height: 0.84;
+	}
+	.hero__line { display: block; }
+	.hero__volt { color: var(--volt); }
+
+	.hero__lead { max-width: 40ch; font-size: var(--step-1); line-height: 1.45; }
+	@media (max-width: 47.99rem) {
+		.hero__content { gap: 1rem; }
+		.hero__lead { font-size: var(--step-0); }
+	}
+	.hero__actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+
+	@media (prefers-reduced-motion: no-preference) {
+		.hero__line { animation: rise 0.9s var(--ease) both; }
+		.hero__line:nth-child(2) { animation-delay: 0.08s; }
+		@keyframes rise {
+			from { transform: translateY(0.3em); }
+		}
+	}
+</style>
+
+<script>
+	const hero = document.querySelector<HTMLElement>('.hero');
+	const canvas = document.querySelector<HTMLCanvasElement>('.hero__canvas');
+
+	const supportsWebGL = (() => {
+		try {
+			return !!document.createElement('canvas').getContext('webgl2');
+		} catch {
+			return false;
+		}
+	})();
+	const saveData = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData;
+	const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+	// reduced-motion / économie de données / pas de WebGL : l'image fixe suffit
+	if (hero && canvas && supportsWebGL && !saveData && !reduced) {
+		const start = () =>
+			import('../scripts/scene/waterfall-scene').then(({ initWaterfall }) =>
+				initWaterfall(canvas, { onReady: () => hero.classList.add('is-live') }),
+			);
+
+		// three.js n'est chargé qu'à la première interaction, et seulement si la scène est
+		// visible : l'image fixe assure le premier affichage, rien ne le ralentit.
+		let visible = false;
+		let interacted = false;
+		let started = false;
+		const maybeStart = () => {
+			if (started || !visible || !interacted) return;
+			started = true;
+			if ('requestIdleCallback' in window) requestIdleCallback(start, { timeout: 1000 });
+			else setTimeout(start, 200);
+		};
+
+		const events = ['pointermove', 'pointerdown', 'touchstart', 'scroll', 'keydown'] as const;
+		const onInteract = () => {
+			interacted = true;
+			events.forEach((e) => window.removeEventListener(e, onInteract));
+			maybeStart();
+		};
+		events.forEach((e) => window.addEventListener(e, onInteract, { passive: true }));
+
+		new IntersectionObserver(([entry]) => {
+			visible = entry.isIntersecting;
+			maybeStart();
+		}).observe(canvas);
+	}
+</script>

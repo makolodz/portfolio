@@ -1,0 +1,26 @@
+---
+import { site } from '../data/site';
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+	<div class="container footer__inner mono">
+		<span>© {year} {site.name}</span>
+		<span>Construit avec Astro · chute d'eau en three.js</span>
+	</div>
+</footer>
+
+<style>
+	.footer {
+		background: var(--deep);
+		color: var(--mist);
+	}
+	.footer__inner {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		gap: 0.5rem 2rem;
+		padding-block: 1.5rem;
+		font-size: 0.7rem;
+	}
+</style>

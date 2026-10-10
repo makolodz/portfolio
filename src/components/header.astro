@@ -1,163 +1,205 @@
 ---
-
-import '../styles/global.css';
-import { Icon } from 'astro-icon/components';
-
+import { site, nav } from '../data/site';
 ---
 
-<script>
-
-
-import { gsap } from "gsap";
-import { SplitText } from "gsap/SplitText";
-
-gsap.registerPlugin(SplitText);
-
-
-let split = SplitText.create(".randlink", { type: "chars" });
-
-gsap.to(split.chars, {
-    duration: 0.5, 
-    rotate: 360,
-    stagger: {
-        amount: 40,
-        from: "random"
-    },
-    repeat: -1,
-    ease: "back.out(1)"
-})
-
-const creations = Object.values(
-	import.meta.glob('../pages/creations/*.md', { eager: true })
-);
-
-const veilles = Object.values(
-	import.meta.glob('../pages/veille/*.md', { eager: true })
-);
-
-const blogs = Object.values(
-	import.meta.glob('../pages/blogs/*.md', { eager: true })
-);
-
-const posts = [
-...creations,
-...veilles,
-...blogs,
-];
-
-
-let iconas;
-let randlinks;
-
-function iconaHover(event) {
-    gsap.set(event.currentTarget, { rotate: 0 });
-    gsap.to(event.currentTarget, { rotate: 360, duration: 0.5});
-}
-
-function setupListeners() {
-    let randomPost = posts[Math.floor(Math.random() * posts.length)];
-
-    iconas = document.getElementsByClassName("icona");
-    randlinks = document.getElementsByClassName("randlink");
-
-    Array.from(iconas).forEach(icona => {
-        icona.href = randomPost.url; // redirige vers le post aléatoire
-        icona.addEventListener('mouseover', iconaHover);
-    });
-
-    Array.from(randlinks).forEach(randlink => {
-        const category = randlink.dataset.category; // ajouter data-category="creations" dans le HTML
-        // Choisir le tableau correspondant
-        
-        let array;
-
-        if(category === "creations") array = creations;
-        else if(category === "veille") array = veilles;
-        else if(category === "blogs") array = blogs;
-        
-        // Sélectionner un post aléatoire dans ce tableau
-        const randomPost = array[Math.floor(Math.random() * array.length)];
-        
-        // Mettre l'URL sur le lien
-        randlink.href = randomPost.url;
-    })
-
-    //const randomPath = randomPost.url || `/posts/${randomPost.slug}`;
-
-}
-
-function init() {
-    setupListeners();
-}
-
-document.addEventListener('DOMContentLoaded', init);
-
-</script>
-
 <header class="header">
-    <nav class="header--nav">
-        <ul class="header--nav--ul">
-            <li class="header--li"> <a class="header--li--a" id="accueil" href="/">Accueil</a> </li>
-            <div id="spacer" class="spacer"></div>
-            <li class="header--li"> <a class="icona header--li--a" href=""> <Icon name="mingcute:random-line" /> </a></li>
-            <li class="header--li"> <a class="randlink header--li--a" data-category="creations" href="/creations/portfolio"> Créations </a></li>
-            <li class="header--li"> <a class="randlink header--li--a" data-category="veille" href="/veille/tauri"> Veille </a></li>
-            <li class="header--li"> <a class="randlink header--li--a" data-category="blogs" href="/blogs/lecture"> Blog </a></li>
-        </ul>
-    </nav>
+	<div class="header__inner container">
+		<a class="header__logo" href="/" aria-label={`${site.shortName}, accueil`}>{site.shortName}</a>
+
+		<button
+			class="header__burger"
+			type="button"
+			aria-expanded="false"
+			aria-controls="menu-principal"
+		>
+			<span class="sr-only">Menu</span>
+			<span class="header__burger-bar" aria-hidden="true"></span>
+			<span class="header__burger-bar" aria-hidden="true"></span>
+		</button>
+
+		<nav class="header__nav" id="menu-principal" aria-label="Navigation principale">
+			<ul class="header__list">
+				{nav.map((item, i) => (
+					<li>
+						<a class="header__link" href={item.href}>
+							<span class="header__num mono" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+							{item.label}
+						</a>
+					</li>
+				))}
+				<li class="header__cta-item"><a class="btn btn--volt header__cta" href="/#contact">Me contacter</a></li>
+			</ul>
+		</nav>
+	</div>
 </header>
 
-
 <style>
+	.header {
+		position: fixed;
+		inset: 0 0 auto 0;
+		z-index: 1000;
+		transition: background-color 0.3s, border-color 0.3s;
+		border-bottom: 1px solid transparent;
+	}
+	.header.is-scrolled {
+		background: rgb(11 20 22 / 0.88);
+		backdrop-filter: blur(12px);
+		-webkit-backdrop-filter: blur(12px);
+		border-bottom-color: var(--line);
+	}
 
-.header{
-	font-family: proud;
-	position: fixed;
-	top: 0;
-	width: calc(100% - 64px);
-	padding: 32px;
-	z-index: 1000;
-}
+	.header__inner {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		height: var(--header-h);
+	}
 
-.header--nav {
-	height: 44px;
-	display: flex;
-	justify-content: space-between;
-}
+	.header__logo {
+		font-family: var(--font-display);
+		font-weight: 900;
+		font-size: 1.9rem;
+		line-height: 1;
+		text-transform: uppercase;
+		text-decoration: none;
+		letter-spacing: 0.01em;
+	}
 
-.header--nav--ul {
-	width: 100%;
-	margin: 0px;
-	display: flex;
-	justify-content: flex-end;
-	align-items: center;
-	gap: 16px;
-}
+	.header__list {
+		display: flex;
+		align-items: center;
+		gap: 0.25rem;
+	}
 
-.header--li {
-	margin: 0px;
-	padding: 0px;
-}
+	.header__link {
+		display: inline-flex;
+		align-items: baseline;
+		gap: 0.35rem;
+		padding: 0.6rem 0.8rem;
+		font-family: var(--font-mono);
+		font-size: var(--step--1);
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		text-decoration: none;
+		color: var(--foam);
+		transition: color 0.15s;
+	}
+	.header__link:hover { color: var(--volt); }
+	.header__num { font-size: 0.65rem; color: var(--mist); }
 
-.header--li--a {
-    font-size: 1.5rem;
-    background-color: var(--translucid-background);
-    backdrop-filter: var(--blur);
-}
+	.header__cta { margin-left: 0.75rem; min-height: 2.6rem; padding-block: 0.5rem; }
 
-.icona {
-    height: 24px;
-    padding: 8px;
-}
+	.header__burger { display: none; }
 
-#accueil {
-	background-color: var(--accent-background);
-	color: var(--accent-foreground);
-	border-color: var(--accent-foreground);
-}
-    
-.spacer {
-	flex: 1;
-}
+	/* ---------- Mobile : menu plein écran ---------- */
+	@media (max-width: 47.99rem) {
+		.header__burger {
+			position: relative;
+			z-index: 2;
+			display: grid;
+			place-content: center;
+			gap: 8px;
+			width: 2.75rem;
+			height: 2.75rem;
+			margin-right: -0.5rem;
+			padding: 0;
+			background: none;
+			border: 0;
+			color: var(--foam);
+			cursor: pointer;
+		}
+		.header__burger-bar {
+			display: block;
+			width: 1.75rem;
+			height: 2px;
+			background: currentColor;
+			transition: transform 0.3s var(--ease);
+		}
+		.header__burger[aria-expanded='true'] .header__burger-bar:nth-child(2) { transform: translateY(5px) rotate(45deg); }
+		.header__burger[aria-expanded='true'] .header__burger-bar:nth-child(3) { transform: translateY(-5px) rotate(-45deg); }
 
+		.header__logo { position: relative; z-index: 2; }
+
+		.header__nav {
+			position: fixed;
+			inset: 0;
+			z-index: 1;
+			display: flex;
+			flex-direction: column;
+			justify-content: flex-end;
+			padding: calc(var(--header-h) + 2rem) var(--gutter) 2.5rem;
+			background: var(--deep);
+		}
+		:global(.js) .header__nav:not(.is-open) { display: none; }
+
+		.header__list { flex-direction: column; align-items: stretch; gap: 0; }
+		.header__link {
+			display: flex;
+			gap: 0.75rem;
+			padding: 0.5rem 0;
+			font-family: var(--font-display);
+			font-weight: 800;
+			font-size: clamp(3rem, 16vw, 5rem);
+			line-height: 1;
+			letter-spacing: 0;
+			border-bottom: 1px solid var(--line);
+		}
+		.header__num { font-family: var(--font-mono); font-size: 0.75rem; font-weight: 400; }
+		.header__cta-item { margin-top: 2rem; }
+		.header__cta { margin: 0; width: 100%; min-height: 3.5rem; }
+	}
 </style>
+
+<script>
+	const header = document.querySelector<HTMLElement>('.header');
+	const burger = document.querySelector<HTMLButtonElement>('.header__burger');
+	const menu = document.querySelector<HTMLElement>('#menu-principal');
+
+	// Fond opaque dès qu'on quitte le haut de page
+	if (header) {
+		let ticking = false;
+		const sync = () => {
+			header.classList.toggle('is-scrolled', window.scrollY > 24);
+			ticking = false;
+		};
+		window.addEventListener(
+			'scroll',
+			() => {
+				if (!ticking) {
+					ticking = true;
+					requestAnimationFrame(sync);
+				}
+			},
+			{ passive: true },
+		);
+		sync();
+	}
+
+	if (burger && menu) {
+		const setOpen = (open: boolean) => {
+			burger.setAttribute('aria-expanded', String(open));
+			menu.classList.toggle('is-open', open);
+			document.body.style.overflow = open ? 'hidden' : '';
+		};
+
+		burger.addEventListener('click', () => {
+			setOpen(burger.getAttribute('aria-expanded') !== 'true');
+		});
+
+		menu.addEventListener('click', (e) => {
+			if ((e.target as HTMLElement).closest('a')) setOpen(false);
+		});
+
+		document.addEventListener('keydown', (e) => {
+			if (e.key === 'Escape' && burger.getAttribute('aria-expanded') === 'true') {
+				setOpen(false);
+				burger.focus();
+			}
+		});
+
+		// Repasse en desktop avec le menu ouvert : on referme
+		window.matchMedia('(min-width: 48rem)').addEventListener('change', (e) => {
+			if (e.matches) setOpen(false);
+		});
+	}
+</script>

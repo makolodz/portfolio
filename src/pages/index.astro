@@ -1,497 +1,337 @@
 ---
+import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
 import Layout from '../layouts/Layout.astro';
-import Arrows from '../components/arrows.astro';
-import Arrowbot from '../components/arrowbot.astro';
-import Arrowtop from '../components/arrowtop.astro';
-import { Icon } from 'astro-icon/components';
-import Scroller from '../components/scroller.astro';
+import WaterfallHero from '../components/WaterfallHero.astro';
+import { site } from '../data/site';
+import kayak from '../assets/images/kayak.png';
 
-const creations = Object.values(
-	import.meta.glob('./creations/*.md', { eager: true })
-);
+const projets = (await getCollection('projets', ({ data }) => data.featured && !data.draft))
+	.sort((a, b) => a.data.order - b.data.order);
 
-const veille = Object.values(
-	import.meta.glob('./veille/*.md', { eager: true })
-);
-
-const blogs = Object.values(
-	import.meta.glob('./blogs/*.md', { eager: true })
-);
-
-const posts = [
-...creations,
-...veille,
-...blogs,
+const specs = [
+	{ value: '1 an', label: "d'expérience en alternance au sein d'une PME industrielle pour la conception et améliorations d'applications métiers." },
+	{ value: '3', label: "casquettes : Conception, Développement, Deploiement (j'en ai aussi une des yankees mais apparemment ça compte pas)" },
+	{ value: 'MMI', label: "BUT Métiers du multimédia et de l'internet, une formation polyvalente qui m'a formé en conception ainsi qu'en développement pour livrer des applications utiles." },
+	{ value: '1', label: "seul développeur de la boîte : du besoin jusqu’à la mise en prod, c’est moi (et le café)." },
 ];
-
-const featuredPosts = posts.filter(post => post.frontmatter.featured).sort((a, b) => new Date(b.frontmatter.pubDate) - new Date(a.frontmatter.pubDate)).slice(0, 3);
 ---
 
-<Scroller/>
-
 <Layout>
-	<section id="hero">
-		<div class="bottom-left">
-			<h2 class="une"> A la une </h2>
-			<div class="astro-posts">
-				{featuredPosts.map((post: any, index) => (
-					<a
-						href={post.url}
-						class={`astro-card ${index % 2 === 1 ? 'reverse' : ''}`}
-					>
-					<img
-						class="cover-article"
-						src={post.frontmatter.image.url}
-						alt={post.frontmatter.image.alt}
-					/>
-					<div class={`article-content ${index % 2 === 1 ? 'reverse' : ''}`}>
-					<h3>{post.frontmatter.title}</h3>
-					<ul class="taglist">
-						{post.frontmatter.tags.map((tag : any) => (
-							<li class="tag">{tag}</li>
-						))}
-					</ul>
-					<p>{post.frontmatter.description}</p>
-					</div>
-				</a>
+	<WaterfallHero />
+
+	<!-- ===================== Projets ===================== -->
+	<section id="projets" class="section" aria-labelledby="projets-title">
+		<div class="container">
+			<header class="sec-head" data-reveal>
+				<h2 id="projets-title" class="sec-title">
+					Projets<sup class="sec-count mono">({String(projets.length).padStart(2, '0')})</sup>
+				</h2>
+				<p class="sec-note">Études de cas : le contexte, mon rôle, le process et le résultat.</p>
+			</header>
+
+			<ol class="rows">
+				{projets.map((p, i) => (
+					<li data-reveal style={`--reveal-delay: ${i * 0.06}s`}>
+						<a class="row" href={`/projets/${p.id}`}>
+							<span class="row__num mono">{String(i + 1).padStart(2, '0')}</span>
+							<h3 class="row__title">
+								{/* Pas de coupure au milieu d'un mot composé (« e-commerce ») */}
+								{p.data.title.split(' ').map((word, k) => <>{k > 0 && ' '}<span class="nowrap">{word}</span></>)}
+							</h3>
+							<div class="row__info">
+								<p class="row__meta mono">{p.data.client}{p.data.year && ` · ${p.data.year}`}</p>
+								<p class="row__summary">{p.data.summary}</p>
+								<ul class="row__tags mono" aria-label="Technologies">
+									{p.data.stack.map((s) => <li>{s}</li>)}
+								</ul>
+							</div>
+							<span class="row__arrow" aria-hidden="true">→</span>
+						</a>
+					</li>
 				))}
-			</div>
-		</div>
-		<div id="arrow-titre">
-			<Arrowtop/>
-			<h1 id="titre">Maxime <br/> Kolodziejczyk</h1>
+			</ol>
 		</div>
 	</section>
-	<section id="cv">
-		<div class="column">
-			<h2 class="title">Mon CV</h2>
-			<div class="join">
-				<div class="section">
-					<h3>Expériences</h3>
-					<div class="cv-section">
-						<h4>2025</h4>
-						<p>Création de mon auto-entreprise et refonte du site guiguiprod.com une vitrine / boutique en ligne de kayak freestyles</p>
-					</div>
-					<div class="cv-section">
-						<h4>2023</h4>
-						<p>Ouvrier agricole pour agri-emploi 63</p>
-					</div>
-				</div>
-				<div class="section">
-					<h3>Scolarité</h3>
-					<div class="cv-section">
-						<h4>BUT Métiers du Multimédia et de l'informatique</h4>
-						<p>Spécialité Mathématiques, Numérique et sciences informatiques, Physique-chimie</p>
-					</div>
-						<div class="cv-section">
-						<h4>Baccalauréat Général mention bien</h4>
-						<p>Spécialités Mathématiques, Numérique et sciences informatiques, Physique-chimie</p>
-						<p>Option Mathématiques expertes</p>
-					</div>
-				</div>
+
+	<!-- ===================== À propos ===================== -->
+	<section id="a-propos" class="section about" aria-labelledby="apropos-title">
+		<div class="container about__grid">
+			<figure class="about__photo" data-reveal>
+				<Image
+					src={kayak}
+					alt="Kayak freestyle : figure dans une vague, le bateau dressé à la verticale."
+					widths={[360, 650]}
+					sizes="(min-width: 64rem) 40vw, 100vw"
+					loading="lazy"
+				/>
+				<figcaption class="mono">Hors écran — kayak freestyle</figcaption>
+			</figure>
+
+			<div class="about__body" data-reveal style="--reveal-delay: 0.08s">
+				<p class="mono label">À propos</p>
+				<h2 id="apropos-title" class="about__title">
+					Des outils pensés pour <span class="volt">ceux qui les utilisent.</span>
+				</h2>
+				<p>
+					Formé en BUT MMI, je travaille depuis un an en alternance dans une PME industrielle.
+					J'y conçois des applications métier de bout en bout : recueil du besoin auprès des équipes,
+					développement, mise en production et suivi.
+				</p>
+				<p>
+					Ce qui me motive : comprendre comment les gens travaillent vraiment, et livrer un outil
+					qu'ils ont envie d'ouvrir le matin. Le reste du temps, je suis sur l'eau ou sur un sentier.
+				</p>
 			</div>
 		</div>
-		<div class="column col-2">		
-			<div class="section">
-				<h3>Mes missions</h3>
-				<div class="cv-section">
-					<h4>Développement web</h4>
-					<p>Je fais du développement web fullstack</p>
+
+		<dl class="container specs">
+			{specs.map((s, i) => (
+				<div class="spec" data-reveal style={`--reveal-delay: ${i * 0.06}s`}>
+					<dt class="spec__value">{s.value}</dt>
+					<dd class="spec__label">{s.label}</dd>
 				</div>
-				<div class="cv-section">
-					<h4>Conception ux/ui</h4>
-					<p>Je peux concevoir des interfaces et anticiper des parcours utilisateurs</p>
-				</div>
-				<div class="cv-section">
-					<h4>Création Numérique</h4>
-					<p>Je suis capable de créer du contenu (3d, affiches, posts réseaux sociaux)</p>
-				</div>
-			</div>	
-			<div class="section">
-				<h3>Technologies</h3>
-				<div class="cv-section">
-					<h4>Développement Web</h4>
-					<p>HTML | CSS | JS | PHP | SQL </p>
-					<p>Docker | VueJs | NextJs | React | Symfony | Scss</p>
-					<p>Tauri | Prisma (ORM js) | Astro</p>
-				</div>
-				<div class="cv-section">
-					<h4>Conception UX/UI</h4>
-					<p>Figma | Lunacy | TweakCN</p>
-				</div>
-				<div class="cv-section">
-					<h4>Création Numérique</h4>
-					<p>Blender | Gimp | Inkscape</p>
-					<p>Illustrator | Photoshop | InDesign | Premiere Pro | After Effects</p>
-				</div>
-			</div>
-		</div>
-		<div class="column col-2">
-			<div class="section">
-				<h3>Contacts</h3>
-				<a class="contact" href="tel:+33123456789"> <Icon name="mingcute:phone-fill" /> +337 80 36 57 72</a>
-				<a class="contact" href="mailto:kolodz.maxime@gmail.com"> <Icon name="mingcute:mail-line" /> kolodz.maxime@gmail.com</a>
-				<a class="contact" href="https://github.com/makolodz"> <Icon name="mingcute:github-line" /> github.com/makolodz</a>
-			</div>		
-			<Arrows/>
-			<div class="section">
-				<h3>Langues</h3>
-				<div class="cv-section">
-					<h4>FR</h4>
-					<div class="rect-container">
-						<div class="rect fill"></div> <div class="rect fill"> </div><div class="rect fill"> </div><div class="rect fill"></div> <div class="rect fill"></div> <div class="rect fill"></div>
-					</div>
-					Le français est ma langue maternelle
-				</div>
-				<div class="cv-section">
-					<h4>EN</h4>
-					<div class="rect-container">
-						<div class="rect fill"></div> <div class="rect fill"> </div><div class="rect fill"> </div><div class="rect fill"></div> <div class="rect fill"></div> <div class="rect"></div>
-					</div>
-					Je suis à l'aise en anglais
-				</div>
-				<div class="cv-section">
-					<h4>DE</h4>
-					<div class="rect-container">
-						<div class="rect fill"></div> <div class="rect fill"> </div><div class="rect fill"> </div><div class="rect"></div> <div class="rect"></div> <div class="rect"></div>
-					</div>
-					J'ai le niveau B1 en allemand
-				</div>
-				<div class="cv-section">
-					<h4>PL</h4>
-					<div class="rect-container">
-						<div class="rect fill"></div> <div class="rect"> </div><div class="rect"> </div><div class="rect"></div> <div class="rect"></div> <div class="rect"></div>
-					</div>
-					J'ai quelque notions de polonais
-				</div>
-			</div>
-		</div>
+			))}
+		</dl>
 	</section>
-	<section id="actu">
-		<div class="column">
-			<h2 class="title">Mes actus</h2>
-			<Arrowbot/>
-		</div>
-		<div class="rows">
-			<div class="row">
-				<div class="astro-posts full">
-					<h3>Créations</h3>
-					<div class="scrollable-posts">
-						{creations.map((post: any, index) => (
-							<a
-								href={post.url}
-								class={`astro-card ${index % 2 === 1 ? 'reverse' : ''} `}
-							>
-							<img
-								class="cover-article"
-								src={post.frontmatter.image.url}
-								alt={post.frontmatter.image.alt}
-							/>
-							<div class={`article-content ${index % 2 === 1 ? 'reverse' : ''}`}>
-								<h3>{post.frontmatter.title}</h3>
-								<ul class="taglist">
-									{post.frontmatter.tags.map((tag : any) => (
-										<li class="tag">{tag}</li>
-									))}
-								</ul>
-								<p>{post.frontmatter.description}</p>
-							</div>
-						</a>
-					))}
-					</div>
+
+	<!-- ===================== Contact ===================== -->
+	<section id="contact" class="contact" aria-labelledby="contact-title">
+		<div class="container contact__inner">
+			<p class="mono contact__status"><span class="contact__dot"></span>{site.availability}</p>
+			<h2 id="contact-title" class="contact__title" data-reveal>
+				Un poste,<br />un projet ?<br />On en parle.
+			</h2>
+			<div class="contact__row" data-reveal style="--reveal-delay: 0.08s">
+				<div>
+					<p class="contact__lead">
+						Recruteur, agence ou entreprise avec un besoin d'outil sur mesure : écrivez-moi.
+					</p>
+					<a class="contact__mail" href={`mailto:${site.email}`}>{site.email}</a>
 				</div>
-			</div>
-			<div class="row">
-				<div class="astro-posts full">
-					<h3>Blogs</h3>
-					<div class="scrollable-posts">
-						{blogs.map((post: any, index) => (
-							<a
-								href={post.url}
-								class={`astro-card ${index % 2 === 1 ? 'reverse' : ''}`}
-							>
-							<img
-								class="cover-article"
-								src={post.frontmatter.image.url}
-								alt={post.frontmatter.image.alt}
-							/>
-							<div class={`article-content ${index % 2 === 1 ? 'reverse' : ''}`}>
-								<h3>{post.frontmatter.title}</h3>
-								<ul class="taglist">
-									{post.frontmatter.tags.map((tag : any) => (
-										<li class="tag">{tag}</li>
-									))}
-								</ul>
-								<p>{post.frontmatter.description}</p>
-							</div>
-						</a>
-					))}
-					</div>
-				</div>
-				<div class="astro-posts full">
-					<h3>Veille</h3>
-					<div class="scrollable-posts">
-					{veille.map((post: any, index) => (
-						<a
-							href={post.url}
-							class={`astro-card ${index % 2 === 1 ? 'reverse' : ''}`}
-						>
-						<img
-							class="cover-article"
-							src={post.frontmatter.image.url}
-							alt={post.frontmatter.image.alt}
-						/>
-						<div class={`article-content ${index % 2 === 1 ? 'reverse' : ''}`}>
-							<h3>{post.frontmatter.title}</h3>
-							<ul class="taglist">
-								{post.frontmatter.tags.map((tag : any) => (
-									<li class="tag">{tag}</li>
-								))}
-							</ul>
-							<p>{post.frontmatter.description}</p>
-						</div>
-					</a>
-					))}
-					</div>
-				</div>
+				<ul class="contact__links mono">
+					<li><a href={site.linkedin} rel="noopener">LinkedIn ↗</a></li>
+					<li><a href={site.github} rel="noopener">GitHub ↗</a></li>
+					<li><a href={site.cv}>CV ↓</a></li>
+				</ul>
 			</div>
 		</div>
 	</section>
 </Layout>
 
 <style>
+	.section { padding-block: var(--section); }
+	.volt { color: var(--volt); }
 
-#arrow-titre {
-	display: flex;
-	flex-direction: column;
-	justify-content: flex-end;
-	align-items: flex-end;
-}
-
-#titre {
-	color: var(--muted-background);
-	text-align: end;
-}
-
-#hero {
-	height: calc(100vh - 32 - 64px - 64px);
-	justify-content: space-between;
-	align-items: flex-end;
-}
-
-#cv {
-	height: calc(100vh - 64px);
-	padding: 32px;
-	display: flex;
-	gap: 16px;
-}
-
-#actu {
-	height: calc(100vh - 64px);
-	padding: 32px;
-	display: flex;
-	gap: 16px;
-}
-
-.bottom-left {
-	height: fit-content;
-	width: fit-content;
-}
-
-.une {
-	background-color: var(--translucid-background);
-	backdrop-filter: var(--blur);
-	color: var(--base-foreground);
-	border-radius: 8px 8px 0 0 ;
-	width: fit-content;
-	padding: 16px;
-	margin: 0;
-}
-
-.astro-posts {
-	display: flex;
-	flex-direction: column;
-	gap: 8px;
-	background-color: var(--translucid-background);
-	backdrop-filter: var(--blur);
-	padding: 16px;
-	border-radius: 0 8px 8px 8px;
-}
-
-.astro-posts.full {
-	border-radius: 8px;
-}
-
-.scrollable-posts {
-	display: flex;
-	flex-direction: column;
-	gap: 8px;
-	overflow-y: scroll;
-}
-
-.astro-card {
-	display: flex;
-	min-width: 478px;
-	width: 100%;
-	max-width: 100%;
-	gap: 8px;
-	height: 94px;
-}
-
-.astro-card.reverse {
-	flex-direction: row-reverse; /* inverse image et contenu */
-}
-
-.cover-article {
-	object-fit: cover; /* <-- équivalent "background-fit: cover" */
-	object-position: center;
-	width: 94px;
-	height: 94px;
-	border-radius: 8px;
-}
-
-.article-content {
-	font-family: normal;
-	padding: 8px;
-	flex-grow: 1;
-	display: flex;
-	flex-direction: column;
-	justify-content: flex-start;
-	gap: 4px;
-	background-color: var(--base-background);
-	color: var(--base-foreground);
-	border-radius: 8px;
-}
-
-.article-content > * {
-	margin: 0px;
-}
-
-.article-content.reverse {
-	align-items: flex-end;
-}
-
-p {
-	margin: 0;
-}
-
-h3 {
-	font-family: proud;
-}
-
-h4 {
-	margin: 0;
-}
-
-ul {
-	margin: 0;
-	display: flex;
-	gap: 4px;
-}
-
-.column {
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-	width: fit-content;
-	height: 100%;
-	max-width: 33%;
-}
-
-.column > * {
-	font-family: proud;
-	margin: 0px;
-}
-
-.row > * {
-	width: 100%;
-}
-
-.row {
-	display: flex;
-	flex-direction: row;
-	width: 100%;
-	gap: 16px;
-	min-height: 50%;
-}
-
-.rows {
-	min-height: calc(100% - 64px);
-	width: 100%;
-	display: flex;
-	flex-direction: column;
-	gap: 16px;
-	justify-content: space-between;
-}
-
-.section {
-	background-color: var(--translucid-background);
-	color: var(--base-foreground);
-	backdrop-filter: var(--blur);
-	border-radius: 8px;
-	padding: 8px;
-	display: flex;
-	flex-direction: column;
-	gap: 4px;
-	h3 {
-		margin: 4px 0 4px 0;
+	/* ---------- En-tête de section ---------- */
+	.sec-head {
+		display: grid;
+		gap: 1.25rem;
+		margin-bottom: clamp(2rem, 5vw, 4rem);
 	}
-}
-
-.contact {
-	border: solid 2px var(--base-foreground);
-	display: flex;
-	align-items: center;
-	gap: 8px;
-	padding: 4px 8px;
-	border-radius: 4px;
-	color: var(--base-foreground);
-	background-color: var(--base-background);
-	* {
-		height: 20px;
-		width: 20px;
+	.sec-title {
+		font-size: clamp(4rem, 2rem + 10vw, 12rem);
+		font-weight: 900;
+		line-height: 0.8;
 	}
-}
+	.sec-count {
+		margin-left: 0.4rem;
+		font-size: var(--step--1);
+		font-weight: 400;
+		vertical-align: top;
+		color: var(--volt);
+	}
+	.sec-note { max-width: 32ch; color: var(--mist); }
+	@media (min-width: 64rem) {
+		.sec-head { grid-template-columns: 1fr auto; align-items: end; }
+	}
 
-.title {
-	background-color: var(--translucid-background);
-	color: var(--base-foreground);
-	backdrop-filter: var(--blur);
-	border-radius: 8px;
-	padding: 16px;
-	display: flex;
-	justify-content: center;
-}
+	/* ---------- Lignes projets ---------- */
+	.rows { border-top: 1px solid var(--line-strong); }
+	.rows > li { border-bottom: 1px solid var(--line-strong); }
 
-.cv-section {
-	display: flex;
-	flex-direction: column;
-	gap: 4px;
-	background-color: var(--base-background);
-	border-radius: 8px;
-	padding: 4px 8px;
-}
+	.row {
+		position: relative;
+		isolation: isolate;
+		display: grid;
+		grid-template-columns: auto 1fr auto;
+		gap: 0.75rem 1.25rem;
+		padding: clamp(1.5rem, 3vw, 2.5rem) clamp(0.25rem, 1vw, 1rem);
+		text-decoration: none;
+		transition: color 0.25s;
+	}
+	/* Remplissage jaune qui monte depuis le bas au survol */
+	.row::before {
+		content: '';
+		position: absolute;
+		inset: 0;
+		z-index: -1;
+		background: var(--volt);
+		transform: scaleY(0);
+		transform-origin: bottom;
+		transition: transform 0.4s var(--ease);
+	}
+	.row:hover::before,
+	.row:focus-visible::before { transform: scaleY(1); }
+	.row:hover,
+	.row:focus-visible { color: var(--deep); }
+	.row:hover .row__meta, .row:hover .row__summary, .row:hover .row__num,
+	.row:focus-visible .row__meta, .row:focus-visible .row__summary, .row:focus-visible .row__num { color: var(--deep); }
+	.row:hover .row__tags li, .row:focus-visible .row__tags li { border-color: var(--deep); }
+	.row:focus-visible { outline-color: var(--foam); }
+	@media (prefers-reduced-motion: reduce) {
+		.row::before { transition: none; }
+	}
 
-.rect-container {
-	display: flex;
-	gap: 4px;
-}
+	.row__num { color: var(--mist); padding-top: 0.4rem; }
+	.row__title {
+		font-size: clamp(2.5rem, 1.5rem + 4.5vw, 6.5rem);
+		font-weight: 800;
+		line-height: 0.85;
+	}
+	.nowrap { white-space: nowrap; }
+	.row__arrow {
+		grid-column: 3;
+		grid-row: 1;
+		font-size: clamp(1.75rem, 1rem + 2vw, 3rem);
+		line-height: 1;
+		transition: transform 0.3s var(--ease);
+	}
+	.row:hover .row__arrow { transform: translateX(0.4rem) rotate(-45deg); }
 
-.rect {
-	border-radius: 4px;
-	height: 20px;
-	width: 60px;
-	background-color: var(--muted-background);
-}
+	.row__info {
+		grid-column: 2 / -1;
+		grid-row: 2;
+		display: grid;
+		gap: 0.75rem;
+	}
+	.row__meta { color: var(--volt); }
+	.row__summary { max-width: 52ch; color: var(--mist); }
+	.row__tags { display: flex; flex-wrap: wrap; gap: 0.4rem; font-size: 0.7rem; }
+	.row__tags li {
+		padding: 0.25rem 0.65rem;
+		border: 1px solid var(--line-strong);
+		border-radius: 999px;
+	}
 
-.rect.fill{
-	background-color: var(--base-foreground);
-}
+	@media (min-width: 64rem) {
+		.row {
+			grid-template-columns: 4rem 1.2fr 1fr 3rem;
+			align-items: start;
+			column-gap: 2.5rem;
+		}
+		.row__info { grid-column: 3; grid-row: 1; }
+		.row__arrow { grid-column: 4; justify-self: end; }
+	}
 
-.join {
-	display: flex;
-	gap: 16px;
-	flex-direction: column;
-}
+	/* ---------- À propos ---------- */
+	.about { border-top: 1px solid var(--line); }
+	.about__grid {
+		display: grid;
+		gap: clamp(2.5rem, 5vw, 5rem);
+		align-items: center;
+	}
+	.about__photo { margin: 0; }
+	.about__photo img {
+		width: 100%;
+		height: auto;
+		aspect-ratio: 650 / 666;
+		object-fit: cover;
+		border-radius: 2px;
+	}
+	.about__photo figcaption { margin-top: 0.75rem; color: var(--mist); }
 
+	.about__body { display: grid; gap: 1.5rem; }
+	.about__title {
+		font-size: var(--step-3);
+		font-weight: 900;
+	}
+	.about__body > p:not(.label) { max-width: 56ch; color: var(--mist); }
+
+	@media (min-width: 64rem) {
+		.about__grid { grid-template-columns: 0.8fr 1fr; }
+	}
+
+	/* Fiche technique façon catalogue de kayaks */
+	.specs {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+		margin-top: var(--section);
+		margin-bottom: 0;
+	}
+	.spec {
+		padding: 1.5rem 1.25rem 1.5rem 0;
+		border-top: 1px solid var(--line-strong);
+	}
+	.spec__value {
+		font-family: var(--font-display);
+		font-weight: 900;
+		font-size: clamp(3.5rem, 2rem + 5vw, 7rem);
+		line-height: 0.9;
+		text-transform: uppercase;
+	}
+	.spec__label {
+		margin: 0.75rem 0 0;
+		max-width: 26ch;
+		color: var(--mist);
+		font-size: var(--step--1);
+	}
+
+	/* ---------- Contact (bloc jaune) ---------- */
+	.contact {
+		background: var(--volt);
+		color: var(--deep);
+		padding-block: var(--section);
+	}
+	.contact :focus-visible { outline-color: var(--deep); }
+	.contact ::selection { background: var(--deep); color: var(--volt); }
+
+	.contact__inner { display: grid; gap: clamp(1.5rem, 3vw, 2.5rem); }
+	.contact__status { display: inline-flex; align-items: center; gap: 0.7rem; }
+	.contact__dot {
+		width: 0.55rem;
+		height: 0.55rem;
+		border-radius: 50%;
+		background: var(--deep);
+	}
+	.contact__title {
+		font-size: var(--step-4);
+		font-weight: 900;
+		line-height: 0.84;
+	}
+
+	.contact__row {
+		display: grid;
+		gap: 2rem;
+		padding-top: 1.5rem;
+		border-top: 2px solid var(--deep);
+	}
+	.contact__lead { max-width: 42ch; font-size: var(--step-1); margin-bottom: 1rem; }
+	.contact__mail {
+		display: inline-block;
+		font-family: var(--font-display);
+		font-weight: 800;
+		font-size: var(--step-2);
+		text-transform: uppercase;
+		text-decoration: underline;
+		text-decoration-thickness: 3px;
+		text-underline-offset: 0.15em;
+		overflow-wrap: anywhere;
+	}
+	.contact__mail:hover { text-decoration-thickness: 6px; }
+
+	.contact__links { display: flex; flex-wrap: wrap; gap: 0.5rem; align-self: end; }
+	.contact__links a {
+		display: inline-block;
+		padding: 0.8rem 1.25rem;
+		border: 1.5px solid var(--deep);
+		border-radius: 999px;
+		text-decoration: none;
+		transition: background-color 0.2s, color 0.2s;
+	}
+	.contact__links a:hover { background: var(--deep); color: var(--volt); }
+
+	@media (min-width: 64rem) {
+		.contact__row { grid-template-columns: 1fr auto; }
+	}
 </style>

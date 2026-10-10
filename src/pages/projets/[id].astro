@@ -1,0 +1,18 @@
+---
+// Une URL par projet (/projets/webweek…), à partager directement à un recruteur.
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import ProjectsViewer from '../../components/projets/ProjectsViewer.astro';
+
+export async function getStaticPaths() {
+	const projets = (await getCollection('projets', ({ data }) => !data.draft)).sort((a, b) => a.data.order - b.data.order);
+	return projets.map((p, i) => ({ params: { id: p.id }, props: { projets, current: i } }));
+}
+
+const { projets, current } = Astro.props;
+const projet = projets[current];
+---
+
+<Layout title={`${projet.data.title} · Projets`} description={projet.data.summary}>
+	<ProjectsViewer projets={projets} current={current} />
+</Layout>

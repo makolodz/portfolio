@@ -11,6 +11,17 @@ export default defineConfig({
   build: {
     inlineStylesheets: 'always',
   },
+  // Anciennes adresses des articles → blog (les liens déjà partagés continuent de marcher)
+  redirects: {
+    '/blogs/kayak': '/blog/kayak',
+    '/blogs/lecture': '/blog/lecture',
+    '/creations/portfolio': '/blog/portfolio',
+    '/creations/realite-augmentee': '/blog/realite-augmentee',
+    '/creations/webweek': '/blog/webweek',
+    '/veille/jamstack': '/blog/jamstack',
+    '/veille/tauri': '/blog/tauri',
+    '/notes': '/blog',
+  },
   integrations: [
     icon(),
     (await import("astro-compress")).default({

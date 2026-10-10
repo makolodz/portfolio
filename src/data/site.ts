@@ -6,16 +6,15 @@ export const site = {
   description:
     "Développeur fullstack & DevOps, 1 an d'alternance en PME industrielle. Disponible en freelance et en CDI.",
   availability: 'Disponible · Freelance & CDI',
-  // TODO: renseigner les vrais liens
-  email: 'contact@example.com',
+  email: 'kolodz.maxime@gmail.com',
   linkedin: 'https://www.linkedin.com/in/',
   github: 'https://github.com/makolodz',
   cv: '/cv-maxime-kolodziejczyk.pdf',
 };
 
 export const nav = [
-  { href: '/#projets', label: 'Projets' },
+  { href: '/projets', label: 'Projets' },
   { href: '/services', label: 'Services' },
-  { href: '/notes', label: 'Notes' },
+  { href: '/blog', label: 'Blog' },
   { href: site.cv, label: 'CV' },
 ];

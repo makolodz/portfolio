@@ -1,13 +1,11 @@
 ---
-layout: "../../layouts/creaLayout.astro"
 title: 'Mon portfolio ?!'
-pubDate: 2026-01-12
 description: "Comment j'ai réalisé mon portfolio"
-image:
-    url: "/images/covers/portfolio.png"
-    alt: "Capture d'écran de ce site"
-tags: ["Dev", "2026", "Front"]
-featured: true
+pubDate: 2026-01-12
+category: creation
+tags: ["Dev", "Front"]
+cover: ../../assets/blog/portfolio.png
+coverAlt: "Page d'accueil de la première version du portfolio, sur fond de tableau."
 ---
 
 ## J'ai réalisé mon portfolio

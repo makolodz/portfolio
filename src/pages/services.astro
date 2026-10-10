@@ -5,12 +5,6 @@ import Faq from '../components/sections/Faq.astro';
 import Contact from '../components/sections/Contact.astro';
 import { deroule, faqClient } from '../data/profil';
 import { site } from '../data/site';
-
-const atouts = [
-	{ value: '1', label: "seul interlocuteur, du besoin jusqu'à la mise en ligne. Pas d'intermédiaire, pas de message qui se perd." },
-	{ value: 'PME', label: "un an à concevoir les outils d'une PME industrielle : je connais les contraintes du terrain et des équipes." },
-	{ value: '100', label: 'en accessibilité sur Lighthouse pour ce site : vos visiteurs, comme les moteurs de recherche, en profitent.' },
-];
 ---
 
 <Layout
@@ -31,31 +25,13 @@ const atouts = [
 				</p>
 				<div class="s-hero__actions">
 					<a class="btn btn--volt" href="#contact">Parlons de votre projet <span class="arrow" aria-hidden="true">→</span></a>
-					<a class="btn" href="/#projets">Voir mes projets</a>
+					<a class="btn" href="/projets">Voir mes projets</a>
 				</div>
 			</div>
 		</div>
 	</section>
 
 	<Offres />
-
-	<!-- ===================== Pourquoi moi ===================== -->
-	<section class="section atouts" aria-labelledby="atouts-title">
-		<div class="container">
-			<header class="sec-head" data-reveal>
-				<p class="mono label">Pourquoi moi</p>
-				<h2 id="atouts-title" class="sec-title">Atouts</h2>
-			</header>
-			<dl class="atouts__grid">
-				{atouts.map((a, i) => (
-					<div class="atout" data-reveal style={`--reveal-delay: ${i * 0.06}s`}>
-						<dt class="atout__value">{a.value}</dt>
-						<dd class="atout__label">{a.label}</dd>
-					</div>
-				))}
-			</dl>
-		</div>
-	</section>
 
 	<!-- ===================== Déroulé ===================== -->
 	<section class="section deroule" aria-labelledby="deroule-title">

@@ -1,0 +1,183 @@
+---
+// Page Projets : liste à gauche, projet à droite, le tout dans un écran.
+// Chaque projet a sa propre URL (/projets/<id>) : sans JS ce sont de vrais liens,
+// avec JS on change de projet sans recharger et l'adresse suit (bouton retour compris).
+import type { CollectionEntry } from 'astro:content';
+import ProjectMedia from './ProjectMedia.astro';
+import CaseParts from './CaseParts.astro';
+import { todo } from '../../data/profil';
+import { site } from '../../data/site';
+
+interface Props {
+	projets: CollectionEntry<'projets'>[];
+	current: number;
+}
+
+const { projets, current } = Astro.props;
+const pad = (n: number) => String(n + 1).padStart(2, '0');
+
+const partsOf = (d: CollectionEntry<'projets'>['data']) => [
+	{ title: 'Contexte', text: d.contexte ?? todo('contexte — 2-3 phrases') },
+	{ title: 'Mon rôle', text: d.role ?? todo('mon rôle — 2-3 phrases') },
+	{ title: 'Process', text: d.process ?? todo('process — 2-3 phrases') },
+	{ title: 'Résultat', text: d.resultat ?? todo('résultat — 2-3 phrases') },
+];
+---
+
+<section class="viewer" data-viewer aria-labelledby="projets-title">
+	<h1 id="projets-title" class="sr-only">Projets</h1>
+	<div class="container viewer__grid">
+		<nav class="viewer__list" aria-label="Projets">
+			{projets.map((p, i) => (
+				<a
+					class="viewer__item"
+					href={`/projets/${p.id}`}
+					data-go={i}
+					data-title={`${p.data.title} · Projets — ${site.name}`}
+					aria-current={i === current ? 'page' : undefined}
+				>
+					<span class="mono">{pad(i)}</span>{p.data.title}
+				</a>
+			))}
+		</nav>
+
+		{projets.map((p, i) => (
+			<article class="viewer__detail" data-slide={i} hidden={i !== current} aria-labelledby={`projet-${p.id}`}>
+				<div class="viewer__media">
+					<ProjectMedia
+						image={p.data.cover}
+						alt={p.data.coverAlt}
+						fit={p.data.coverFit}
+						focus={p.data.coverFocus}
+						title={p.data.title}
+						eager={i === current}
+						sizes="(min-width: 64rem) 70vw, 100vw"
+					/>
+				</div>
+				<div class="viewer__info">
+					<div class="viewer__head">
+						<p class="mono meta">{p.data.client}{p.data.year && ` · ${p.data.year}`}</p>
+						<h2 id={`projet-${p.id}`} class="viewer__title">{p.data.title}</h2>
+						<p class="summary">{p.data.summary}</p>
+						<ul class="tags mono" aria-label="Technologies">{p.data.stack.map((s) => <li>{s}</li>)}</ul>
+						{(p.data.links.length > 0 || p.data.article) && (
+							<ul class="links mono">
+								{p.data.article && <li><a href={`/blog/${p.data.article.id}`}>Lire l'article →</a></li>}
+								{p.data.links.map((l) => <li><a href={l.href} rel="noopener">{l.label} ↗</a></li>)}
+							</ul>
+						)}
+					</div>
+					<CaseParts id={`p${i}`} parts={partsOf(p.data)} />
+				</div>
+			</article>
+		))}
+	</div>
+</section>
+
+<style>
+	/* Tient dans l'écran, sous le header fixe */
+	.viewer {
+		height: calc(100svh - var(--header-h));
+		margin-top: var(--header-h);
+		overflow: hidden;
+		border-bottom: 1px solid var(--line);
+	}
+	[hidden] { display: none !important; }
+
+	.viewer__grid { display: grid; grid-template-rows: auto minmax(0, 1fr); gap: 1rem; height: 100%; padding-block: 1rem; }
+
+	.viewer__list { display: flex; gap: 0.4rem; overflow-x: auto; scrollbar-width: none; }
+	.viewer__item {
+		display: flex;
+		align-items: baseline;
+		gap: 0.5rem;
+		flex: none;
+		padding: 0.5rem 0.85rem;
+		border: 1px solid var(--line-strong);
+		border-radius: 999px;
+		color: var(--mist);
+		font-family: var(--font-display);
+		font-weight: 800;
+		font-size: 1rem;
+		text-transform: uppercase;
+		text-decoration: none;
+	}
+	.viewer__item .mono { font-size: 0.65rem; }
+	.viewer__item[aria-current='page'] { color: var(--deep); background: var(--volt); border-color: var(--volt); }
+
+	.viewer__detail { display: grid; grid-template-rows: minmax(6rem, 1fr) auto; gap: 1rem; min-height: 0; }
+	.viewer__media { min-height: 0; }
+	.viewer__info { display: grid; gap: 0.9rem; }
+	.viewer__head { display: grid; gap: 0.5rem; align-content: start; }
+	.viewer__title { font-size: clamp(2rem, 1.2rem + 3vw, 4.5rem); }
+
+	.meta { color: var(--volt); }
+	.summary { color: var(--mist); max-width: 52ch; }
+	.tags, .links { display: flex; flex-wrap: wrap; gap: 0.4rem; font-size: 0.7rem; }
+	.tags li { padding: 0.25rem 0.65rem; border: 1px solid var(--line-strong); border-radius: 999px; }
+	.links a { color: var(--volt); text-decoration: none; border-bottom: 1px solid currentColor; }
+	.links a:hover { color: var(--foam); }
+
+	/* Mobile : résumé limité à 3 lignes pour laisser la place à l'étude de cas */
+	@media (max-width: 63.99rem) {
+		.summary { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; font-size: var(--step--1); }
+	}
+
+	@media (min-width: 64rem) {
+		.viewer__grid { grid-template-rows: none; grid-template-columns: 17rem minmax(0, 1fr); gap: 3rem; padding-block: 2rem; }
+		.viewer__list { flex-direction: column; overflow: visible; border-right: 1px solid var(--line); padding-right: 1.5rem; }
+		.viewer__item {
+			padding: 0.9rem 0;
+			border: 0;
+			border-bottom: 1px solid var(--line);
+			border-radius: 0;
+			font-size: clamp(1.25rem, 0.9rem + 0.8vw, 1.9rem);
+		}
+		.viewer__item:hover { color: var(--foam); }
+		.viewer__item[aria-current='page'] { background: none; color: var(--volt); }
+		.viewer__info { grid-template-columns: 1fr 1.6fr; gap: 2.5rem; align-items: start; }
+	}
+</style>
+
+<script>
+	const viewer = document.querySelector<HTMLElement>('[data-viewer]');
+
+	if (viewer) {
+		const items = [...viewer.querySelectorAll<HTMLAnchorElement>('a[data-go]')];
+		const slides = [...viewer.querySelectorAll<HTMLElement>('[data-slide]')];
+		const norm = (path: string) => path.replace(/\/$/, '');
+		let current = Math.max(0, slides.findIndex((s) => !s.hidden));
+
+		const show = (i: number, push: boolean) => {
+			current = (i + slides.length) % slides.length;
+			slides.forEach((s, k) => (s.hidden = k !== current));
+			items.forEach((a, k) => (k === current ? a.setAttribute('aria-current', 'page') : a.removeAttribute('aria-current')));
+			// Sur mobile, la pastille active reste visible dans la rangée défilante
+			items[current].scrollIntoView({ block: 'nearest', inline: 'center' });
+			document.title = items[current].dataset.title ?? document.title;
+			if (push) history.pushState({ i: current }, '', items[current].href);
+		};
+
+		viewer.addEventListener('click', (e) => {
+			const link = (e.target as HTMLElement).closest<HTMLAnchorElement>('a[data-go]');
+			if (!link || e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
+			e.preventDefault();
+			show(Number(link.dataset.go), true);
+		});
+
+		// Flèches ← → pour passer d'un projet à l'autre (sauf dans les onglets et les champs)
+		document.addEventListener('keydown', (e) => {
+			const t = e.target as HTMLElement;
+			if (e.altKey || e.ctrlKey || e.metaKey || t.closest('[role="tablist"], input, textarea')) return;
+			if (e.key === 'ArrowRight') show(current + 1, true);
+			if (e.key === 'ArrowLeft') show(current - 1, true);
+		});
+
+		window.addEventListener('popstate', () => {
+			const i = items.findIndex((a) => norm(new URL(a.href).pathname) === norm(location.pathname));
+			show(i >= 0 ? i : 0, false);
+		});
+
+		items[current].scrollIntoView({ block: 'nearest', inline: 'center' });
+	}
+</script>

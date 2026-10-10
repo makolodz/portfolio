@@ -1,0 +1,112 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PostCard from '../../components/blog/PostCard.astro';
+import { CATEGORIES, getPosts, type Category } from '../../data/blog';
+
+const posts = await getPosts();
+const counts = Object.fromEntries(
+	(Object.keys(CATEGORIES) as Category[]).map((c) => [c, posts.filter((p) => p.data.category === c).length]),
+) as Record<Category, number>;
+---
+
+<Layout title="Blog" description="Mes créations, ma veille techno et quelques billets hors écran.">
+	<section class="blog container" aria-labelledby="blog-title">
+		<header class="sec-head sec-head--split blog__head">
+			<div>
+				<p class="mono label">Carnet de bord</p>
+				<h1 id="blog-title" class="sec-title">Blog</h1>
+			</div>
+			<div class="blog__intro">
+				<p class="sec-note">Mes créations, ma veille techno et quelques billets hors écran.</p>
+				<a class="blog__rss mono" href="/blog/rss.xml">Flux RSS</a>
+			</div>
+		</header>
+
+		<!-- Filtres : affichés seulement avec JavaScript (sans JS, tous les articles restent visibles) -->
+		<div class="filters" role="group" aria-label="Filtrer par catégorie" hidden>
+			<button type="button" class="filter mono" data-filter="all" aria-pressed="true">Tous <span>{posts.length}</span></button>
+			{(Object.keys(CATEGORIES) as Category[]).map((c) => (
+				<button type="button" class="filter mono" data-filter={c} aria-pressed="false">
+					{CATEGORIES[c].label} <span>{counts[c]}</span>
+				</button>
+			))}
+		</div>
+		<p class="sr-only" aria-live="polite" data-status></p>
+
+		<ul class="grid">
+			{posts.map((post, i) => (
+				<li data-category={post.data.category}>
+					<PostCard post={post} eager={i < 3} />
+				</li>
+			))}
+		</ul>
+	</section>
+</Layout>
+
+<style>
+	.blog { padding-top: calc(var(--header-h) + clamp(2.5rem, 6vw, 5rem)); padding-bottom: var(--section); }
+	.blog__intro { display: grid; gap: 0.75rem; justify-items: start; }
+	.blog__rss { color: var(--volt); text-decoration: none; border-bottom: 1px solid currentColor; font-size: 0.75rem; }
+	.blog__rss:hover { color: var(--foam); }
+
+	.filters { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: clamp(1.5rem, 3vw, 2.5rem); }
+	.filters[hidden] { display: none; }
+	.filter {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+		min-height: 2.75rem;
+		padding: 0.5rem 1.1rem;
+		border: 1px solid var(--line-strong);
+		border-radius: 999px;
+		background: none;
+		color: var(--foam);
+		font-size: 0.75rem;
+		cursor: pointer;
+		transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+	}
+	.filter span { color: var(--mist); }
+	.filter:hover { border-color: var(--foam); }
+	.filter[aria-pressed='true'] { background: var(--volt); border-color: var(--volt); color: var(--deep); }
+	.filter[aria-pressed='true'] span { color: var(--deep); }
+
+	.grid {
+		display: grid;
+		gap: clamp(2rem, 4vw, 3rem) clamp(1.25rem, 3vw, 2.5rem);
+		grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr));
+	}
+	.grid > li[hidden] { display: none; }
+</style>
+
+<script>
+	// Filtre par catégorie, gardé dans l'adresse (?categorie=veille) pour pouvoir partager le lien
+	const filters = document.querySelector<HTMLElement>('.filters');
+	const items = document.querySelectorAll<HTMLElement>('.grid > li');
+	const status = document.querySelector<HTMLElement>('[data-status]');
+
+	if (filters) {
+		const buttons = [...filters.querySelectorAll<HTMLButtonElement>('[data-filter]')];
+		const apply = (filter: string, updateUrl: boolean) => {
+			const known = buttons.some((b) => b.dataset.filter === filter) ? filter : 'all';
+			buttons.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.filter === known)));
+			let shown = 0;
+			items.forEach((li) => {
+				li.hidden = known !== 'all' && li.dataset.category !== known;
+				if (!li.hidden) shown++;
+			});
+			if (status) status.textContent = `${shown} article${shown > 1 ? 's' : ''} affiché${shown > 1 ? 's' : ''}`;
+			if (updateUrl) {
+				const url = new URL(location.href);
+				if (known === 'all') url.searchParams.delete('categorie');
+				else url.searchParams.set('categorie', known);
+				history.replaceState(null, '', url);
+			}
+		};
+		filters.hidden = false;
+		filters.addEventListener('click', (e) => {
+			const b = (e.target as HTMLElement).closest<HTMLButtonElement>('[data-filter]');
+			if (b) apply(b.dataset.filter!, true);
+		});
+		apply(new URLSearchParams(location.search).get('categorie') ?? 'all', false);
+	}
+</script>

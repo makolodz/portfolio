@@ -9,19 +9,11 @@ import ServicesTeaser from '../components/sections/ServicesTeaser.astro';
 import Contact from '../components/sections/Contact.astro';
 import Faq from '../components/sections/Faq.astro';
 import Field from '../components/Field.astro';
-import { todo, type Field as FieldValue } from '../data/profil';
 import kayak from '../assets/images/kayak.png';
 
-const projets = (await getCollection('projets', ({ data }) => data.featured && !data.draft))
-	.sort((a, b) => a.data.order - b.data.order);
-
-const specs: { value: FieldValue; label: FieldValue }[] = [
-	{ value: '1', label: "an d'expérience en alternance au sein d'une PME industrielle pour la conception et améliorations d'applications métiers." },
-	{ value: '3', label: "casquettes : Conception, Développement, Deploiement (j'en ai aussi une des yankees mais apparemment ça compte pas)" },
-	// MMI retiré (déjà dans le Parcours) : un indicateur d'impact serait plus parlant
-	{ value: todo('*'), label: todo('indicateur d\'impact : ex. personnes qui utilisent tes outils, temps gagné, ressaisies évitées…') },
-	{ value: '1', label: "seul développeur dans la boîte : du besoin jusqu’à la mise en prod, c’est moi (et le café)." },
-];
+const tousLesProjets = await getCollection('projets', ({ data }) => !data.draft);
+// L'accueil ne montre que les projets mis en avant ; la page /projets les montre tous
+const projets = tousLesProjets.filter((p) => p.data.featured).sort((a, b) => a.data.order - b.data.order);
 ---
 
 <Layout>
@@ -58,6 +50,10 @@ const specs: { value: FieldValue; label: FieldValue }[] = [
 					</li>
 				))}
 			</ol>
+
+			<a class="btn all-projects" href="/projets" data-reveal>
+				Voir les {tousLesProjets.length} projets <span class="arrow" aria-hidden="true">→</span>
+			</a>
 		</div>
 	</section>
 
@@ -91,15 +87,6 @@ const specs: { value: FieldValue; label: FieldValue }[] = [
 				</p>
 			</div>
 		</div>
-
-		<dl class="container specs">
-			{specs.map((s, i) => (
-				<div class="spec" data-reveal style={`--reveal-delay: ${i * 0.06}s`}>
-					<dt class="spec__value"><Field value={s.value} /></dt>
-					<dd class="spec__label"><Field value={s.label} /></dd>
-				</div>
-			))}
-		</dl>
 	</section>
 
 	<Stack />
@@ -119,6 +106,8 @@ const specs: { value: FieldValue; label: FieldValue }[] = [
 		vertical-align: top;
 		color: var(--volt);
 	}
+
+	.all-projects { margin-top: clamp(1.5rem, 3vw, 2.5rem); }
 
 	/* ---------- Lignes projets ---------- */
 	.rows { border-top: 1px solid var(--line-strong); }

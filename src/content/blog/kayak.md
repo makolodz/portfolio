@@ -1,14 +1,11 @@
 ---
-layout: "../../layouts/blogLayout.astro"
 title: 'Kayak'
-pubDate: 2026-01-12
 description: "Je fais du kayak ! Et c'est très important."
-image:
-    url: "/images/covers/kayak.png"
-    alt: 'Kayak.'
-tags: ["Blog", "Perso", "Sport"]
-featured: false
-slug: "kayak"
+pubDate: 2026-01-12
+category: perso
+tags: ["Sport"]
+cover: ../../assets/blog/kayak.png
+coverAlt: "Kayak freestyle : figure dans une vague, le bateau dressé à la verticale."
 ---
 
 ## Je fais du kayak...

@@ -1,13 +1,11 @@
 ---
-layout: "../../layouts/blogLayout.astro"
 title: 'Lectures'
-pubDate: 2026-01-15
 description: "Au lycée, j'ai réappris à lire."
-image:
-    url: "/images/covers/lecture.jpg"
-    alt: 'Illustration de bibliothèque'
-tags: ["Blog", "Perso", "Art"]
-featured: false
+pubDate: 2026-01-15
+category: perso
+tags: ["Lecture"]
+cover: ../../assets/blog/lecture.jpg
+coverAlt: "Illustration d'une bibliothèque."
 ---
 
 ## Depuis quelque temps je lis

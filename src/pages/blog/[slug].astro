@@ -1,0 +1,239 @@
+---
+import { Image } from 'astro:assets';
+import { getCollection, render } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import PostCard from '../../components/blog/PostCard.astro';
+import { CATEGORIES, formatDate, getPosts, readingTime, type Post } from '../../data/blog';
+import { site } from '../../data/site';
+
+export async function getStaticPaths() {
+	const posts = await getPosts();
+	return posts.map((post, i) => ({
+		params: { slug: post.id },
+		// Les articles sont triés du plus récent au plus ancien
+		props: { post, newer: posts[i - 1], older: posts[i + 1], all: posts },
+	}));
+}
+
+interface Props {
+	post: Post;
+	newer?: Post;
+	older?: Post;
+	all: Post[];
+}
+
+const { post, newer, older, all } = Astro.props;
+const { data } = post;
+const { Content } = await render(post);
+
+// Projet raconté par cet article (lien inverse du champ `article` des fiches projets)
+const project = (await getCollection('projets', ({ data: d }) => !d.draft && d.article?.id === post.id))[0];
+
+// À lire aussi : même catégorie d'abord, puis les plus récents
+const related = all
+	.filter((p) => p.id !== post.id)
+	.sort((a, b) => Number(b.data.category === data.category) - Number(a.data.category === data.category))
+	.slice(0, 3);
+---
+
+<Layout title={data.title} description={data.description}>
+	<article class="post" aria-labelledby="post-title">
+		<header class="post__head container">
+			<a class="post__back mono" href={`/blog?categorie=${data.category}`}>← {CATEGORIES[data.category].label}</a>
+			<p class="post__meta mono">
+				<span class="post__cat">{CATEGORIES[data.category].single}</span>
+				<span aria-hidden="true">·</span>
+				<time datetime={data.pubDate.toISOString()}>{formatDate(data.pubDate)}</time>
+				<span aria-hidden="true">·</span>
+				<span>{readingTime(post)} min de lecture</span>
+			</p>
+			<h1 id="post-title" class="post__title">{data.title}</h1>
+			<p class="post__lead">{data.description}</p>
+			{project && (
+				<a class="post__project" href={`/projets/${project.id}`}>
+					<span class="mono">Étude de cas</span>
+					<span class="post__project-title">{project.data.title} : contexte, rôle, résultat →</span>
+				</a>
+			)}
+		</header>
+
+		<figure class:list={['post__cover container', { 'post__cover--contain': data.coverFit === 'contain' }]}>
+			<Image src={data.cover} alt={data.coverAlt} widths={[640, 1100, 1600]} sizes="(min-width: 76rem) 72rem, 100vw" loading="eager" />
+		</figure>
+
+		<div class="post__body container">
+			<div class="prose">
+				<Content />
+			</div>
+
+			{data.tags.length > 0 && (
+				<ul class="post__tags mono" aria-label="Sujets">
+					{data.tags.map((t) => <li>{t}</li>)}
+				</ul>
+			)}
+
+			<aside class="post__contact" aria-label="Contact">
+				<p>Une remarque, une question, un projet ? Je réponds avec plaisir.</p>
+				<a class="btn btn--volt" href={`mailto:${site.email}?subject=${encodeURIComponent(`À propos de « ${data.title} »`)}`}>
+					M'écrire <span class="arrow" aria-hidden="true">→</span>
+				</a>
+			</aside>
+		</div>
+
+		<nav class="post__nav container" aria-label="Articles précédent et suivant">
+			{older ? (
+				<a class="post__step" href={`/blog/${older.id}`} rel="prev">
+					<span class="mono">← Article précédent</span>
+					<span class="post__step-title">{older.data.title}</span>
+				</a>
+			) : <span />}
+			{newer && (
+				<a class="post__step post__step--next" href={`/blog/${newer.id}`} rel="next">
+					<span class="mono">Article suivant →</span>
+					<span class="post__step-title">{newer.data.title}</span>
+				</a>
+			)}
+		</nav>
+	</article>
+
+	<section class="related container" aria-labelledby="related-title">
+		<h2 id="related-title" class="related__title">À lire aussi</h2>
+		<ul class="related__grid">
+			{related.map((p) => <li><PostCard post={p} heading="h3" /></li>)}
+		</ul>
+	</section>
+</Layout>
+
+<style>
+	.post { padding-top: calc(var(--header-h) + clamp(2rem, 5vw, 4rem)); }
+	/* En-tête et texte partagent la même colonne de lecture */
+	.post__head, .post__body { max-width: calc(46rem + 2 * var(--gutter)); }
+
+	/* ---------- En-tête ---------- */
+	.post__head { display: grid; gap: 1.1rem; justify-items: start; }
+	.post__back { color: var(--mist); text-decoration: none; font-size: 0.75rem; }
+	.post__back:hover { color: var(--volt); }
+	.post__meta { display: flex; flex-wrap: wrap; gap: 0.25rem 0.6rem; color: var(--mist); }
+	.post__cat { color: var(--volt); }
+	.post__title {
+		padding-top: 0.1em;
+		font-size: clamp(2.75rem, 1.5rem + 6vw, 7rem);
+		font-weight: 900;
+		line-height: 0.88;
+	}
+	.post__lead { max-width: 52ch; font-size: var(--step-1); color: var(--mist); }
+	.post__project {
+		display: grid;
+		gap: 0.2rem;
+		padding: 0.8rem 1.1rem;
+		border: 1px solid var(--line-strong);
+		border-left: 3px solid var(--volt);
+		border-radius: 4px;
+		text-decoration: none;
+		transition: border-color 0.2s;
+	}
+	.post__project .mono { color: var(--volt); font-size: 0.7rem; }
+	.post__project-title { font-weight: 600; }
+	.post__project:hover { border-color: var(--volt); }
+
+	/* ---------- Couverture ---------- */
+	.post__cover { margin-block: clamp(2rem, 4vw, 3rem); }
+	.post__cover img {
+		width: 100%;
+		height: auto;
+		max-height: 60vh;
+		object-fit: cover;
+		object-position: top center;
+		border-radius: 4px;
+	}
+	.post__cover--contain img { max-height: 22rem; object-fit: contain; background: var(--foam); padding: 2rem; }
+
+	/* ---------- Corps de l'article ---------- */
+	.post__body { display: grid; gap: 2.5rem; }
+
+	.prose { font-size: var(--step-0); line-height: 1.75; color: var(--foam); }
+	.prose > :global(* + *) { margin-top: 1.1em; }
+	.prose :global(h2) {
+		margin-top: 2.2em;
+		font-size: var(--step-2);
+		line-height: 1;
+	}
+	.prose :global(h3) {
+		margin-top: 1.8em;
+		font-size: var(--step-1);
+		line-height: 1.1;
+		color: var(--volt);
+	}
+	.prose :global(h2 + *), .prose :global(h3 + *) { margin-top: 0.7em; }
+	.prose > :global(h2:first-child) { margin-top: 0; }
+	.prose :global(p), .prose :global(li) { color: #CFD8D4; }
+	.prose :global(a) {
+		color: var(--volt);
+		text-decoration: underline;
+		text-decoration-thickness: 1px;
+		text-underline-offset: 0.18em;
+	}
+	.prose :global(a:hover) { text-decoration-thickness: 2px; }
+	.prose :global(strong) { color: var(--foam); font-weight: 650; }
+	.prose :global(ul), .prose :global(ol) { padding-left: 1.25rem; }
+	.prose :global(ul) { list-style: none; }
+	.prose :global(ul li) { position: relative; }
+	.prose :global(ul li::before) { content: '→'; position: absolute; left: -1.25rem; color: var(--volt); }
+	.prose :global(ol) { list-style: decimal; }
+	.prose :global(li + li) { margin-top: 0.4em; }
+	.prose :global(img) { max-width: 100%; height: auto; border-radius: 4px; }
+	.prose :global(blockquote) {
+		margin-inline: 0;
+		padding-left: 1.25rem;
+		border-left: 2px solid var(--volt);
+		font-style: italic;
+	}
+	.prose :global(code) {
+		padding: 0.1em 0.35em;
+		border-radius: 3px;
+		background: var(--deep-2);
+		font-family: var(--font-mono);
+		font-size: 0.88em;
+	}
+	.prose :global(pre) { padding: 1rem; overflow-x: auto; border-radius: 4px; background: var(--deep-2); }
+	.prose :global(pre code) { padding: 0; background: none; }
+	.prose :global(dialog) { display: none; } /* reliquat de l'ancien site : visionneuse jamais ouverte */
+
+	.post__tags { display: flex; flex-wrap: wrap; gap: 0.4rem; font-size: 0.7rem; }
+	.post__tags li { padding: 0.25rem 0.7rem; border: 1px solid var(--line-strong); border-radius: 999px; }
+
+	.post__contact {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		align-items: center;
+		gap: 1rem;
+		padding: 1.25rem 1.5rem;
+		border-radius: 4px;
+		background: var(--deep-2);
+	}
+
+	/* ---------- Précédent / suivant ---------- */
+	.post__nav {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 1rem;
+		margin-top: clamp(3rem, 6vw, 5rem);
+		padding-block: 1.5rem;
+		border-block: 1px solid var(--line-strong);
+	}
+	.post__step { display: grid; gap: 0.4rem; text-decoration: none; color: var(--mist); }
+	.post__step--next { text-align: right; grid-column: 2; }
+	.post__step .mono { font-size: 0.7rem; }
+	.post__step-title { font-family: var(--font-display); font-weight: 800; font-size: var(--step-1); text-transform: uppercase; color: var(--foam); line-height: 1; }
+	.post__step:hover .post__step-title { color: var(--volt); }
+
+	/* ---------- À lire aussi ---------- */
+	.related { padding-block: clamp(3rem, 6vw, 5rem) var(--section); }
+	.related__title { font-size: var(--step-3); margin-bottom: 2rem; }
+	.related__grid {
+		display: grid;
+		gap: 2rem;
+		grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr));
+	}
+</style>

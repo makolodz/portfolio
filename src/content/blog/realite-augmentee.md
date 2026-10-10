@@ -1,13 +1,12 @@
 ---
-layout: "../../layouts/creaLayout.astro"
 title: 'Realité Augmentée'
-pubDate: 2026-01-12
 description: "J'ai fais une superbe réalité augmentée !"
-image:
-    url: "/images/covers/ra.jpg"
-    alt: 'Une affiche avec un qr code qui peut se scanner.'
-tags: ["Création Numérique", "2026", "3d"]
-featured: true
+pubDate: 2026-01-12
+category: creation
+tags: ["Création numérique", "3D"]
+cover: ../../assets/blog/ra.jpg
+coverAlt: "Affiche « Spring — Birds and Flowers » avec un QR code et une hirondelle."
+coverFit: contain
 ---
 
 ## J'ai fais de la réalité augmentée !!!

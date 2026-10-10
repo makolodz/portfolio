@@ -8,25 +8,25 @@ export type Field = string | { todo: string };
 export const todo = (hint: string): Field => ({ todo: hint });
 
 export const disponibilite = {
-	date: todo('mois année'),
-	ville: todo('ville'),
-	mobilite: todo('télétravail / hybride / mobile sur…'),
+	date: 'septembre 2027',
+	ville: 'Le Puy-en-Velay et Clermont-Ferrand',
+	mobilite: 'Mais, je reste mobile et ouvert au télétravail comme au présentiel',
 };
 
-export const tarifs: Field = todo('sur devis / à partir de …');
+export const tarifs: Field = "landing page à partir de 400 €, site vitrine à partir de 800 €, site e-commerce à partir de 2 000 €, application métier sur devis";
 
 // ---------- Parcours ----------
 export const parcours: { year: Field; title: string; meta: Field[]; text: string }[] = [
 	{
-		year: todo('années'),
+		year: '2024-2027',
 		title: 'BUT MMI',
 		meta: ["Métiers du multimédia et de l'internet"],
 		text: 'Conception et développement web. Projets marquants : la Webweek, refonte du site du club de foot de Colomiers en équipe de cinq, et une affiche en réalité augmentée modélisée sous Blender.',
 	},
 	{
-		year: todo('années'),
+		year: '2026-2027',
 		title: 'Alternance',
-		meta: [todo("nom de l'entreprise"), 'PME industrielle'],
+		meta: [("ACTI-GROUP"), 'PME industrielle'],
 		text: "Seul développeur dans la boîte : conception, développement et déploiement d'applications métier, du recueil du besoin jusqu'à la mise en production.",
 	},
 ];
@@ -42,6 +42,7 @@ export const stack: { casquette: string; tools: Tool[] }[] = [
 			{ name: 'Wireframes', status: 'prod' },
 			{ name: 'Figma', status: 'prod' },
 			{ name: 'Blender', status: 'explo' },
+			{ name: 'Relume', status: 'explo' },
 		],
 	},
 	{
@@ -49,8 +50,10 @@ export const stack: { casquette: string; tools: Tool[] }[] = [
 		tools: [
 			{ name: 'Astro', status: 'prod' },
 			{ name: 'JavaScript', status: 'prod' },
-			{ name: todo('front utilisé en alternance'), status: 'prod' },
-			{ name: todo('back / base de données'), status: 'prod' },
+			{ name: 'React', status: 'prod' },
+			{ name: 'Symfony', status: 'prod' },
+			{ name: 'T3 Stack', status: 'prod' },
+			{ name: 'CakePHP', status: 'explo' },
 			{ name: 'Tauri', status: 'explo' },
 		],
 	},
@@ -58,9 +61,9 @@ export const stack: { casquette: string; tools: Tool[] }[] = [
 		casquette: 'Déploiement',
 		tools: [
 			{ name: 'Git', status: 'prod' },
-			{ name: todo('serveur / hébergement'), status: 'prod' },
-			{ name: todo('CI/CD ?'), status: 'prod' },
-			{ name: todo('Docker ?'), status: 'prod' },
+			{ name: 'serveur / hébergement', status: 'prod' },
+			{ name: 'CI/CD', status: 'prod' },
+			{ name: 'Docker', status: 'prod' },
 		],
 	},
 ];
@@ -70,7 +73,7 @@ export const stack: { casquette: string; tools: Tool[] }[] = [
 export const faq: { q: string; a: Field[] }[] = [
 	{
 		q: 'Tu es disponible quand ?',
-		a: ['À partir de ', disponibilite.date, ', en CDI comme en freelance.'],
+		a: ['À partir de ', disponibilite.date, ' en contrat (CDI/CDD/apprentissage en master) et dès maintenant en freelance.'],
 	},
 	{
 		q: 'Tu es basé où ? Télétravail ?',
@@ -79,19 +82,19 @@ export const faq: { q: string; a: Field[] }[] = [
 	{
 		q: 'Quel type de poste tu cherches ?',
 		a: [
-			'Développement web fullstack avec une part de DevOps : concevoir, livrer et faire tourner des applications utiles. En CDI dans une PME ou une ESN, ou en missions freelance.',
+			"Développement web fullstack avec une part de DevOps : concevoir, livrer et faire tourner des applications utiles. En contrat d'apprentissage (pour septembre 2027 / août 2028) ou en CDI dans une PME ou une ESN.",
 		],
 	},
 	{
 		q: "Tu as l'habitude de travailler en équipe ?",
 		a: [
-			"Aujourd'hui je suis le seul développeur de ma PME, donc autonome du besoin à la prod. En BUT, j'ai fait la Webweek en équipe de cinq, avec un workflow Git partagé : dépôt principal et forks.",
+			"En BUT, j'ai fait la Webweek en équipe de cinq, un projet qui mobilisait nos compétences de collaboration, avec un workflow Git partagé via les branches. Aujourd'hui, même en tant que seul développeur de ma PME, je continue de mettre en place des outils de gestion de projet, notamment un Gitea auto-hébergé, une utilisation avancée du versioning et un pipeline CI/CD.",
 		],
 	},
 	{
 		q: 'Pourquoi autant de kayak sur ce site ?',
 		a: [
-			"Parce que j'en fais depuis le collège, freestyle surtout. Et qu'on y apprend à lire le courant avant de s'engager : ça marche aussi pour les projets.",
+			"Parce que j'en fais depuis le collège, freestyle surtout. Et qu'on y apprend à lire et analyser le courant avant de s'engager pour décider de nos actions : ça marche aussi pour les projets.",
 		],
 	},
 ];
@@ -105,13 +108,13 @@ export const offres: { title: string; text: string; items: string[] }[] = [
 	},
 	{
 		title: 'Site vitrine rapide',
-		text: 'Un site léger, accessible et bien référencé, facile à faire évoluer. Comme celui-ci : 100/100 en accessibilité sur Lighthouse.',
-		items: ['Design sur mesure', 'Performance et accessibilité', 'Hébergement conseillé'],
+		text: 'Un site léger, accessible et bien référencé, facile à faire évoluer.',
+		items: ['Design sur mesure', 'Performance et accessibilité', "Conseils sur l'hébergement et les bonnes pratiques SEO"],
 	},
 	{
-		title: 'Mise en ligne et automatisation',
-		text: 'Hébergement, déploiement automatique, sauvegardes : votre outil tourne sans que vous ayez à y penser.',
-		items: ['Déploiement automatisé', 'Sauvegardes et suivi', 'Documentation de passation'],
+		title: 'Site e-commerce',
+		text: 'Un site sur mesure qui vous permettra de commencer votre boutique en ligne.',
+		items: ['Design sur mesure', 'Wordpress / Woocommerce', "Formation à l'utilisation du site"],
 	},
 ];
 
@@ -131,15 +134,15 @@ export const faqClient: { q: string; a: Field[] }[] = [
 	},
 	{
 		q: 'Combien de temps ça prend ?',
-		a: [todo('délai type, ex. quelques semaines pour un site vitrine…')],
+		a: ["Cela dépend du projet : comptez environ 2 semaines pour un site vitrine et 5 semaines pour un site e-commerce. Pour une application métier, cela dépend énormément des fonctionnalités."],
 	},
 	{
 		q: 'À qui appartient le code ?',
-		a: [todo('ta politique, ex. à vous, avec tous les accès')],
+		a: ["Le code vous appartient. Selon vos besoins, je propose aussi un hébergement à l'année."],
 	},
 	{
 		q: 'Et après la mise en ligne ?',
-		a: [todo('maintenance : forfait, à la demande…')],
+		a: ["Chaque mise en ligne inclut 1 mois de garantie : je corrige les bugs sans frais. Ensuite, vous pouvez choisir un forfait de maintenance annuel (mises à jour de sécurité, sauvegardes, surveillance, hébergement et petites modifications) ou me solliciter à la demande, sur devis."],
 	},
 	{
 		q: 'Tu travailles à distance ?',

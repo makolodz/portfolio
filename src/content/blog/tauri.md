@@ -1,13 +1,12 @@
 ---
-layout: "../../layouts/veilleLayout.astro"
 title: 'Tauri'
-pubDate: 2026-01-22
 description: "Je vous parle de tauri pour le développement multi-plateforme"
-image:
-    url: "/images/covers/tauri.png"
-    alt: 'Illustration de tauri.'
+pubDate: 2026-01-22
+category: veille
 tags: ["Dev", "Fullstack", "Natif"]
-featured: false
+cover: ../../assets/blog/tauri.png
+coverAlt: "Logo de Tauri."
+coverFit: contain
 ---
 ## Tauri c'est quoi ?
 

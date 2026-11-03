@@ -1,0 +1,55 @@
+---
+// Visuel d'un projet : capture optimisée, ou emplacement « capture à venir ».
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+	image?: ImageMetadata;
+	alt?: string;
+	/** cover = capture d'écran recadrée ; contain = affiche / visuel entier */
+	fit?: 'cover' | 'contain';
+	/** Point de cadrage quand l'image est recadrée (object-position), ex. 'left top' */
+	focus?: string;
+	title: string;
+	sizes?: string;
+	eager?: boolean;
+}
+
+const { image, alt = '', fit = 'cover', focus = 'center top', title, sizes = '(min-width: 64rem) 50vw, 100vw', eager = false } = Astro.props;
+---
+
+<figure class:list={['media', `media--${fit}`, { 'media--empty': !image }]}>
+	{image ? (
+		<Image src={image} alt={alt} widths={[480, 960, 1600]} sizes={sizes} loading={eager ? 'eager' : 'lazy'} style={`object-position: ${focus}`} />
+	) : (
+		<figcaption class="media__empty mono">
+			<span>Capture à venir</span>
+			<span class="media__title">{title}</span>
+		</figcaption>
+	)}
+</figure>
+
+<style>
+	.media {
+		position: relative;
+		margin: 0;
+		width: 100%;
+		height: 100%;
+		min-height: 0;
+		overflow: hidden;
+		border-radius: 4px;
+		background: var(--deep-2);
+	}
+	.media img { width: 100%; height: 100%; }
+	.media--cover img { object-fit: cover; }
+	.media--contain img { object-fit: contain; padding: 0.75rem; }
+
+	.media--empty {
+		display: grid;
+		place-items: center;
+		border: 1px dashed var(--line-strong);
+		background: repeating-linear-gradient(-45deg, var(--deep-2) 0 14px, var(--deep) 14px 28px);
+	}
+	.media__empty { display: grid; gap: 0.4rem; justify-items: center; color: var(--mist); font-size: 0.75rem; text-align: center; padding: 1rem; }
+	.media__title { color: var(--foam); }
+</style>

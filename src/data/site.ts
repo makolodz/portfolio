@@ -4,18 +4,18 @@ export const site = {
   shortName: 'Maxiko',
   role: 'Développeur fullstack & DevOps',
   description:
-    "Développeur fullstack & DevOps, 1 an d'alternance en PME industrielle. Disponible en freelance et en CDI.",
+    "Développeur fullstack & DevOps, en alternance en PME industrielle depuis septembre 2026. Disponible en freelance et en CDI.",
   availability: 'Disponible · Freelance & CDI',
-  // TODO: renseigner les vrais liens
-  email: 'contact@example.com',
-  linkedin: 'https://www.linkedin.com/in/',
+  email: 'kolodz.maxime@gmail.com',
+  linkedin: 'https://www.linkedin.com/in/maxime-kolodz',
   github: 'https://github.com/makolodz',
-  cv: '/cv-maxime-kolodziejczyk.pdf',
+  // Pas de CV pour le moment : les liens « CV » sont masqués tant que ce champ est vide.
+  // Pour l'activer : déposer le PDF dans public/ et mettre '/cv-maxime-kolodziejczyk.pdf'.
+  cv: '',
 };
 
 export const nav = [
-  { href: '/#projets', label: 'Projets' },
-  { href: '/#a-propos', label: 'À propos' },
-  { href: '/notes', label: 'Notes' },
-  { href: site.cv, label: 'CV' },
+  { href: '/services', label: 'Services' },
+  { href: '/blog', label: 'Blog' },
+  ...(site.cv ? [{ href: site.cv, label: 'CV' }] : []),
 ];

@@ -1,13 +1,11 @@
 ---
-layout: "../../layouts/creaLayout.astro"
 title: 'Mon portfolio ?!'
-pubDate: 2026-01-12
 description: "Comment j'ai réalisé mon portfolio"
-image:
-    url: "/images/covers/portfolio.png"
-    alt: "Capture d'écran de ce site"
-tags: ["Dev", "2026", "Front"]
-featured: true
+pubDate: 2026-01-12
+category: creation
+tags: ["Dev", "Front"]
+cover: ../../assets/blog/portfolio.png
+coverAlt: "Page d'accueil de la première version du portfolio, sur fond de tableau."
 ---
 
 ## J'ai réalisé mon portfolio
@@ -42,4 +40,4 @@ Je voudrais aussi améliorer le workflow et changer d'hébergeur pour un cdn par
 
 A long terme j'aimerais passer le back sur une api afin de pouvoir changer de thème tous les ans plus rapidement mais c'est pas une prioritée.
 
-Evidemment je suis ouverts aux critiques / conseils vous pouvez me les adressez par email à : <a href="mailto:maxiimekolodz@gmail.com">maxiimekolodz@gmail.com</a>
+Evidemment je suis ouverts aux critiques / conseils vous pouvez me les adressez par email à : <a href="mailto:kolodz.maxime@gmail.com">kolodz.maxime@gmail.com</a>

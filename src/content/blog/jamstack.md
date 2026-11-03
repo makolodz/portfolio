@@ -1,13 +1,12 @@
 ---
-layout: "../../layouts/veilleLayout.astro"
 title: 'Jamstack'
-pubDate: 2026-01-22
 description: "J'explore la Jamstack et pourquoi elle change le développement web."
-image:
-    url: "/images/covers/jamstack.png"
-    alt: 'Illustration de la Jamstack.'
+pubDate: 2026-01-22
+category: veille
 tags: ["Dev", "Web", "Front"]
-featured: true
+cover: ../../assets/blog/jamstack.png
+coverAlt: "Logo de la Jamstack."
+coverFit: contain
 ---
 
 ## Jamstack c'est quoi ?

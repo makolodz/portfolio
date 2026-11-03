@@ -1,0 +1,35 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Page introuvable" description="Cette page n'existe pas." noindex>
+	<section class="nf" aria-labelledby="nf-title">
+		<div class="container nf__inner">
+			<p class="mono label">Erreur 404</p>
+			<h1 id="nf-title" class="nf__title">Cette page a <span class="volt">pris le courant.</span></h1>
+			<p class="nf__lead">L'adresse n'existe pas ou a été déplacée. Reprenons depuis la rive.</p>
+			<div class="nf__actions">
+				<a class="btn btn--volt" href="/">Retour à l'accueil <span class="arrow" aria-hidden="true">→</span></a>
+				<a class="btn" href="/blog">Lire le blog</a>
+			</div>
+		</div>
+	</section>
+</Layout>
+
+<style>
+	.nf {
+		display: flex;
+		align-items: center;
+		min-height: 100svh;
+		padding-block: calc(var(--header-h) + 2rem) 4rem;
+	}
+	.nf__inner { display: grid; gap: clamp(1.25rem, 3vw, 2rem); }
+	.nf__title {
+		max-width: 16ch;
+		font-size: clamp(2.75rem, 1.5rem + 7vw, 8rem);
+		font-weight: 900;
+		line-height: 0.88;
+	}
+	.nf__lead { max-width: 46ch; color: var(--mist); font-size: var(--step-1); }
+	.nf__actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+</style>

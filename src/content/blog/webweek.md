@@ -1,13 +1,11 @@
 ---
-layout: "../../layouts/creaLayout.astro"
 title: 'Webweek'
-pubDate: 2026-01-21
 description: "Je vais vous raconter ma semaine de web..."
-image:
-    url: "/images/covers/webweek.png"
-    alt: "Capture d'écran d'un site web."
-tags: ["Dev", "2026", "FullStack"]
-featured: false
+pubDate: 2026-01-21
+category: creation
+tags: ["Dev", "Fullstack"]
+cover: ../../assets/blog/webweek.png
+coverAlt: "Page d'accueil du site de l'US Colomiers Football réalisé pendant la Webweek."
 ---
 
 ## Webweek ?

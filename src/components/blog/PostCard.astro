@@ -1,0 +1,86 @@
+---
+import { Image } from 'astro:assets';
+import { CATEGORIES, formatDate, readingTime, type Post } from '../../data/blog';
+
+interface Props {
+	post: Post;
+	/** Titre de carte : h2 dans la liste, h3 sous un article */
+	heading?: 'h2' | 'h3';
+	eager?: boolean;
+}
+
+const { post, heading = 'h2', eager = false } = Astro.props;
+const { data } = post;
+const Heading = heading;
+---
+
+<article class="card" data-category={data.category}>
+	<a class="card__link" href={`/blog/${post.id}`}>
+		<div class:list={['card__media', { 'card__media--contain': data.coverFit === 'contain' }]}>
+			<Image
+				src={data.cover}
+				alt=""
+				widths={[400, 720]}
+				sizes="(min-width: 64rem) 30vw, (min-width: 40rem) 45vw, 100vw"
+				loading={eager ? 'eager' : 'lazy'}
+			/>
+		</div>
+		<p class="card__meta mono">
+			<span class="card__cat">{CATEGORIES[data.category].single}</span>
+			<span aria-hidden="true">·</span>
+			<time datetime={data.pubDate.toISOString()}>{formatDate(data.pubDate)}</time>
+			<span aria-hidden="true">·</span>
+			<span>{readingTime(post)} min</span>
+		</p>
+		<Heading class="card__title">{data.title}</Heading>
+		<p class="card__desc">{data.description}</p>
+	</a>
+	{data.tags.length > 0 && (
+		<ul class="card__tags mono" aria-label="Sujets">
+			{data.tags.map((t) => <li>{t}</li>)}
+		</ul>
+	)}
+</article>
+
+<style>
+	.card { display: grid; gap: 0.9rem; align-content: start; }
+	.card__link { display: grid; gap: 0.75rem; text-decoration: none; }
+
+	.card__media {
+		overflow: hidden;
+		aspect-ratio: 16 / 10;
+		border-radius: 4px;
+		background: var(--deep-2);
+	}
+	.card__media img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		object-position: top center;
+		filter: grayscale(0.5) contrast(1.05);
+		transition: filter 0.3s, transform 0.5s var(--ease);
+	}
+	/* Logos et affiches : affichés en entier sur fond clair */
+	.card__media--contain { background: var(--foam); }
+	.card__media--contain img { object-fit: contain; padding: 1rem; }
+	.card__link:hover .card__media img,
+	.card__link:focus-visible .card__media img { filter: none; transform: scale(1.03); }
+	@media (prefers-reduced-motion: reduce) {
+		.card__media img { transition: none; }
+		.card__link:hover .card__media img { transform: none; }
+	}
+
+	.card__meta { display: flex; flex-wrap: wrap; gap: 0.2rem 0.5rem; color: var(--mist); font-size: 0.7rem; }
+	.card__cat { color: var(--volt); }
+	.card__title { font-size: var(--step-2); }
+	.card__link:hover .card__title,
+	.card__link:focus-visible .card__title {
+		text-decoration: underline;
+		text-decoration-color: var(--volt);
+		text-underline-offset: 0.12em;
+	}
+	.card__desc { color: var(--mist); }
+
+	.card__tags { display: flex; flex-wrap: wrap; gap: 0.4rem; font-size: 0.65rem; }
+	.card__tags li { padding: 0.2rem 0.6rem; border: 1px solid var(--line-strong); border-radius: 999px; }
+</style>

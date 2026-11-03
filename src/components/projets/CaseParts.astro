@@ -1,0 +1,105 @@
+---
+import Field from '../Field.astro';
+import type { Field as FieldValue } from '../../data/profil';
+// Les 4 parties d'une étude de cas.
+// adaptive : grille 2×2 sur grand écran, onglets sur petit écran (pour tenir sans scroller).
+// tabs     : toujours en onglets.
+interface Props {
+	id: string;
+	parts: { title: string; text: FieldValue }[];
+	mode?: 'adaptive' | 'tabs';
+}
+
+const { id, parts, mode = 'adaptive' } = Astro.props;
+---
+
+<div class:list={['case', `case--${mode}`]}>
+	{mode === 'adaptive' && (
+		<dl class="case__grid">
+			{parts.map((p) => (
+				<div>
+					<dt class="mono">{p.title}</dt>
+					<dd><Field value={p.text} /></dd>
+				</div>
+			))}
+		</dl>
+	)}
+
+	<div class="case__tabs" data-tabs>
+		<div class="case__tablist" role="tablist" aria-label="Étude de cas">
+			{parts.map((p, k) => (
+				<button
+					type="button"
+					role="tab"
+					class="case__tab"
+					id={`${id}-t${k}`}
+					aria-controls={`${id}-p${k}`}
+					aria-selected={k === 0 ? 'true' : 'false'}
+					tabindex={k === 0 ? 0 : -1}
+				>{p.title}</button>
+			))}
+		</div>
+		{parts.map((p, k) => (
+			<div role="tabpanel" class="case__panel" id={`${id}-p${k}`} aria-labelledby={`${id}-t${k}`} hidden={k !== 0}>
+				<p><Field value={p.text} /></p>
+			</div>
+		))}
+	</div>
+</div>
+
+<style>
+	.case { min-height: 0; }
+
+	.case__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem 2rem; margin: 0; }
+	.case__grid dt { color: var(--volt); margin-bottom: 0.3rem; }
+	.case__grid dd { margin: 0; color: var(--mist); font-size: var(--step--1); line-height: 1.5; }
+
+	.case__tabs { display: grid; grid-template-rows: auto 1fr; min-height: 0; border: 1px solid var(--line-strong); border-radius: 4px; }
+	.case__tablist { display: flex; overflow-x: auto; border-bottom: 1px solid var(--line-strong); }
+	.case__tab {
+		flex: 1 0 auto;
+		padding: 0.7rem 0.9rem;
+		background: none;
+		border: 0;
+		border-right: 1px solid var(--line);
+		color: var(--mist);
+		font-family: var(--font-display);
+		font-weight: 800;
+		font-size: 1rem;
+		text-transform: uppercase;
+		cursor: pointer;
+	}
+	.case__tab:last-child { border-right: 0; }
+	.case__tab[aria-selected='true'] { background: var(--volt); color: var(--deep); }
+	.case__panel { padding: 1rem 1.1rem; color: var(--mist); font-size: var(--step--1); line-height: 1.55; }
+
+	/* adaptive : la grille sur grand écran, les onglets sinon */
+	.case--adaptive .case__grid { display: none; }
+	@media (min-width: 64rem) {
+		.case--adaptive .case__grid { display: grid; }
+		.case--adaptive .case__tabs { display: none; }
+	}
+</style>
+
+<script>
+	// Onglets accessibles : clic, et flèches ← → entre les onglets
+	document.querySelectorAll<HTMLElement>('[data-tabs]').forEach((box) => {
+		const tabs = [...box.querySelectorAll<HTMLButtonElement>('[role="tab"]')];
+		const select = (tab: HTMLButtonElement, focus = true) => {
+			tabs.forEach((t) => {
+				const on = t === tab;
+				t.setAttribute('aria-selected', String(on));
+				t.tabIndex = on ? 0 : -1;
+				document.getElementById(t.getAttribute('aria-controls')!)!.hidden = !on;
+			});
+			if (focus) tab.focus();
+		};
+		tabs.forEach((t, i) => {
+			t.addEventListener('click', () => select(t, false));
+			t.addEventListener('keydown', (e) => {
+				if (e.key === 'ArrowRight') select(tabs[(i + 1) % tabs.length]);
+				if (e.key === 'ArrowLeft') select(tabs[(i - 1 + tabs.length) % tabs.length]);
+			});
+		});
+	});
+</script>

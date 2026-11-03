@@ -1,0 +1,23 @@
+---
+// Affiche un champ de src/data/profil.ts. S'il n'est pas encore renseigné,
+// il apparaît surligné « à compléter » et il est signalé dans la console du build.
+import type { Field } from '../data/profil';
+
+interface Props {
+	value: Field;
+}
+
+const { value } = Astro.props;
+const missing = typeof value !== 'string';
+
+if (missing) {
+	const g = globalThis as typeof globalThis & { __todoSeen?: Set<string> };
+	g.__todoSeen ??= new Set();
+	if (!g.__todoSeen.has(value.todo)) {
+		g.__todoSeen.add(value.todo);
+		console.warn(`\x1b[33m[à compléter]\x1b[0m ${value.todo}`);
+	}
+}
+---
+
+{missing ? <mark class="todo">{value.todo}</mark> : value}

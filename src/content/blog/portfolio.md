@@ -40,4 +40,4 @@ Je voudrais aussi améliorer le workflow et changer d'hébergeur pour un cdn par
 
 A long terme j'aimerais passer le back sur une api afin de pouvoir changer de thème tous les ans plus rapidement mais c'est pas une prioritée.
 
-Evidemment je suis ouverts aux critiques / conseils vous pouvez me les adressez par email à : <a href="mailto:maxiimekolodz@gmail.com">maxiimekolodz@gmail.com</a>
+Evidemment je suis ouverts aux critiques / conseils vous pouvez me les adressez par email à : <a href="mailto:kolodz.maxime@gmail.com">kolodz.maxime@gmail.com</a>
